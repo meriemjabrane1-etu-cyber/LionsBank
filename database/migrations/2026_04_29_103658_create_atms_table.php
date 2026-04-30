@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('atms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('agency_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->enum('status', ['active', 'out_of_service'])->default('active');
+            $table->boolean('cash_available')->default(true);
             $table->timestamps();
         });
     }

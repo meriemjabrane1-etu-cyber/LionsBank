@@ -6,24 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('account_number')->unique();
-            $table->decimal('balance', 15, 2)->default(0);
-            $table->enum('type', ['current', 'saving']);
+            $table->string('title');
+            $table->enum('product_type', ['car', 'gold', 'house', 'other']);
+            $table->text('description')->nullable();
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->decimal('starting_price', 15, 2);
+            $table->decimal('current_price', 15, 2)->default(0);
+            $table->enum('status', ['upcoming', 'live', 'ended'])->default('upcoming');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('auctions');
