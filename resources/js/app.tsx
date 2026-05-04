@@ -6,17 +6,17 @@ import { initializeTheme } from '@/hooks/use-appearance';
 import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
-
-
-
+import 'leaflet/dist/leaflet.css';
+import "../css/app.css";
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
   title: (title) => (title ? `${title} - ${appName}` : appName),
 
   resolve: (name) => {
-    const pages = import.meta.glob('./pages/**/*.tsx', { eager: true });
-    return pages[`./pages/${name}.tsx`];
+    const pages = import.meta.glob('./Pages/**/*.{tsx,jsx}', { eager: true });
+
+    return pages[`./Pages/${name}.tsx`] || pages[`./Pages/${name}.jsx`];
   },
 
   setup({ el, App, props }) {
@@ -31,7 +31,7 @@ createInertiaApp({
   },
 
   progress: {
-    color: '#4B5563',
+    color: '#0F9D8A',
   },
 
   layout: (name) => {

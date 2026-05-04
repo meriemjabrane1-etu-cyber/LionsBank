@@ -60,15 +60,41 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 }
-.map-green .leaflet-tile {
-  filter: hue-rotate(85deg) saturate(0.75) brightness(1.08);
+/* 🌿 Map green style (soft professional) */
+/* 🌿 Popup wrapper */
+.leaflet-popup-content-wrapper {
+  border-radius: 20px;
+  padding: 0;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  border: 1px solid #d1fae5;
 }
 
-.leaflet-container,
+/* 🌿 Content */
 .leaflet-popup-content {
-  color: #000 !important;
+  margin: 0;
+  padding: 0;
 }
 
+/* 🌿 Arrow */
+.leaflet-popup-tip {
+  background: white;
+}
+
+/* 🌿 Close button */
+.leaflet-popup-close-button {
+  color: #059669 !important;
+  font-size: 18px;
+  top: 10px !important;
+  right: 12px !important;
+}
+
+/* 🌿 Smooth hover */
+.leaflet-popup-content-wrapper:hover {
+  transform: translateY(-2px);
+  transition: 0.2s;
+}
 :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);

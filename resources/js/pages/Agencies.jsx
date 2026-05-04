@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+// import "resources/css/app.css";
 
 const agenciesData = [
   { id: 1, name: "Lions Bank Maarif", address: "Maarif, Casablanca", status: "Open", cash: true, position: [33.5866, -7.6332] },
@@ -12,7 +13,7 @@ const agenciesData = [
   { id: 7, name: "Lions Bank Bourgogne", address: "Bourgogne", status: "Open", cash: true, position: [33.5999, -7.6421] },
   { id: 8, name: "Lions Bank Hay Hassani", address: "Hay Hassani", status: "Closed", cash: false, position: [33.5585, -7.6786] },
   { id: 1, name: "Lions Bank Bernoussi ", address: "Bernoussi, Casablanca", status: "Open", cash: true, position: [33.6138, -7.4989] },
-  { id: 2, name: "Lions Bank tarik ", address: "Hay Bernoussi", status: "Open", cash: false, position: [33.6079, -7.5106] },
+  { id: 2, name: "Lions Bank Bernoussi ", address: "Hay Bernoussi", status: "Open", cash: false, position: [33.6079, -7.5106] },
   { id: 3, name: "Lions Bank Qodss ", address: "Sidi Bernoussi", status: "Closed", cash: true, position: [33.6202, -7.5063] },
   { id: 4, name: "Lions Bank Ain Sebaa 1", address: "Ain Sebaa, Casablanca", status: "Open", cash: true, position: [33.6065, -7.5329] },
   { id: 5, name: "Lions Bank Ain tizi wisli 2", address: "Route de Rabat, Ain Sebaa", status: "Open", cash: true, position: [33.6121, -7.5457] },
