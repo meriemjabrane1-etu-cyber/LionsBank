@@ -1,4 +1,5 @@
 import { createInertiaApp } from '@inertiajs/react';
+import { createRoot } from 'react-dom/client';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -9,32 +10,42 @@ import SettingsLayout from '@/layouts/settings/layout';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
-    layout: (name) => {
-        switch (true) {
-            case name === 'welcome':
-                return null;
-            case name.startsWith('auth/'):
-                return AuthLayout;
-            case name.startsWith('settings/'):
-                return [AppLayout, SettingsLayout];
-            default:
-                return AppLayout;
-        }
-    },
-    strictMode: true,
-    withApp(app) {
-        return (
-            <TooltipProvider delayDuration={0}>
-                {app}
-                <Toaster />
-            </TooltipProvider>
-        );
-    },
-    progress: {
-        color: '#4B5563',
-    },
+  title: (title) => (title ? `${title} - ${appName}` : appName),
+
+  resolve: (name) => {
+    const pages = import.meta.glob('./pages/**/*.tsx', { eager: true });
+    return pages[`./pages/${name}.tsx`];
+  },
+
+  setup({ el, App, props }) {
+    const root = createRoot(el);
+
+    root.render(
+      <TooltipProvider delayDuration={0}>
+        <App {...props} />
+        <Toaster />
+      </TooltipProvider>,
+    );
+  },
+
+  progress: {
+    color: '#4B5563',
+  },
+
+  layout: (name) => {
+    switch (true) {
+      case name === 'welcome':
+        return null;
+      case name.startsWith('auth/'):
+        return AuthLayout;
+      case name.startsWith('settings/'):
+        return [AppLayout, SettingsLayout];
+      default:
+        return AppLayout;
+    }
+  },
+
+  strictMode: true,
 });
 
-// This will set light / dark mode on load...
 initializeTheme();
