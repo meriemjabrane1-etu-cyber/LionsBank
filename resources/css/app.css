@@ -60,6 +60,14 @@
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
 }
+.map-green .leaflet-tile {
+  filter: hue-rotate(85deg) saturate(0.75) brightness(1.08);
+}
+
+.leaflet-container,
+.leaflet-popup-content {
+  color: #000 !important;
+}
 
 :root {
     --background: oklch(1 0 0);
