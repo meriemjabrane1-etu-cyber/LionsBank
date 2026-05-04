@@ -5,7 +5,7 @@ export default function Topbar() {
     <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
       <div>
         <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
-          Bonjour, Karim 👋
+          Bonjour, Karim
         </h2>
         <p className="mt-1 text-slate-500">Voici un aperçu de vos finances</p>
       </div>

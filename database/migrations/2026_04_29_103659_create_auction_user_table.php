@@ -13,9 +13,17 @@ return new class extends Migration
     {
         Schema::create('auction_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('auction_id');
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->foreignId('auction_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->boolean('invited')->default(false);
+
             $table->timestamps();
         });
     }
