@@ -5,6 +5,7 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AgencyController;
+use App\Http\Controllers\AuctionController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -27,6 +28,12 @@ Route::patch('/appointments/{appointment}/reject', [AppointmentController::class
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/agencies', [AgencyController::class, 'index'])->name('agencies');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/auctions', [AuctionController::class, 'index'])->name('auctions');
+    Route::post('/auctions/{auction}/join', [AuctionController::class, 'join'])->name('auctions.join');
+    Route::post('/auctions/product/{product}/bid', [AuctionController::class, 'bid'])->name('auctions.bid');
 });
 
 require __DIR__.'/settings.php';

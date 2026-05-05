@@ -38,4 +38,9 @@ class Auction extends Model
     {
         return $this->hasMany(Bid::class);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
