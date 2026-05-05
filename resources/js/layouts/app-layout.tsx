@@ -1,4 +1,4 @@
-import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
+import Sidebar from '@/components/Sidebar';
 import type { BreadcrumbItem } from '@/types';
 
 export default function AppLayout({
@@ -9,8 +9,14 @@ export default function AppLayout({
     children: React.ReactNode;
 }) {
     return (
-        <AppLayoutTemplate breadcrumbs={breadcrumbs}>
-            {children}
-        </AppLayoutTemplate>
+        <div className="min-h-screen bg-[#071d1d] flex">
+            {/* Sidebar */}
+            <Sidebar />
+
+            {/* Main */}
+            <main className="ml-72 w-full flex-1 flex flex-col min-h-screen overflow-x-hidden">
+                {children}
+            </main>
+        </div>
     );
 }

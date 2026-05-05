@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import { Search, MapPin, Navigation, Phone, Clock, Layers, Globe, ShieldCheck } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { Input } from "@/components/ui/input";
@@ -7,6 +8,50 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AppLayout from "@/layouts/app-layout";
 import "leaflet/dist/leaflet.css";
+
+const userLocationIcon = new L.divIcon({
+  className: "bg-transparent",
+  iconAnchor: [16, 36],
+  popupAnchor: [0, -36],
+  html: `
+    <div class="relative flex flex-col items-center">
+      <div class="absolute inset-0 bg-[#3b82f6] rounded-full opacity-30 animate-pulse"></div>
+      <div class="w-8 h-8 rounded-full border-2 border-[#3b82f6] bg-[#061818] flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)] z-10">
+        <div class="w-3 h-3 rounded-full bg-[#3b82f6]"></div>
+      </div>
+      <div class="w-0.5 h-3 bg-gradient-to-b from-[#3b82f6] to-transparent"></div>
+    </div>
+  `
+});
+
+const agencyIcon = new L.divIcon({
+  className: "bg-transparent",
+  iconAnchor: [16, 36],
+  popupAnchor: [0, -36],
+  html: `
+    <div class="relative flex flex-col items-center group">
+      <div class="w-8 h-8 rounded-full border-2 border-[#1bd382] bg-[#061818] flex items-center justify-center shadow-[0_0_15px_rgba(27,211,130,0.5)] transition-transform duration-300 group-hover:scale-110 cursor-pointer">
+        <div class="w-2 h-2 rounded-full bg-[#1bd382]"></div>
+      </div>
+      <div class="w-0.5 h-3 bg-gradient-to-b from-[#1bd382] to-transparent"></div>
+    </div>
+  `
+});
+
+const activeAgencyIcon = new L.divIcon({
+  className: "bg-transparent",
+  iconAnchor: [16, 36],
+  popupAnchor: [0, -36],
+  html: `
+    <div class="relative flex flex-col items-center">
+      <div class="absolute inset-0 bg-[#1bd382] rounded-full opacity-30 animate-ping"></div>
+      <div class="w-8 h-8 rounded-full border-2 border-[#1bd382] bg-[#1bd382] flex items-center justify-center shadow-[0_0_20px_rgba(27,211,130,0.8)] z-10 cursor-pointer">
+        <div class="w-2 h-2 rounded-full bg-[#061818]"></div>
+      </div>
+      <div class="w-0.5 h-4 bg-gradient-to-b from-[#1bd382] to-transparent"></div>
+    </div>
+  `
+});
 
 const agenciesData = [
   { id: 1, name: "Lions Bank Maarif", address: "Maarif, Casablanca", status: "Open", cash: true, position: [33.5866, -7.6332] },
@@ -195,9 +240,9 @@ export default function Agencies() {
                 url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
               />
 
-              <Marker position={userLocation}>
+              <Marker position={userLocation} icon={userLocationIcon}>
                 <Popup className="premium-dark-popup">
-                  <div className="text-center font-bold text-[#1bd382]">Current Location</div>
+                  <div className="text-center font-bold text-[#3b82f6]">Current Location</div>
                 </Popup>
               </Marker>
 
@@ -205,6 +250,7 @@ export default function Agencies() {
                 <Marker 
                   key={agency.id} 
                   position={agency.position}
+                  icon={activeAgency?.id === agency.id ? activeAgencyIcon : agencyIcon}
                   eventHandlers={{ click: () => setActiveAgency(agency) }}
                 >
                   <Popup className="premium-dark-popup">
