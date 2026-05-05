@@ -57,7 +57,7 @@ export default function SummaryCards() {
                   {card.title}
                 </p>
 
-                <h3 className="mt-2 text-2xl font-bold tracking-tight">
+                <h3 className="mt-2 text-slate-500 text-2xl font-bold tracking-tight">
                   {card.value}
                 </h3>
 

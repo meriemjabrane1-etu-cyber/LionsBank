@@ -40,13 +40,13 @@ export default function Dashboard() {
                                     Dernières transactions
                                 </h3>
 
-                                <div className="space-y-4">
+                                <div className="space-y-4 text-xl text-black">
                                     {[
                                         { name: "Amazon", amount: "-450 MAD" },
                                         { name: "Loyer", amount: "-3000 MAD" },
                                         { name: "Sara", amount: "+2500 MAD" },
                                     ].map((t, i) => (
-                                        <div key={i} className="flex justify-between bg-slate-50 p-4 rounded-2xl">
+                                        <div key={i} className="flex justify-between bg-slate-50 p-4 rounded-2xl text-emerald-800">
                                             <span>{t.name}</span>
                                             <span>{t.amount}</span>
                                         </div>

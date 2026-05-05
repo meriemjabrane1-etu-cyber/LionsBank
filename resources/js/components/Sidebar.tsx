@@ -13,9 +13,9 @@ import {
   LogOut,
   ShieldCheck,
 } from "lucide-react";
-
-import { menuItems } from "@/data/dashboardData";
 import type { LucideIcon } from "lucide-react";
+import { Link, usePage } from "@inertiajs/react";
+import { menuItems } from "@/data/dashboardData";
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
@@ -32,10 +32,11 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export default function Sidebar() {
+  const { url } = usePage();
+
   return (
     <aside className="fixed left-0 top-0 h-screen w-72 bg-gradient-to-b from-[#043b3f] via-[#073c46] to-[#052f35] text-white shadow-2xl">
       <div className="flex h-full flex-col px-5 py-6">
-
         {/* Logo */}
         <div className="mb-8 flex items-center gap-3">
           <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-teal-300">
@@ -50,19 +51,24 @@ export default function Sidebar() {
         {/* Menu */}
         <nav className="flex-1 space-y-1 overflow-y-auto">
           {menuItems.map((item) => {
-            const Icon = iconMap[item.icon] || Home; // fallback
+            const Icon = iconMap[item.icon] || Home;
+
+            const isActive =
+              url === item.href || url.startsWith(item.href + "/");
+
             return (
-              <button
+              <Link
                 key={item.label}
+                href={item.href}
                 className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition ${
-                  item.active
+                  isActive
                     ? "bg-gradient-to-r from-teal-400 to-cyan-400 text-[#043b3f] shadow-lg"
                     : "text-white/75 hover:bg-white/8 hover:text-white"
                 }`}
               >
                 <Icon className="h-5 w-5" />
                 <span className="text-sm font-medium">{item.label}</span>
-              </button>
+              </Link>
             );
           })}
         </nav>
