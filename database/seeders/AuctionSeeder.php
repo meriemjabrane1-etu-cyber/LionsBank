@@ -25,14 +25,14 @@ class AuctionSeeder extends Seeder
 
         Product::create([
             'name' => 'Mercedes-Benz S-Class 2023',
-            'image_url' => 'https://images.unsplash.com/photo-1622194948162-147fe5018b4c?auto=format&fit=crop&q=80&w=800',
+            'image_url' => '/images/auctions/car.png',
             'current_bid' => 85000.00,
             'auction_id' => $carAuction->id,
         ]);
 
         Product::create([
             'name' => 'BMW 7 Series 2024',
-            'image_url' => 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&q=80&w=800',
+            'image_url' => '/images/auctions/car.png',
             'current_bid' => 80000.00,
             'auction_id' => $carAuction->id,
         ]);
@@ -51,7 +51,7 @@ class AuctionSeeder extends Seeder
 
         Product::create([
             'name' => '1kg Gold Bar 999.9',
-            'image_url' => 'https://images.unsplash.com/photo-1610375461246-83df820dc502?auto=format&fit=crop&q=80&w=800',
+            'image_url' => '/images/auctions/gold.png',
             'current_bid' => 65000.00,
             'auction_id' => $goldAuction->id,
         ]);
@@ -70,7 +70,7 @@ class AuctionSeeder extends Seeder
 
         Product::create([
             'name' => 'Modern Beachfront Villa',
-            'image_url' => 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=800',
+            'image_url' => '/images/auctions/villa.png',
             'current_bid' => 1450000.00,
             'auction_id' => $houseAuction->id,
         ]);

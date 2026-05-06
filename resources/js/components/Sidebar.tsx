@@ -1,3 +1,4 @@
+import { Link, router } from "@inertiajs/react";
 import {
   Home,
   Wallet,
@@ -84,10 +85,15 @@ export default function Sidebar() {
         </div>
 
         {/* Logout */}
-        <button className="mt-5 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/8 hover:text-white">
+        <Link
+          href="/logout"
+          method="post"
+          as="button"
+          className="mt-5 flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/8 hover:text-white"
+        >
           <LogOut className="h-5 w-5" />
           Se déconnecter
-        </button>
+        </Link>
       </div>
     </aside>
   );

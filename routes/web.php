@@ -13,6 +13,19 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+// Custom Authentication Routes
+Route::get('/login', function () {
+    return Inertia::render('auth/login', [
+        'canResetPassword' => Route::has('password.request'),
+        'status' => session('status'),
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('login')->middleware('guest');
+
+Route::get('/register', function () {
+    return Inertia::render('auth/register');
+})->name('register')->middleware('guest');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('dashboard');

@@ -84,11 +84,11 @@ export default function Register() {
                                 />
                             </div>
 
-                            <Button
-                                type="submit"
-                                className="mt-2 w-full"
-                                tabIndex={5}
-                                data-test="register-user-button"
+                            <Button 
+                                type="submit" 
+                                className="mt-6 w-full bg-[#1bd382] hover:bg-white text-[#061818] rounded-xl h-12 font-bold shadow-[0_0_15px_rgba(27,211,130,0.3)] hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300" 
+                                tabIndex={5} 
+                                disabled={processing}
                             >
                                 {processing && <Spinner />}
                                 Create account
