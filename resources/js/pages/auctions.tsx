@@ -27,7 +27,7 @@ interface Auction {
     end_date: string;
     starting_price: number;
     current_price: number;
-    status: 'live' | 'upcoming' | 'ended';
+    status: 'pending' | 'active' | 'finished';
     products: Product[];
     isVip?: boolean;
     accessFee?: number;
@@ -36,7 +36,7 @@ interface Auction {
 
 export default function AuctionsPage({ auctions: initialAuctions }: { auctions: Auction[] }) {
     const [selectedAuction, setSelectedAuction] = useState<Auction | null>(null);
-    const [filter, setFilter] = useState<'all' | 'live' | 'upcoming' | 'ended'>('all');
+    const [filter, setFilter] = useState<'all' | 'active' | 'pending' | 'finished'>('all');
     const [search, setSearch] = useState('');
     const [unlockedVips, setUnlockedVips] = useState<number[]>([]);
     const [authorizingAuction, setAuthorizingAuction] = useState<Auction | null>(null);
@@ -52,7 +52,7 @@ export default function AuctionsPage({ auctions: initialAuctions }: { auctions: 
     }, [initialAuctions]);
 
     // Mock Flash Auction (grab the first live one or just one of them)
-    const flashAuction = useMemo(() => auctions.find(a => a.status === 'live'), [auctions]);
+    const flashAuction = useMemo(() => auctions.find(a => a.status === 'active'), [auctions]);
     const [flashTime, setFlashTime] = useState(200); // 15 mins
 
     useEffect(() => {
@@ -75,10 +75,10 @@ export default function AuctionsPage({ auctions: initialAuctions }: { auctions: 
 
     const getStatusStyle = (status: string) => {
         switch (status) {
-            case 'live': return 'bg-[#1bd382]/10 text-[#1bd382] border-[#1bd382]/30';
-            case 'upcoming': return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30';
-            case 'ended': return 'bg-gray-500/10 text-gray-400 border-gray-500/30';
-            default: return 'bg-gray-500/10 text-gray-400 border-gray-500/30';
+            case 'active': return 'bg-[rgb(28,212,132)]/10 text-[rgb(28,212,132)] border-[rgb(28,212,132)]/30';
+            case 'pending': return 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30';
+            case 'finished': return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+            default: return 'bg-white/5 text-white/40 border-white/10';
         }
     };
 
@@ -114,10 +114,10 @@ export default function AuctionsPage({ auctions: initialAuctions }: { auctions: 
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Auctions / Mazad - LionsBank" />
             
-            <div className="min-h-screen bg-[#071d1d] pb-20 text-white selection:bg-[#1bd382]/30 relative overflow-hidden">
+            <div className="min-h-screen bg-[#041F1E] pb-20 text-white selection:bg-[rgb(28,212,132)]/30 relative overflow-hidden">
                 {/* Glow Effects */}
-                <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#1bd382]/5 rounded-full blur-[150px] pointer-events-none" />
-                <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-[#1bd382]/10 rounded-full blur-[120px] pointer-events-none" />
+                <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[rgb(28,212,132)]/5 rounded-full blur-[150px] pointer-events-none" />
+                <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-[rgb(28,212,132)]/10 rounded-full blur-[120px] pointer-events-none" />
 
                 {/* Header Section */}
                 <div className="bg-[#0b2827]/80 backdrop-blur-xl border-b border-[#1a4f4d] pt-8 pb-12 px-6 relative z-10">
@@ -140,15 +140,15 @@ export default function AuctionsPage({ auctions: initialAuctions }: { auctions: 
                                         onChange={(e) => setSearch(e.target.value)}
                                     />
                                 </div>
-                                <div className="flex bg-[#061818] p-1 rounded-xl border border-[#1a4f4d]">
-                                    {(['all', 'live', 'upcoming', 'ended'] as const).map((f) => (
+                                <div className="flex bg-[#041F1E] p-1 rounded-xl border border-white/10">
+                                    {(['all', 'active', 'pending', 'finished'] as const).map((f) => (
                                         <button
                                             key={f}
                                             onClick={() => setFilter(f)}
                                             className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-300 ${
                                                 filter === f 
-                                                ? 'bg-[#1bd382] text-[#061818] shadow-[0_0_10px_rgba(27,211,130,0.5)]' 
-                                                : 'text-[#9CA3AF] hover:text-white'
+                                                ? 'bg-[rgb(28,212,132)] text-[#041F1E] shadow-[0_0_10px_rgba(28,212,132,0.5)]' 
+                                                : 'text-white/40 hover:text-white'
                                             }`}
                                         >
                                             {f.toUpperCase()}

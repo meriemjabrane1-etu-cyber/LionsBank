@@ -1,33 +1,45 @@
-import { Bell, Search, ChevronDown } from "lucide-react";
+import { Bell, Search, ChevronDown, Activity } from "lucide-react";
+import { usePage } from "@inertiajs/react";
 
 export default function Topbar() {
+  const { auth } = usePage().props as any;
+  const userName = auth?.user?.name || "Client";
+
   return (
-    <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
+    <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between py-4">
       <div>
-        <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
-          Bonjour, Karim
+        <h2 className="text-3xl font-bold tracking-tight text-white">
+          Welcome back, <span className="text-[rgb(28,212,132)]">{userName}</span>
         </h2>
-        <p className="mt-1 text-slate-500">Voici un aperçu de vos finances</p>
+        <p className="mt-1 text-white/40 font-medium">Here's your financial overview for today.</p>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="hidden md:flex items-center gap-2 rounded-2xl bg-white px-4 py-3 shadow-sm ring-1 ring-black/5">
-          <Search className="h-5 w-5 text-slate-400" />
+      <div className="flex items-center gap-4">
+        {/* Live Status Indicator */}
+        <div className="hidden lg:flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-2xl backdrop-blur-sm">
+            <div className="h-2 w-2 rounded-full bg-[rgb(28,212,132)] animate-pulse shadow-[0_0_8px_rgba(28,212,132,0.5)]" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Live Market Active</span>
+        </div>
+
+        <div className="hidden md:flex items-center gap-3 rounded-2xl bg-white/5 border border-white/10 px-4 py-3 focus-within:border-[rgb(28,212,132)]/50 transition-all group">
+          <Search className="h-5 w-5 text-white/30 group-focus-within:text-[rgb(28,212,132)]" />
           <input
-            className="w-64 bg-transparent text-sm outline-none placeholder:text-slate-400"
-            placeholder="Rechercher..."
+            className="w-48 bg-transparent text-sm outline-none placeholder:text-white/20 text-white"
+            placeholder="Quick search..."
           />
         </div>
 
-        <button className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
-          <Bell className="h-5 w-5 text-slate-700" />
-          <span className="absolute right-2 top-2 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-white" />
+        <button className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white/60 hover:text-white">
+          <Bell className="h-5 w-5" />
+          <span className="absolute right-3.5 top-3.5 h-2 w-2 rounded-full bg-[rgb(28,212,132)] shadow-[0_0_8px_rgba(28,212,132,0.5)]" />
         </button>
 
-        <button className="flex items-center gap-3 rounded-2xl bg-white px-3 py-2 shadow-sm ring-1 ring-black/5">
-          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-teal-400 to-emerald-500" />
-          <span className="text-sm font-medium text-slate-800">Karim</span>
-          <ChevronDown className="h-4 w-4 text-slate-500" />
+        <button className="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-white/10 to-transparent p-1.5 border border-white/10 hover:border-white/20 transition-all group">
+          <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-bold shadow-lg group-hover:scale-105 transition-transform">
+            {userName.charAt(0)}
+          </div>
+          <span className="text-sm font-bold text-white pr-2">{userName}</span>
+          <ChevronDown className="h-4 w-4 text-white/30 mr-1" />
         </button>
       </div>
     </div>

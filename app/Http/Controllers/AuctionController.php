@@ -18,7 +18,7 @@ class AuctionController extends Controller
     public function index()
     {
         $auctions = Auction::with('products')->get();
-        return Inertia::render('auctions', [
+        return Inertia::render('Auctions', [
             'auctions' => $auctions
         ]);
     }

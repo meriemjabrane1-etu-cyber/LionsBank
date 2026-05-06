@@ -26,7 +26,8 @@ class BankSeeder extends Seeder
             'email' => 'ahmed@test.com',
             'password' => Hash::make('password1'),
             'role' => 'client',
-            'phone' => '0600000000'
+            'phone' => '0600000000',
+            'email_verified_at' => now(),
         ]);
 
         $client2 = User::create([
@@ -34,21 +35,24 @@ class BankSeeder extends Seeder
             'email' => 'omar@test.com',
             'password' => Hash::make('password2'),
             'role' => 'client',
-            'phone' => '0611111111'
+            'phone' => '0611111111',
+            'email_verified_at' => now(),
         ]);
 
         $employee = User::create([
             'name' => 'Employee',
             'email' => 'employee@test.com',
             'password' => Hash::make('password123'),
-            'role' => 'employee'
+            'role' => 'employee',
+            'email_verified_at' => now(),
         ]);
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@test.com',
             'password' => Hash::make('password012'),
             'role' => 'admin',
-            'phone' => '0622222222'
+            'phone' => '0622222222',
+            'email_verified_at' => now(),
         ]);
 
         // 💰 ACCOUNTS

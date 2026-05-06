@@ -1,43 +1,38 @@
-
-
 export const menuItems = [
-  { label: "Tableau de bord", icon: "Home", active: true },
-  { label: "Comptes", icon: "Wallet" },
-  { label: "Virements", icon: "ArrowLeftRight" },
-  { label: "Cartes", icon: "CreditCard" },
-  { label: "Prêts", icon: "Banknote" },
-  { label: "Épargne", icon: "PiggyBank" },
-  { label: "Paiements", icon: "ReceiptText" },
-  { label: "Investissements", icon: "ChartNoAxesColumnIncreasing" },
-  { label: "Historique", icon: "Clock3" },
-  { label: "Paramètres", icon: "Settings" },
-  { label: "Aide & support", icon: "CircleHelp" },
+  { label: "Overview", icon: "Home", href: "/dashboard" },
+  { label: "My Accounts", icon: "Wallet", href: "/comptes" },
+  { label: "Auctions", icon: "Gavel", href: "/auctions" },
+  { label: "Agencies", icon: "Building2", href: "/agencies" },
+  { label: "Appointments", icon: "Calendar", href: "/appointments" },
+  { label: "Cards", icon: "CreditCard", href: "/dashboard" }, // Mocked for now
+  { label: "Savings", icon: "PiggyBank", href: "/dashboard" },
+  { label: "Settings", icon: "Settings", href: "/dashboard" },
 ];
 
 export const summaryCards = [
   {
-    title: "Solde total",
+    title: "Total Balance",
     value: "32,450.00 MAD",
-    description: "Tous vos comptes confondus",
+    description: "Combined assets value",
     icon: "Landmark",
     featured: true,
   },
   {
-    title: "Compte courant",
+    title: "Current Account",
     value: "18,750.00 MAD",
     description: "•••• 3456",
     icon: "Wallet",
   },
   {
-    title: "Compte épargne",
+    title: "Savings Account",
     value: "10,200.00 MAD",
     description: "•••• 4567",
     icon: "PiggyBank",
   },
   {
-    title: "Prêts en cours",
+    title: "Active Loans",
     value: "120,000.00 MAD",
-    description: "2 prêts actifs",
+    description: "2 active facilities",
     icon: "BadgeDollarSign",
   },
 ];

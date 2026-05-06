@@ -3,6 +3,7 @@ import {
   Wallet,
   PiggyBank,
   BadgeDollarSign,
+  ArrowUpRight
 } from "lucide-react";
 
 import { summaryCards } from "@/data/dashboardData";
@@ -25,60 +26,55 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function SummaryCards() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
       {summaryCards.map((card: Card) => {
-        const Icon = iconMap[card.icon] || Landmark; // fallback
+        const Icon = iconMap[card.icon] || Landmark;
 
         return (
           <div
             key={card.title}
-            className={`relative overflow-hidden rounded-3xl p-5 shadow-sm ring-1 ring-black/5 ${
+            className={`group relative overflow-hidden rounded-[2rem] p-6 backdrop-blur-md border transition-all duration-300 hover:scale-[1.02] ${
               card.featured
-                ? "bg-gradient-to-br from-[#0d4f52] via-[#0f6b6e] to-[#123f4b] text-white"
-                : "bg-white"
+                ? "bg-gradient-to-br from-[#062B29] to-[#041F1E] border-[rgb(28,212,132)]/30 shadow-[0_0_40px_rgba(28,212,132,0.1)]"
+                : "bg-white/5 border-white/10 hover:border-white/20"
             }`}
           >
+            {/* Background Glow for Featured */}
             {card.featured && (
-              <div className="pointer-events-none absolute right-0 top-0 h-full w-full opacity-10">
-                <div className="absolute -right-6 -top-6 h-32 w-32 rounded-full bg-white/20 blur-2xl" />
-                <div className="absolute bottom-0 right-2 text-7xl font-black text-white/20">
-                  🦁
-                </div>
-              </div>
+              <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[rgb(28,212,132)]/10 blur-3xl pointer-events-none" />
             )}
 
-            <div className="relative flex items-start justify-between">
-              <div>
-                <p
-                  className={`text-sm ${
-                    card.featured ? "text-white/80" : "text-slate-500"
+            <div className="relative flex flex-col gap-4">
+              <div className="flex items-center justify-between">
+                <div
+                  className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-colors ${
+                    card.featured
+                      ? "bg-[rgb(28,212,132)] text-[#041F1E] shadow-[0_0_15px_rgba(28,212,132,0.3)]"
+                      : "bg-white/5 text-[rgb(28,212,132)]"
                   }`}
                 >
+                  <Icon className="h-6 w-6" />
+                </div>
+                <ArrowUpRight className="h-5 w-5 text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors" />
+              </div>
+
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
                   {card.title}
                 </p>
-
-                <h3 className="mt-2 text-2xl font-bold tracking-tight">
-                  {card.value}
+                <h3 className="mt-1 text-3xl font-bold tracking-tight text-white">
+                  {card.value.split(' ')[0]} <span className="text-sm font-medium text-white/40">{card.value.split(' ')[1]}</span>
                 </h3>
-
-                <p
-                  className={`mt-2 text-sm ${
-                    card.featured ? "text-white/70" : "text-slate-500"
-                  }`}
-                >
-                  {card.description}
-                </p>
+                <div className="mt-3 flex items-center gap-2">
+                    <span className="text-xs text-white/60 font-medium">{card.description}</span>
+                    {card.featured && <span className="text-[8px] px-2 py-0.5 rounded-full bg-[rgb(28,212,132)]/10 text-[rgb(28,212,132)] font-bold uppercase tracking-tighter">Verified</span>}
+                </div>
               </div>
-
-              <div
-                className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
-                  card.featured
-                    ? "bg-white/10 text-white"
-                    : "bg-teal-50 text-teal-600"
-                }`}
-              >
-                <Icon className="h-6 w-6" />
-              </div>
+            </div>
+            
+            {/* Lion Brand Mark */}
+            <div className="absolute -bottom-4 -right-4 text-7xl opacity-[0.03] group-hover:opacity-[0.06] transition-opacity pointer-events-none grayscale">
+               🦁
             </div>
           </div>
         );
