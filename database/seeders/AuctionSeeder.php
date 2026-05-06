@@ -20,7 +20,7 @@ class AuctionSeeder extends Seeder
             'end_date' => Carbon::now()->addDays(3),
             'starting_price' => 150000.00,
             'current_price' => 165000.00,
-            'status' => 'live',
+            'status' => 'active',
         ]);
 
         Product::create([
@@ -46,7 +46,7 @@ class AuctionSeeder extends Seeder
             'end_date' => Carbon::now()->addDays(5),
             'starting_price' => 500000.00,
             'current_price' => 500000.00,
-            'status' => 'upcoming',
+            'status' => 'pending',
         ]);
 
         Product::create([
@@ -65,7 +65,7 @@ class AuctionSeeder extends Seeder
             'end_date' => Carbon::now()->subDays(2),
             'starting_price' => 1200000.00,
             'current_price' => 1450000.00,
-            'status' => 'ended',
+            'status' => 'finished',
         ]);
 
         Product::create([

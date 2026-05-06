@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('agency_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->enum('status', ['active', 'out_of_service'])->default('active');
-            $table->boolean('cash_available')->default(true);
+            $table->enum('status', ['active', 'empty', 'maintenance', 'out_of_service'])->default('active');
+            $table->integer('cash_available')->default(100);
             $table->timestamps();
         });
     }

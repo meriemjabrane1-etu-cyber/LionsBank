@@ -129,14 +129,14 @@ class BankSeeder extends Seeder
             'agency_id' => $agency->id,
             'name' => 'ATM 1',
             'status' => 'active',
-            'cash_available' => true
+            'cash_available' => 100
         ]);
 
         Atm::create([
             'agency_id' => $agency->id,
             'name' => 'ATM 2',
             'status' => 'active',
-            'cash_available' => false
+            'cash_available' => 50
         ]);
 
         // 📅 APPOINTMENTS
@@ -157,7 +157,7 @@ class BankSeeder extends Seeder
             'end_date' => now()->addDays(5),
             'starting_price' => 50000,
             'current_price' => 50000,
-            'status' => 'live'
+            'status' => 'active'
         ]);
 
         // 🔗 INVITE USER TO AUCTION

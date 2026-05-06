@@ -43,6 +43,19 @@ Route::post('/appointments', [AppointmentController::class, 'store'])->name('app
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/agencies', [AgencyController::class, 'index'])->name('agencies');
+    Route::get('/employee/atms', [App\Http\Controllers\AtmController::class, 'index'])->name('employee.atms');
+    Route::patch('/atms/{atm}/update-status', [App\Http\Controllers\AtmController::class, 'updateStatus'])->name('atms.updateStatus');
+    Route::patch('/atms/{atm}/refill', [App\Http\Controllers\AtmController::class, 'refill'])->name('atms.refill');
+
+    Route::get('/employee/agencies', [AgencyController::class, 'employeeDashboard'])->name('employee.agencies');
+    Route::post('/employee/agencies', [AgencyController::class, 'store'])->name('employee.agencies.store');
+    Route::patch('/employee/agencies/{agency}', [AgencyController::class, 'update'])->name('employee.agencies.update');
+    Route::patch('/employee/agencies/{agency}/toggle-status', [AgencyController::class, 'toggleStatus'])->name('employee.agencies.toggle');
+
+    Route::get('/employee/auctions', [AuctionController::class, 'employeeDashboard'])->name('employee.auctions');
+    Route::post('/employee/auctions', [AuctionController::class, 'store'])->name('employee.auctions.store');
+    Route::patch('/employee/auctions/{auction}/toggle', [AuctionController::class, 'toggleStatus'])->name('employee.auctions.toggle');
+    Route::patch('/employee/auctions/{auction}/winner', [AuctionController::class, 'declareWinner'])->name('employee.auctions.winner');
 });
 
 Route::middleware(['auth'])->group(function () {
