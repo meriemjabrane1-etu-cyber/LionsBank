@@ -10,9 +10,14 @@ use Inertia\Inertia;
 
 class AppointmentController extends Controller
 {
+    protected function ensureEmployeeAccess(): void
+    {
+        abort_unless(auth()->user()?->role === 'employee', 403);
+    }
+
     public function index()
     {
-        $appointments = Appointment::with(['employee'])
+        $appointments = Appointment::with(['employee', 'user'])
             ->where('user_id', Auth::id())->latest()
             ->get();
 
@@ -40,8 +45,11 @@ class AppointmentController extends Controller
     }
     public function approve(Appointment $appointment)
     {
+        $this->ensureEmployeeAccess();
+
         $appointment->update([
-            'status' => 'approved'
+            'status' => 'approved',
+            'employee_id' => Auth::id(),
         ]);
 
         return back();
@@ -49,10 +57,43 @@ class AppointmentController extends Controller
 
     public function reject(Appointment $appointment)
     {
+        $this->ensureEmployeeAccess();
+
         $appointment->update([
-            'status' => 'rejected'
+            'status' => 'rejected',
+            'employee_id' => Auth::id(),
         ]);
 
         return back();
+    }
+
+    public function assign(Appointment $appointment)
+    {
+        $this->ensureEmployeeAccess();
+
+        $appointment->update([
+            'employee_id' => Auth::id(),
+        ]);
+
+        return back();
+    }
+
+    public function employeeDashboard()
+    {
+        $this->ensureEmployeeAccess();
+
+        $appointments = Appointment::with(['user', 'employee'])
+            ->latest('date')
+            ->get();
+
+        return Inertia::render('employee/appointments', [
+            'appointments' => $appointments,
+            'stats' => [
+                'total' => $appointments->count(),
+                'pending' => $appointments->where('status', 'pending')->count(),
+                'approved' => $appointments->where('status', 'approved')->count(),
+                'rejected' => $appointments->where('status', 'rejected')->count(),
+            ],
+        ]);
     }
 }

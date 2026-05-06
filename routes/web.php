@@ -34,10 +34,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
+    Route::get('/employee/appointments', [AppointmentController::class, 'employeeDashboard'])->name('employee.appointments');
+    Route::patch('/appointments/{appointment}/approve', [AppointmentController::class, 'approve'])->name('appointments.approve');
+    Route::patch('/appointments/{appointment}/reject', [AppointmentController::class, 'reject'])->name('appointments.reject');
+    Route::patch('/appointments/{appointment}/assign', [AppointmentController::class, 'assign'])->name('appointments.assign');
 });
 Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-Route::patch('/appointments/{appointment}/approve', [AppointmentController::class, 'approve']);
-Route::patch('/appointments/{appointment}/reject', [AppointmentController::class, 'reject']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/agencies', [AgencyController::class, 'index'])->name('agencies');
