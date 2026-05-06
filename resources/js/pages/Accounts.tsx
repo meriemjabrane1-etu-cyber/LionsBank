@@ -1,99 +1,184 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
-import { Wallet, ArrowRight, CreditCard, Activity, Landmark } from 'lucide-react';
+import { 
+  Wallet, 
+  ArrowRight, 
+  CreditCard, 
+  Activity, 
+  Landmark,
+  PiggyBank,
+  Lock,
+  Globe,
+  Search,
+  Bell,
+  Download,
+  Eye,
+  ChevronRight,
+  TrendingUp,
+  FileText
+} from 'lucide-react';
 import { motion } from 'motion/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { useState } from 'react';
 
-type Account = {
-  id: number;
-  account_number: string;
-  balance: string | number;
-  type: string;
-  transactions_count: number;
-};
+export default function Comptes({ accounts, auth }) {
+  const [selectedAccount, setSelectedAccount] = useState(accounts[0] || null);
 
-interface Props {
-  accounts: Account[];
-}
-
-export default function Comptes({ accounts }: Props) {
-  const breadcrumbs = [{ title: 'Accounts', href: '/comptes' }];
+  const accountTypes = {
+    'current': { icon: Wallet, label: 'Compte courant', color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    'savings': { icon: PiggyBank, label: 'Compte épargne', color: 'text-blue-500', bg: 'bg-blue-500/10' },
+    'salary': { icon: Lock, label: 'Compte salaire', color: 'text-amber-500', bg: 'bg-amber-500/10' },
+    'currency': { icon: Globe, label: 'Compte devises', color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
+  };
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="My Accounts - LionsBank" />
+    <AppLayout breadcrumbs={[{ title: 'Comptes', href: '/comptes' }]}>
+      <Head title="Mes Comptes - LionsBank" />
 
-      <div className="p-6 lg:p-8 space-y-8">
-        <header>
-            <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
-                <Landmark className="h-8 w-8 text-[rgb(28,212,132)]" />
-                My <span className="text-[rgb(28,212,132)]">Accounts</span>
-            </h1>
-            <p className="mt-2 text-white/40">Secure management of your liquidity and holdings.</p>
+      <div className="min-h-screen py-8 pr-8 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500">
+        <div className="w-full space-y-10">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Comptes</h1>
+          <div className="flex items-center gap-4">
+             <div className="relative group hidden lg:block">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-white/20 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
+                <input 
+                    placeholder="Rechercher..."
+                    className="w-64 h-12 bg-white dark:bg-[#062B29]/50 border border-slate-200 dark:border-white/5 rounded-2xl pl-11 pr-4 text-sm outline-none focus:border-[rgb(28,212,132)] transition-all shadow-sm dark:shadow-none"
+                />
+             </div>
+             <div className="flex items-center gap-3 pl-2">
+                <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black shadow-lg">
+                    {auth.user.name.charAt(0)}
+                </div>
+                <div className="hidden sm:block text-right">
+                    <p className="text-sm font-black text-slate-900 dark:text-white leading-none">{auth.user.name}</p>
+                    <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mt-1">Client Elite</p>
+                </div>
+             </div>
+          </div>
         </header>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {accounts.map((account, i) => (
-                <motion.div
-                    key={account.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="group relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-[#062B29] to-[#041F1E] border border-white/10 p-8 hover:border-[rgb(28,212,132)]/50 transition-all duration-500 shadow-2xl"
-                >
-                    <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[rgb(28,212,132)]/5 blur-3xl pointer-events-none" />
-                    
-                    <div className="flex justify-between items-start mb-10">
-                        <div className="h-14 w-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-[rgb(28,212,132)] shadow-lg group-hover:bg-[rgb(28,212,132)] group-hover:text-[#041F1E] transition-all">
-                            {account.type === 'current' ? <Wallet className="h-7 w-7" /> : <CreditCard className="h-7 w-7" />}
-                        </div>
-                        <div className="text-right">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">System ID</span>
-                            <p className="text-xs font-mono text-white/60">#{account.id.toString().padStart(4, '0')}</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[rgb(28,212,132)] mb-1 block">Account Number</span>
-                        <h3 className="text-xl font-mono font-bold text-white tracking-widest mb-6">
-                            {account.account_number.match(/.{1,4}/g)?.join(' ') || account.account_number}
-                        </h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column: Mes Comptes List */}
+            <div className="lg:col-span-2 space-y-6">
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">Mes comptes</h3>
+                <div className="space-y-4">
+                    {accounts.map((account, i) => {
+                        const typeInfo = accountTypes[account.type] || accountTypes['current'];
+                        const isSelected = selectedAccount?.id === account.id;
                         
-                        <div className="bg-white/5 border border-white/5 rounded-2xl p-4 mb-6">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-white/20">Current Liquidity</span>
-                            <div className="text-3xl font-bold text-white mt-1">
-                                {Number(account.balance).toLocaleString('fr-FR', {
-                                    style: 'currency',
-                                    currency: 'MAD',
-                                })}
-                            </div>
-                        </div>
+                        return (
+                            <motion.div
+                                key={account.id}
+                                whileHover={{ scale: 1.01 }}
+                                onClick={() => setSelectedAccount(account)}
+                                className={`group relative p-6 rounded-[2rem] border cursor-pointer transition-all duration-300 flex items-center justify-between ${
+                                    isSelected 
+                                    ? "bg-white dark:bg-[#062B29] border-[rgb(28,212,132)]/50 shadow-xl" 
+                                    : "bg-white dark:bg-[#062B29]/30 border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10"
+                                }`}
+                            >
+                                <div className="flex items-center gap-6">
+                                    <div className={`h-14 w-14 rounded-2xl ${typeInfo.bg} ${typeInfo.color} flex items-center justify-center transition-transform group-hover:scale-110`}>
+                                        <typeInfo.icon className="h-7 w-7" />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest">{typeInfo.label}</p>
+                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white mt-0.5">
+                                            {Number(account.balance).toLocaleString('fr-FR', { style: 'currency', currency: 'MAD' })}
+                                        </h4>
+                                        <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] mt-1">•••• {account.account_number.slice(-4)}</p>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex items-center gap-4">
+                                    <div className="text-right hidden sm:block">
+                                        <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-bold text-[8px] uppercase tracking-[0.2em] px-3">Actif</Badge>
+                                        <p className="text-[9px] font-bold text-slate-300 dark:text-white/10 uppercase tracking-widest mt-2">Dernière activité: Aujourd'hui</p>
+                                    </div>
+                                    <ChevronRight className={`h-5 w-5 ${isSelected ? 'text-[rgb(28,212,132)]' : 'text-slate-200 dark:text-white/5'}`} />
+                                </div>
+                            </motion.div>
+                        );
+                    })}
+                </div>
+            </div>
 
-                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                            <div className="flex items-center gap-2">
-                                <Activity className="h-4 w-4 text-white/20" />
-                                <span className="text-xs font-bold text-white/40">{account.transactions_count} Transactions</span>
+            {/* Right Column: Détails du compte */}
+            <div className="space-y-6">
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">Détails du compte</h3>
+                {selectedAccount ? (
+                    <Card className="bg-white dark:bg-[#062B29]/50 border-slate-200 dark:border-white/5 rounded-[2.5rem] shadow-sm dark:shadow-none overflow-hidden sticky top-24">
+                        <CardHeader className="p-10 pb-0 text-center flex flex-col items-center">
+                            <div className={`h-20 w-20 rounded-3xl ${accountTypes[selectedAccount.type]?.bg} ${accountTypes[selectedAccount.type]?.color} flex items-center justify-center mb-6`}>
+                                {(() => {
+                                    const Icon = accountTypes[selectedAccount.type]?.icon || Wallet;
+                                    return <Icon className="h-10 w-10" />;
+                                })()}
                             </div>
-                            <button className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[rgb(28,212,132)] group/btn">
-                                Details <ArrowRight className="h-3 w-3 group-hover/btn:translate-x-1 transition-transform" />
-                            </button>
-                        </div>
+                            <h4 className="text-2xl font-black text-slate-900 dark:text-white">{accountTypes[selectedAccount.type]?.label}</h4>
+                            <div className="mt-2 flex items-center justify-center gap-4">
+                                <h3 className="text-3xl font-black text-[rgb(28,212,132)]">
+                                    {Number(selectedAccount.balance).toLocaleString('fr-FR', { style: 'currency', currency: 'MAD' })}
+                                </h3>
+                                <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-bold text-[8px] uppercase tracking-widest">Actif</Badge>
+                            </div>
+                            <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] mt-4">•••• {selectedAccount.account_number.slice(-4)}</p>
+                        </CardHeader>
+
+                        <CardContent className="p-10 space-y-8">
+                            <div className="grid grid-cols-1 gap-y-6">
+                                {[
+                                    { label: 'Titulaire', value: auth.user.name },
+                                    { label: 'IBAN', value: `MA64 0000 0000 0000 0000 ${selectedAccount.account_number.slice(-4)}`, hasCopy: true },
+                                    { label: 'Type', value: accountTypes[selectedAccount.type]?.label },
+                                    { label: 'Devise', value: 'MAD' },
+                                    { label: 'Date d\'ouverture', value: '15/03/2022' },
+                                ].map((info, i) => (
+                                    <div key={i} className="border-b border-slate-50 dark:border-white/5 pb-4 last:border-0">
+                                        <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mb-1">{info.label}</p>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-sm font-black text-slate-900 dark:text-white">{info.value}</span>
+                                            {info.hasCopy && <Eye className="h-3 w-3 text-[rgb(28,212,132)] cursor-pointer" />}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="space-y-3 pt-4">
+                                <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mb-4">Actions</p>
+                                <button className="w-full flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-[#041F1E] border border-slate-100 dark:border-white/5 hover:border-[rgb(28,212,132)]/50 transition-all group">
+                                    <div className="flex items-center gap-3">
+                                        <FileText className="h-5 w-5 text-slate-400 group-hover:text-[rgb(28,212,132)]" />
+                                        <span className="text-xs font-bold text-slate-600 dark:text-white/60">Relevé de compte</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] font-bold text-[rgb(28,212,132)] uppercase">Télécharger</span>
+                                        <ChevronRight className="h-4 w-4 text-[rgb(28,212,132)]" />
+                                    </div>
+                                </button>
+                                <button className="w-full flex items-center justify-between p-4 rounded-2xl bg-slate-50 dark:bg-[#041F1E] border border-slate-100 dark:border-white/5 hover:border-[rgb(28,212,132)]/50 transition-all group">
+                                    <div className="flex items-center gap-3">
+                                        <Activity className="h-5 w-5 text-slate-400 group-hover:text-[rgb(28,212,132)]" />
+                                        <span className="text-xs font-bold text-slate-600 dark:text-white/60">Voir les transactions</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] font-bold text-[rgb(28,212,132)] uppercase">Voir</span>
+                                        <ChevronRight className="h-4 w-4 text-[rgb(28,212,132)]" />
+                                    </div>
+                                </button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <div className="h-[400px] flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem]">
+                        <p className="text-slate-400 dark:text-white/20 font-bold uppercase tracking-widest text-xs">Sélectionnez un compte</p>
                     </div>
-                    
-                    {/* Gloss Effect */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                </motion.div>
-            ))}
-
-            {/* Add Account Card */}
-            <button className="group rounded-[2.5rem] border-2 border-dashed border-white/5 bg-white/[0.02] p-8 flex flex-col items-center justify-center gap-4 hover:border-[rgb(28,212,132)]/30 hover:bg-[rgb(28,212,132)]/5 transition-all duration-500 min-h-[350px]">
-                <div className="h-16 w-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/10 group-hover:bg-[rgb(28,212,132)]/20 group-hover:text-[rgb(28,212,132)] transition-all">
-                    <Activity className="h-8 w-8" />
-                </div>
-                <div className="text-center">
-                    <h4 className="font-bold text-white group-hover:text-[rgb(28,212,132)] transition-colors">Request New Account</h4>
-                    <p className="text-xs text-white/20 mt-1">Expansion of your asset portfolio.</p>
-                </div>
-            </button>
+                )}
+            </div>
+        </div>
         </div>
       </div>
     </AppLayout>

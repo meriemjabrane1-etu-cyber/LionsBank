@@ -44,7 +44,8 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export default function Sidebar() {
-  const { auth, url } = usePage().props as any;
+  const { props, url } = usePage();
+  const { auth } = props as any;
   const isEmployee = auth?.user?.role === 'employee';
 
   const employeeMenuItems = [
@@ -61,24 +62,18 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-72 bg-[#062B29] text-white shadow-2xl border-r border-white/5 z-50 hidden lg:block">
       <div className="flex h-full flex-col px-6 py-8">
-        {/* Logo Section */}
-        <div className="mb-10 flex items-center gap-4 px-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-[1.25rem] bg-[rgb(28,212,132)]/10 text-[rgb(28,212,132)] shadow-[0_0_20px_rgba(28,212,132,0.15)] border border-[rgb(28,212,132)]/20">
-            <span className="text-2xl">🦁</span>
-          </div>
-          <div>
-            <h1 className="text-xl font-bold tracking-tight text-white">LionsBank</h1>
-            <p className="text-[9px] uppercase font-black tracking-[0.2em] text-[rgb(28,212,132)]/50">
-                {isEmployee ? 'Operational Control' : 'Elite Wealth Management'}
-            </p>
-          </div>
+        <div className="mb-12 flex items-center px-0">
+          <Link href="/dashboard" className="block w-full scale-110 origin-left">
+            <img src="/images/logo-dark.png" alt="LionsBank" className="h-20 w-auto dark:hidden mix-blend-multiply" />
+            <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto hidden dark:block mix-blend-screen" />
+          </Link>
         </div>
 
         {/* Navigation Menu */}
         <nav className="flex-1 space-y-2 overflow-y-auto custom-scrollbar pr-1">
           {menuItems.map((item: any) => {
             const Icon = iconMap[item.icon] || Home;
-            const isActive = url === item.href || (item.href !== '/dashboard' && url.startsWith(item.href));
+            const isActive = url === item.href || (item.href !== '/dashboard' && (url || '').startsWith(item.href));
             
             return (
               <Link
@@ -99,36 +94,35 @@ export default function Sidebar() {
         </nav>
 
         {/* Security / Identity Section */}
-        <div className="mt-8 rounded-[2rem] bg-gradient-to-br from-white/5 to-transparent p-6 border border-white/5 relative overflow-hidden group">
-          <div className="absolute -right-6 -bottom-6 text-white/5 group-hover:scale-110 transition-transform duration-500">
-             <ShieldCheck className="h-24 w-24" />
+        <div className="mt-auto mb-6 rounded-[2rem] p-6 relative overflow-hidden group shadow-2xl transition-all duration-500">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+              <img src="/images/security-bg.png" alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#041F1E]/90 to-transparent opacity-80"></div>
           </div>
+          
           <div className="relative z-10">
-            <div className="mb-4 flex items-center gap-2 text-[rgb(28,212,132)]">
-                <ShieldCheck className="h-4 w-4" />
-                <span className="text-[10px] font-black uppercase tracking-widest">
-                Secured Session
-                </span>
-            </div>
-            <p className="text-[11px] text-white/30 leading-relaxed font-medium">
-                Your connection is encrypted with RSA-4096. All operational data is live.
+            <h4 className="text-xs font-bold text-white mb-1">Votre sécurité,</h4>
+            <h4 className="text-xs font-bold text-white mb-3">notre priorité</h4>
+            <p className="text-[10px] text-white/60 leading-relaxed font-medium mb-4">
+                Vos données sont chiffrées et protégées 24h/24 et 7j/7.
             </p>
-            <button className="mt-5 w-full rounded-xl border border-white/10 py-2.5 text-[10px] font-bold uppercase tracking-[0.1em] text-white/60 hover:text-white hover:bg-white/5 transition-all">
-                System Status
+            <button className="w-full rounded-xl bg-white/10 border border-white/10 py-2.5 text-[10px] font-bold text-white hover:bg-white/20 transition-all backdrop-blur-md">
+                En savoir plus
             </button>
           </div>
         </div>
 
         {/* User Actions */}
-        <div className="mt-6 pt-6 border-t border-white/5">
+        <div className="pt-4 border-t border-white/5">
             <Link
             href="/logout"
             method="post"
             as="button"
-            className="flex w-full items-center gap-3 rounded-2xl px-5 py-3 text-sm font-bold text-white/20 transition-all hover:text-rose-500 hover:bg-rose-500/5 group"
+            className="flex w-full items-center gap-3 rounded-2xl px-5 py-2 text-sm font-bold text-white/40 transition-all hover:text-white group"
             >
             <LogOut className="h-5 w-5 group-hover:rotate-12 transition-transform" />
-            <span>Terminate Session</span>
+            <span>Se déconnecter</span>
             </Link>
         </div>
       </div>

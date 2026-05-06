@@ -1,68 +1,49 @@
-import { usePage, useForm, Head } from "@inertiajs/react";
-import { Calendar, Clock, CheckCircle2, AlertCircle, Plus, ChevronRight, Briefcase, User as UserIcon, Activity } from "lucide-react";
+import { useForm, usePage, Head } from "@inertiajs/react";
+import { Calendar, Clock, Plus, Activity, User as UserIcon, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { toast } from "sonner";
 import AppLayout from "@/layouts/app-layout";
 
-interface Appointment {
-    id: number;
-    service_type: string;
-    date: string;
-    status: 'pending' | 'approved' | 'rejected';
-    user?: { name: string };
-    employee?: { name: string };
-}
+const getStatusConfig = (status) => {
+  switch (status.toLowerCase()) {
+    case 'confirmed':
+      return { color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30', icon: Activity };
+    case 'pending':
+      return { color: 'bg-amber-500/20 text-amber-400 border-amber-500/30', icon: Clock };
+    default:
+      return { color: 'bg-white/10 text-white/60 border-white/20', icon: Calendar };
+  }
+};
 
 export default function Appointments() {
-  const { appointments } = usePage().props as any;
-
+  const { appointments } = usePage().props;
   const { data, setData, post, processing, errors, reset } = useForm({
     service_type: "",
     date: "",
   });
 
-  const submit = (e: React.FormEvent) => {
+  const submit = (e) => {
     e.preventDefault();
     post("/appointments", {
-      onSuccess: () => {
-        reset();
-        toast.success("Appointment booked successfully!", {
-          style: { background: '#062B29', color: '#fff', border: '1px solid rgb(28,212,132)' }
-        });
-      },
+      onSuccess: () => reset(),
     });
   };
 
   const breadcrumbs = [{ title: 'Appointments', href: '/appointments' }];
 
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case 'pending': return { color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30', icon: Clock };
-      case 'approved': return { color: 'bg-[rgb(28,212,132)]/10 text-[rgb(28,212,132)] border-[rgb(28,212,132)]/30', icon: CheckCircle2 };
-      default: return { color: 'bg-rose-500/10 text-rose-400 border-rose-500/30', icon: AlertCircle };
-    }
-  };
-
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="Appointments / RDV - LionsBank" />
-      
-      <div className="min-h-screen bg-[#041F1E] pb-20 pt-8 px-6 text-white selection:bg-[rgb(28,212,132)]/30 relative overflow-hidden">
-        {/* Glowing background effects */}
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[rgb(28,212,132)]/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-[rgb(28,212,132)]/5 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10">
+      <Head title="Secure Appointments - LionsBank" />
+      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] py-8 pr-8 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500">
+        <div className="w-full">
           {/* Header */}
-          <div className="mb-10">
-            <h1 className="text-4xl font-extrabold text-white tracking-tight">
-              Appointments / <span className="text-[rgb(28,212,132)] drop-shadow-[0_0_10px_rgba(28,212,132,0.3)]">RDV</span>
+          <div className="mb-12">
+            <h1 className="text-4xl font-extrabold tracking-tight text-white mb-2">
+              Virtual Hub <span className="text-[rgb(28,212,132)]">&</span> Booking
             </h1>
-            <p className="text-white/40 mt-2 text-lg font-light">
+            <p className="text-white/40 font-medium text-lg max-w-2xl">
               Manage your banking consultations and schedule new visits securely.
             </p>
           </div>
@@ -130,7 +111,7 @@ export default function Appointments() {
             <div className="lg:col-span-2">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <AnimatePresence mode="popLayout">
-                  {appointments.map((rdv: Appointment, index: number) => {
+                  {appointments.map((rdv, index) => {
                     const status = getStatusConfig(rdv.status);
                     const StatusIcon = status.icon;
 

@@ -34,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
     
     Route::get('/comptes', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/cartes', function () {
+        return Inertia::render('Cards');
+    })->name('cards');
 });
 
 Route::middleware(['auth'])->group(function () {

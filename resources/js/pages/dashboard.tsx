@@ -2,160 +2,250 @@ import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { 
   TrendingUp, 
-  Users, 
-  CreditCard, 
-  Activity, 
   ArrowUpRight, 
-  ArrowDownLeft, 
   DollarSign, 
-  ShieldCheck,
-  Zap
+  Zap,
+  ArrowRight,
+  Plus,
+  Clock,
+  ChevronRight,
+  PieChart,
+  ArrowDownLeft,
+  Search,
+  Bell,
+  Wallet,
+  CreditCard,
+  PiggyBank,
+  BadgeDollarSign
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import SummaryCards from '@/components/SummaryCards';
 
-export default function Dashboard({ auth }: { auth: any }) {
-  const isEmployee = auth?.user?.role === 'employee';
+export default function Dashboard({ auth }) {
+  const userName = auth.user.name.split(' ')[0];
 
-  const stats = [
-    { title: "Total Volume", value: "$4.2M", change: "+12.5%", icon: DollarSign, trend: 'up' },
-    { title: "Active Users", value: "1,284", change: "+3.2%", icon: Users, trend: 'up' },
-    { title: "Success Rate", value: "99.9%", change: "+0.1%", icon: ShieldCheck, trend: 'up' },
-    { title: "Network Load", value: "24%", change: "-2.4%", icon: Activity, trend: 'down' },
+  const transactions = [
+    { id: 1, type: 'Virement reçu de Sara', date: "Aujourd'hui, 10:30", amount: '+2.500,00', color: 'emerald' },
+    { id: 2, type: 'Achat en ligne - Amazon', date: "Hier, 16:45", amount: '-450,00', color: 'amber' },
+    { id: 3, type: 'Virement émis - Loyer', date: "10 Mai 2024, 09:15", amount: '-3.000,00', color: 'blue' },
+    { id: 4, type: 'Virement reçu de Anas', date: "09 Mai 2024, 14:20", amount: '+1.200,00', color: 'emerald' },
+    { id: 5, type: 'Paiement par carte', date: "08 Mai 2024, 18:30", amount: '-150,00', color: 'indigo' },
+  ];
+
+  const actions = [
+    { label: 'Virement', icon: Zap, color: 'emerald' },
+    { label: 'Paiement', icon: CreditCard, color: 'blue' },
+    { label: 'Recharger', icon: DollarSign, color: 'emerald' },
+    { label: 'Demande de prêt', icon: Wallet, color: 'purple' },
+    { label: 'Autres', icon: Plus, color: 'slate' },
   ];
 
   return (
-    <AppLayout breadcrumbs={[{ title: 'Dashboard', href: '/dashboard' }]}>
-      <Head title="Dashboard - LionsBank" />
+    <AppLayout breadcrumbs={[{ title: 'Tableau de bord', href: '/dashboard' }]}>
+      <Head title="Tableau de bord - LionsBank" />
 
-      <div className="p-6 lg:p-8 space-y-8">
-        {/* Welcome Header */}
-        <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="min-h-screen py-8 pr-8 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0">
+        <div className="w-full space-y-10 m-0 p-0">
+        {/* Top Bar with Profile (Internal) */}
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight">
-              Welcome back, <span className="text-[rgb(28,212,132)]">{auth.user.name}</span>
+            <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
+              Bonjour, {userName} <span className="animate-bounce">👋</span>
             </h1>
-            <p className="mt-1 text-white/40">Here's what's happening with LionsBank today.</p>
+            <p className="mt-1 text-slate-400 dark:text-white/40 font-medium">Voici un aperçu de vos finances</p>
           </div>
-          <div className="flex items-center gap-3">
-            <div className="px-4 py-2 bg-[#062B29] border border-white/5 rounded-xl flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-[rgb(28,212,132)] animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-widest text-white/60">System Live</span>
-            </div>
+          
+          <div className="flex items-center gap-4">
+             <div className="relative group hidden lg:block">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-white/20 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
+                <input 
+                    placeholder="Rechercher..."
+                    className="w-64 h-12 bg-white dark:bg-[#062B29]/50 border border-slate-200 dark:border-white/5 rounded-2xl pl-11 pr-4 text-sm outline-none focus:border-[rgb(28,212,132)]/50 transition-all shadow-sm dark:shadow-none"
+                />
+             </div>
+             <button className="h-12 w-12 flex items-center justify-center rounded-2xl bg-white dark:bg-[#062B29]/50 border border-slate-200 dark:border-white/5 text-slate-400 dark:text-white/40 hover:text-[rgb(28,212,132)] transition-all shadow-sm dark:shadow-none relative">
+                <Bell className="h-5 w-5" />
+                <span className="absolute top-3 right-3 h-2 w-2 rounded-full bg-[rgb(28,212,132)] border-2 border-white dark:border-[#041F1E]" />
+             </button>
+             <div className="flex items-center gap-3 pl-2">
+                <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black shadow-lg">
+                    {userName.charAt(0)}
+                </div>
+                <div className="hidden sm:block">
+                    <p className="text-sm font-black text-slate-900 dark:text-white leading-none">{auth.user.name}</p>
+                    <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mt-1">Client Elite</p>
+                </div>
+             </div>
           </div>
         </header>
 
-        {/* Stats Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <Card className="bg-[#062B29]/50 border-white/5 backdrop-blur-sm overflow-hidden group hover:border-[rgb(28,212,132)]/30 transition-all duration-500 rounded-[2rem]">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="p-2.5 bg-white/5 rounded-xl text-white/40 group-hover:text-[rgb(28,212,132)] group-hover:bg-[rgb(28,212,132)]/10 transition-all">
-                      <stat.icon className="w-5 h-5" />
-                    </div>
-                    <span className={`text-xs font-bold flex items-center gap-1 ${stat.trend === 'up' ? 'text-[rgb(28,212,132)]' : 'text-rose-400'}`}>
-                      {stat.trend === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownLeft className="w-3 h-3" />}
-                      {stat.change}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-widest text-white/20">{stat.title}</p>
-                    <h3 className="text-2xl font-bold text-white mt-1">{stat.value}</h3>
-                  </div>
-                </CardContent>
-                <div className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-transparent via-[rgb(28,212,132)]/20 to-transparent w-full opacity-0 group-hover:opacity-100 transition-opacity" />
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+        {/* Summary Cards */}
+        <SummaryCards />
 
-        {/* Main Content Area */}
+        {/* Middle Grid */}
         <div className="grid gap-8 lg:grid-cols-3">
-          {/* Activity Chart Mock */}
-          <Card className="lg:col-span-2 bg-[#062B29]/50 border-white/5 backdrop-blur-sm rounded-[2.5rem] overflow-hidden">
-            <CardHeader className="p-8 border-b border-white/5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-xl text-white font-bold tracking-tight">Market Evolution</CardTitle>
-                  <p className="text-xs text-white/40 mt-1">Real-time asset liquidity tracking</p>
-                </div>
-                <div className="flex bg-[#041F1E] p-1 rounded-lg border border-white/5">
-                  <button className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-[rgb(28,212,132)] bg-[rgb(28,212,132)]/10 rounded-md">Live</button>
-                  <button className="px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white/20">History</button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="p-8">
-              <div className="h-[300px] flex items-end gap-2 px-2">
-                {[40, 70, 45, 90, 65, 80, 50, 95, 60, 75, 40, 85].map((h, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ height: 0 }}
-                    animate={{ height: `${h}%` }}
-                    transition={{ delay: i * 0.05, duration: 0.8, ease: "easeOut" }}
-                    className="flex-1 bg-gradient-to-t from-[rgb(28,212,132)]/5 via-[rgb(28,212,132)]/20 to-[rgb(28,212,132)]/40 rounded-t-lg group relative"
-                  >
-                    <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-[#041F1E] text-[10px] font-bold px-1.5 py-0.5 rounded pointer-events-none">
-                      {h}%
+          {/* Main Chart Section */}
+          <div className="lg:col-span-2 space-y-8">
+            <Card className="bg-white dark:bg-[#062B29]/50 border-slate-200 dark:border-white/5 rounded-[2.5rem] shadow-sm dark:shadow-none overflow-hidden">
+                <CardHeader className="p-8 flex flex-row items-center justify-between border-b border-slate-100 dark:border-white/5">
+                    <div>
+                        <CardTitle className="text-xl font-black text-slate-900 dark:text-white">Évolution du solde</CardTitle>
+                        <p className="text-xs font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mt-1">Analyse des flux mensuels</p>
                     </div>
-                  </motion.div>
-                ))}
-              </div>
-              <div className="flex justify-between mt-6 px-2">
-                {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(m => (
-                  <span key={m} className="text-[10px] font-bold uppercase tracking-widest text-white/10">{m}</span>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Quick Actions / Recent Activity */}
-          <div className="space-y-6">
-            <Card className="bg-gradient-to-br from-[rgb(28,212,132)]/20 to-[#062B29]/50 border-[rgb(28,212,132)]/20 rounded-[2.5rem] p-8 relative overflow-hidden">
-              <div className="absolute -right-8 -top-8 w-32 h-32 bg-[rgb(28,212,132)]/20 rounded-full blur-3xl" />
-              <div className="relative z-10">
-                <Zap className="w-8 h-8 text-[rgb(28,212,132)] mb-4" />
-                <h3 className="text-xl font-bold text-white mb-2">Instant Transfer</h3>
-                <p className="text-sm text-white/60 mb-6">Move liquidity between secure vaults instantly with zero latency.</p>
-                <button className="w-full bg-[rgb(28,212,132)] hover:bg-white text-[#041F1E] font-bold py-3 rounded-2xl transition-all shadow-lg shadow-[rgb(28,212,132)]/20">
-                  Initialize Protocol
-                </button>
-              </div>
+                    <select className="bg-slate-50 dark:bg-[#041F1E] border border-slate-200 dark:border-white/10 rounded-xl px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-500 dark:text-white/40 outline-none">
+                        <option>Ce mois-ci</option>
+                        <option>Dernier trimestre</option>
+                    </select>
+                </CardHeader>
+                <CardContent className="p-8">
+                    <div className="h-[280px] relative">
+                        {/* Area Chart Mockup */}
+                        <svg className="w-full h-full overflow-visible">
+                            <defs>
+                                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="rgb(28,212,132)" stopOpacity="0.2" />
+                                    <stop offset="100%" stopColor="rgb(28,212,132)" stopOpacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <path 
+                                d="M0,200 Q100,180 200,120 T400,100 T600,60 T800,80 L800,280 L0,280 Z" 
+                                fill="url(#gradient)" 
+                                className="transition-all duration-1000"
+                            />
+                            <path 
+                                d="M0,200 Q100,180 200,120 T400,100 T600,60 T800,80" 
+                                fill="none" 
+                                stroke="rgb(28,212,132)" 
+                                strokeWidth="4" 
+                                strokeLinecap="round"
+                            />
+                            <circle cx="800" cy="80" r="6" fill="rgb(28,212,132)" className="shadow-lg" />
+                            <foreignObject x="720" y="30" width="100" height="40">
+                                <div className="bg-[#041F1E] text-[rgb(28,212,132)] text-[10px] font-bold px-2 py-1 rounded-lg border border-[rgb(28,212,132)]/30 shadow-xl whitespace-nowrap">
+                                    32.450,00 MAD
+                                </div>
+                            </foreignObject>
+                        </svg>
+                        
+                        <div className="absolute bottom-0 left-0 w-full flex justify-between text-[10px] font-bold text-slate-300 dark:text-white/10 uppercase tracking-widest mt-4">
+                            <span>1 Mai</span>
+                            <span>5 Mai</span>
+                            <span>10 Mai</span>
+                            <span>15 Mai</span>
+                            <span>20 Mai</span>
+                            <span>25 Mai</span>
+                            <span>31 Mai</span>
+                        </div>
+                    </div>
+                </CardContent>
             </Card>
 
-            <Card className="bg-[#062B29]/50 border-white/5 rounded-[2.5rem] p-8">
-               <div className="flex items-center justify-between mb-6">
-                 <h3 className="text-lg font-bold text-white">Recent Security Logs</h3>
-                 <button className="text-[10px] font-bold uppercase tracking-widest text-[rgb(28,212,132)] hover:underline">View All</button>
-               </div>
-               <div className="space-y-6">
-                 {[
-                   { label: "IP: 192.168.1.1", action: "Successful Login", time: "2m ago" },
-                   { label: "Vault #482", action: "Liquidity Sync", time: "15m ago" },
-                   { label: "Mazad Auction", action: "Bid Confirmed", time: "42m ago" },
-                 ].map((log, i) => (
-                   <div key={i} className="flex items-center justify-between group">
-                     <div className="flex items-center gap-3">
-                       <div className="w-1.5 h-1.5 rounded-full bg-[rgb(28,212,132)] group-hover:scale-150 transition-transform" />
-                       <div>
-                         <p className="text-sm font-bold text-white/80">{log.action}</p>
-                         <p className="text-[10px] font-medium text-white/20 uppercase tracking-wide">{log.label}</p>
-                       </div>
-                     </div>
-                     <span className="text-[10px] font-bold text-white/10 uppercase">{log.time}</span>
-                   </div>
-                 ))}
-               </div>
+            {/* Quick Actions */}
+            <div>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white mb-6">Actions rapides</h3>
+                <div className="grid grid-cols-5 gap-4">
+                    {actions.map((action, i) => (
+                        <button key={i} className="flex flex-col items-center gap-3 group">
+                            <div className="h-16 w-16 flex items-center justify-center rounded-2xl bg-white dark:bg-[#062B29]/50 border border-slate-200 dark:border-white/5 shadow-sm dark:shadow-none group-hover:border-[rgb(28,212,132)]/50 transition-all group-hover:scale-110">
+                                <action.icon className="h-6 w-6 text-slate-400 group-hover:text-[rgb(28,212,132)] transition-colors" />
+                            </div>
+                            <span className="text-[10px] font-bold text-slate-500 dark:text-white/40 uppercase tracking-wider">{action.label}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Promo Banner */}
+            <div className="relative h-48 rounded-[2.5rem] overflow-hidden group">
+                <img 
+                    src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=1200" 
+                    className="absolute inset-0 w-full h-full object-cover grayscale brightness-[0.3] group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#041F1E] to-transparent" />
+                <div className="relative h-full p-10 flex flex-col justify-center max-w-lg">
+                    <h3 className="text-2xl font-black text-white mb-2">La banque qui innove pour votre avenir</h3>
+                    <p className="text-white/60 text-sm font-medium mb-6">Découvrez nos solutions digitales pensées pour simplifier votre quotidien.</p>
+                    <button className="w-fit px-6 py-2.5 bg-[rgb(28,212,132)] text-[#041F1E] font-black text-xs uppercase tracking-widest rounded-xl hover:bg-white transition-all">
+                        Découvrir nos services
+                    </button>
+                </div>
+            </div>
+          </div>
+
+          {/* Right Column (Transactions & Budget) */}
+          <div className="space-y-8">
+            <Card className="bg-white dark:bg-[#062B29]/50 border-slate-200 dark:border-white/5 rounded-[2.5rem] shadow-sm dark:shadow-none overflow-hidden h-fit">
+                <CardHeader className="p-8 flex flex-row items-center justify-between">
+                    <CardTitle className="text-xl font-black text-slate-900 dark:text-white">Dernières transactions</CardTitle>
+                    <button className="text-[10px] font-bold text-[rgb(28,212,132)] uppercase tracking-widest hover:underline">Voir tout</button>
+                </CardHeader>
+                <CardContent className="p-0 px-8 pb-8 space-y-6">
+                    {transactions.map((tx) => (
+                        <div key={tx.id} className="flex items-center justify-between group">
+                            <div className="flex items-center gap-4">
+                                <div className={`h-12 w-12 flex items-center justify-center rounded-2xl bg-${tx.color}-500/10 text-${tx.color}-500`}>
+                                    <Zap className="h-5 w-5" />
+                                </div>
+                                <div>
+                                    <p className="text-sm font-black text-slate-900 dark:text-white line-clamp-1">{tx.type}</p>
+                                    <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-wide mt-0.5">{tx.date}</p>
+                                </div>
+                            </div>
+                            <span className={`text-sm font-black ${tx.amount.startsWith('+') ? 'text-emerald-500' : 'text-slate-900 dark:text-white'}`}>
+                                {tx.amount} <span className="text-[10px] opacity-40">MAD</span>
+                            </span>
+                        </div>
+                    ))}
+                    <button className="w-full flex items-center justify-center gap-2 pt-4 border-t border-slate-100 dark:border-white/5 text-[10px] font-black text-[rgb(28,212,132)] uppercase tracking-[0.2em] group">
+                        Voir toutes les transactions <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                </CardContent>
+            </Card>
+
+            {/* Budget Section */}
+            <Card className="bg-white dark:bg-[#062B29]/50 border-slate-200 dark:border-white/5 rounded-[2.5rem] shadow-sm dark:shadow-none overflow-hidden h-fit">
+                <CardHeader className="p-8 flex flex-row items-center justify-between">
+                    <CardTitle className="text-xl font-black text-slate-900 dark:text-white">Répartition des dépenses</CardTitle>
+                    <select className="bg-slate-50 dark:bg-[#041F1E] border border-slate-200 dark:border-white/10 rounded-xl px-2 py-1 text-[8px] font-bold uppercase tracking-widest text-slate-500 dark:text-white/40 outline-none">
+                        <option>Ce mois-ci</option>
+                    </select>
+                </CardHeader>
+                <CardContent className="p-8 pt-0 flex flex-col items-center">
+                    <div className="relative w-48 h-48 mb-8">
+                        <svg className="w-full h-full -rotate-90">
+                            <circle cx="96" cy="96" r="80" fill="none" stroke="currentColor" strokeWidth="24" className="text-slate-100 dark:text-white/5" />
+                            <circle cx="96" cy="96" r="80" fill="none" stroke="rgb(28,212,132)" strokeWidth="24" strokeDasharray="502" strokeDashoffset="100" strokeLinecap="round" className="shadow-lg" />
+                            <circle cx="96" cy="96" r="80" fill="none" stroke="rgb(59, 130, 246)" strokeWidth="24" strokeDasharray="502" strokeDashoffset="400" strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                            <span className="text-2xl font-black text-slate-900 dark:text-white">65%</span>
+                            <span className="text-[8px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest">Utilisé</span>
+                        </div>
+                    </div>
+                    
+                    <div className="w-full space-y-4">
+                        {[
+                            { label: 'Logement', percent: '40%', amount: '-1.200,00', color: 'bg-emerald-500' },
+                            { label: 'Alimentation', percent: '25%', amount: '-750,00', color: 'bg-blue-500' },
+                            { label: 'Transport', percent: '15%', amount: '-450,00', color: 'bg-amber-500' },
+                        ].map((item, i) => (
+                            <div key={i} className="flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className={`h-2 w-2 rounded-full ${item.color}`} />
+                                    <span className="text-xs font-bold text-slate-600 dark:text-white/60">{item.label}</span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <span className="text-[10px] font-bold text-slate-400 dark:text-white/20">{item.percent}</span>
+                                    <span className="text-xs font-black text-slate-900 dark:text-white">{item.amount} <span className="text-[8px] opacity-40">MAD</span></span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </CardContent>
             </Card>
           </div>
+        </div>
         </div>
       </div>
     </AppLayout>
