@@ -189,7 +189,6 @@ function ChatMessage({ message }) {
 
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-
 export default function ChatbotUI() {
     const [messages, setMessages] = useState(INITIAL_MESSAGES);
     const [inputValue, setInputValue] = useState("");
@@ -199,68 +198,15 @@ export default function ChatbotUI() {
     const textareaRef = useRef(null);
     const abortRef = useRef(false);
 
-    // Auto-scroll on new message or typing indicator
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, isTyping]);
 
-    // Reset textarea height helper
     const resetTextarea = () => {
         if (textareaRef.current) {
             textareaRef.current.style.height = "auto";
         }
     };
-
-    // const sendMessage = useCallback(async (content) => {
-    //     const text = content.trim();
-    //     if (!text || isTyping) return;
-
-    //     const userMsg = {
-    //         id: Date.now(),
-    //         role: "user",
-    //         content: text,
-    //         timestamp: new Date().toISOString(),
-    //     };
-
-    //     setMessages((prev) => [...prev, userMsg]);
-    //     setInputValue("");
-    //     resetTextarea();
-    //     setIsTyping(true);
-
-    //     try {
-    //         // const response = await api.post("/ai-agent/chat", {
-    //         //     message: text,
-    //         // });
-    //         console.log("FULL RESPONSE:", response);
-    //         console.log("DATA:", response.data);
-    //         console.log("REPLY FIELD:", response.data?.reply);
-
-    //         // const aiMsg = {
-    //         //     id: Date.now() + 1,
-    //         //     role: "assistant",
-    //         //     content: response.data.reply,
-    //         //     timestamp: new Date().toISOString(),
-    //         // };
-
-    //         setMessages((prev) => [...prev, aiMsg]);
-
-    //     } catch (error) {
-    //         console.error(error);
-
-    //         setMessages((prev) => [
-    //             ...prev,
-    //             {
-    //                 id: Date.now() + 1,
-    //                 role: "assistant",
-    //                 content: "Error occurred",
-    //                 timestamp: new Date().toISOString(),
-    //             },
-    //         ]);
-
-    //     } finally {
-    //         setIsTyping(false);
-    //     }
-    // }, [isTyping]);
 
     const sendMessage = useCallback(async (content) => {
         const text = content.trim();
@@ -280,22 +226,12 @@ export default function ChatbotUI() {
 
         const prompte = `
 You are "LionsBank AI Assistant", a professional banking assistant specialized in Moroccan banking law and financial guidance.
-
-Your responsibilities:
-- Answer questions about Moroccan banking laws (Bank Al-Maghrib regulations)
-- Explain financial rights and obligations clearly and simply
-- Help users understand their bank accounts, transactions, fees, and contracts
-- Provide safe and legal financial advice only
-- Suggest economic and investment ideas based on user's available balance (if provided)
-
-Rules:
-- Always respond in a professional, clear, and respectful tone
-- If legal question is uncertain, advise consulting a certified bank or legal advisor
-- Never provide illegal, risky, or unethical financial instructions
-- Do not invent laws or financial regulations
-- Keep answers simple and easy to understand for non-experts
-- When giving financial ideas, always consider risk level and user's budget
-`
+- Answer questions about Moroccan banking laws
+- Explain financial rights clearly
+- Provide safe financial advice only
+- Do not invent laws
+- Keep answers simple
+`;
 
         try {
             const response = await fetch(OPENROUTER_URL, {
@@ -311,7 +247,7 @@ Rules:
                     messages: [
                         {
                             role: "system",
-                            content: prompte
+                            content: prompte,
                         },
                         ...messages.map((m) => ({
                             role: m.role,
@@ -372,7 +308,6 @@ Rules:
 
     const handleTextareaChange = (e) => {
         setInputValue(e.target.value);
-        // Auto-grow textarea
         e.target.style.height = "auto";
         e.target.style.height = Math.min(e.target.scrollHeight, 140) + "px";
     };
@@ -380,60 +315,49 @@ Rules:
     const canSend = inputValue.trim().length > 0 && !isTyping;
 
     return (
-        <div className="flex flex-col w-full h-full overflow-hidden bg-white dark:bg-[#0B0F1A] text-black dark:text-white font-[Instrument Sans]">
+        <div
+            className="
+                flex flex-col w-full h-full overflow-hidden
+                bg-white
+                dark:bg-[#041f1e]
+                text-black dark:text-white
+                font-[Instrument Sans]
+            "
+        >
 
-            {/* ── Header ───────────────────────────────────────────── */}
-            <header className="flex-shrink-0 relative flex items-center justify-center h-14 border-b border-gray-200 dark:border-white/[0.06] bg-white/80 dark:bg-[#111111]/80 backdrop-blur-sm z-10">
-
-                {/* Top accent line */}
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#22C55E]/40 to-transparent" />
-
+            {/* HEADER */}
+            <header
+                className="
+                    flex-shrink-0 relative flex items-center justify-center h-14
+                    border-b border-gray-200 dark:border-white/10
+                    bg-white/80 dark:bg-[#041f1e]/80
+                    backdrop-blur-sm z-10
+                "
+            >
                 <div className="flex items-center gap-2.5">
-
-                    {/* Logo */}
                     <div className="w-7 h-7 rounded-lg bg-[#22C55E]/10 border border-[#22C55E]/25 flex items-center justify-center text-[#22C55E]">
                         <IconBot />
                     </div>
 
                     <div className="flex flex-col leading-none">
-                        <span className="text-sm font-semibold tracking-wide text-gray-900 dark:text-white">
+                        <span className="text-sm font-semibold text-gray-900 dark:text-white">
                             AI Assistant
                         </span>
-                        <span className="text-[10px] text-[#22C55E]/70 tracking-widest uppercase">
+                        <span className="text-[10px] text-[#22C55E]/70 uppercase">
                             LionsBank
                         </span>
                     </div>
                 </div>
-
-                {/* Online badge */}
-                <div className="absolute right-4 flex items-center gap-1.5 bg-gray-100 dark:bg-white/[0.04] border border-gray-200 dark:border-white/[0.07] rounded-full px-2.5 py-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#22C55E] animate-pulse" />
-                    <span className="text-[10px] text-gray-600 dark:text-white/40">
-                        Online
-                    </span>
-                </div>
             </header>
 
-            {/* ── Messages ───────────────────────────────────────────── */}
-            <main className="flex-1 overflow-y-auto py-4 bg-gray-50 dark:bg-[#111111]">
-
-                {messages.length === 1 && (
-                    <div className="max-w-3xl mx-auto px-4 pt-8 pb-4 text-center">
-
-                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#22C55E]/10 border border-[#22C55E]/20 text-[#22C55E] mb-4">
-                            <IconBot />
-                        </div>
-
-                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-1.5">
-                            How can I help you today?
-                        </h2>
-
-                        <p className="text-sm text-gray-600 dark:text-white/40 max-w-sm mx-auto">
-                            Ask me anything about your accounts, transactions, or financial services.
-                        </p>
-                    </div>
-                )}
-
+            {/* MAIN */}
+            <main
+                className="
+                    flex-1 overflow-y-auto py-4
+                    bg-gray-50
+                    dark:bg-[#041f1e]
+                "
+            >
                 <div className="flex flex-col gap-1">
                     {messages.map((msg) => (
                         <ChatMessage key={msg.id} message={msg} />
@@ -444,21 +368,24 @@ Rules:
                 <div ref={messagesEndRef} className="h-2" />
             </main>
 
-            {/* ── Input ───────────────────────────────────────────── */}
-            <footer className="flex-shrink-0 border-t border-gray-200 dark:border-white/[0.06] bg-white dark:bg-[#111111] px-4 py-3 sm:py-4">
-
+            {/* INPUT */}
+            <footer
+                className="
+                    flex-shrink-0 border-t
+                    border-gray-200 dark:border-white/10
+                    bg-white dark:bg-[#041f1e]
+                    px-4 py-3
+                "
+            >
                 <div className="max-w-3xl mx-auto w-full">
 
-                    <div className={`
-                flex items-end gap-3 rounded-2xl px-4 py-3 transition-all duration-200
-                bg-gray-100 dark:bg-[#1a1a1a]
-                ${inputValue
-                            ? "border-[#22C55E]/30 shadow-[0_0_0_1px_rgba(34,197,94,0.08)]"
-                            : "border border-gray-200 dark:border-white/[0.08]"
-                        }
-            `}>
-
-                        {/* Input */}
+                    <div
+                        className="
+                            flex items-end gap-3 rounded-2xl px-4 py-3
+                            bg-gray-100 dark:bg-[#052a27]
+                            border border-gray-200 dark:border-white/10
+                        "
+                    >
                         <textarea
                             ref={textareaRef}
                             value={inputValue}
@@ -466,45 +393,28 @@ Rules:
                             onKeyDown={handleKeyDown}
                             placeholder="Message LionsBank AI..."
                             disabled={isTyping}
-                            className="w-full bg-transparent text-sm outline-none resize-none leading-relaxed
-                    text-gray-900 dark:text-white
-                    placeholder-gray-400 dark:placeholder-white/25"
-                            style={{
-                                minHeight: "24px",
-                                maxHeight: "140px",
-                                wordBreak: "break-word",
-                                overflowWrap: "anywhere",
-                            }}
+                            className="
+                                w-full bg-transparent text-sm outline-none resize-none
+                                text-gray-900 dark:text-white
+                                placeholder-gray-400 dark:placeholder-white/30
+                            "
                         />
 
-                        {/* Button */}
                         {isTyping ? (
-                            <button
-                                onClick={handleStop}
-                                className="w-9 h-9 rounded-xl flex items-center justify-center bg-gray-200 dark:bg-white/10 hover:bg-gray-300 dark:hover:bg-white/15 text-gray-700 dark:text-white/60"
-                            >
+                            <button onClick={handleStop}>
                                 <IconStop />
                             </button>
                         ) : (
                             <button
                                 onClick={handleSubmit}
                                 disabled={!canSend}
-                                className={`
-                            w-9 h-9 rounded-xl flex items-center justify-center transition-all
-                            ${canSend
-                                        ? "bg-[#22C55E] hover:bg-[#16a34a] text-white shadow-[0_2px_12px_rgba(34,197,94,0.25)]"
-                                        : "bg-gray-200 dark:bg-white/[0.06] text-gray-400 dark:text-white/25 cursor-not-allowed"
-                                    }
-                        `}
+                                className="text-white bg-[#22C55E] px-3 py-2 rounded-xl"
                             >
                                 <IconSend />
                             </button>
                         )}
                     </div>
 
-                    <p className="text-center text-[10px] text-gray-500 dark:text-white/20 mt-2">
-                        LionsBank AI · End-to-end encrypted · Regulated by Bank Al-Maghrib
-                    </p>
                 </div>
             </footer>
         </div>

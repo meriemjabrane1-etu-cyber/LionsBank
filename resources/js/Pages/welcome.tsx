@@ -70,7 +70,7 @@ export default function Welcome({
                             ) : (
                                 <>
                                     <Link
-                                        href={login()}
+                                        href={login().url}
                                         className="text-white text-xs md:text-sm hover:text-[#22C55E]"
                                     >
                                         Log in
@@ -78,7 +78,7 @@ export default function Welcome({
 
                                     {canRegister && (
                                         <Link
-                                            href={register()}
+                                            href={register().url}
                                             className="bg-[#22C55E] px-4 md:px-6 lg:px-10 py-2 rounded-[5px] rounded-br-[15px] text-xs md:text-sm"
                                         >
                                             Register →

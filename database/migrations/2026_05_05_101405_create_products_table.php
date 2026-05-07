@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('atms', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('agency_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->enum('status', ['active', 'empty', 'maintenance', 'out_of_service'])->default('active');
-            $table->integer('cash_available')->default(100);
+            $table->string('image_url')->nullable();
+            $table->decimal('current_bid', 15, 2)->default(0);
+            $table->foreignId('auction_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('atms');
+        Schema::dropIfExists('products');
     }
 };

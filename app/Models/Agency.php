@@ -13,7 +13,9 @@ class Agency extends Model
         'name',
         'address',
         'latitude',
-        'longitude'
+        'longitude',
+        'status',
+        'working_hours'
     ];
 
     public function atms()
