@@ -1,4 +1,3 @@
-import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
 import { 
@@ -88,7 +87,7 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Employee Dashboard - Appointments" />
 
             <div className="min-h-screen bg-[#041F1E] p-6 lg:p-8 text-white">
@@ -328,6 +327,6 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                     </div>
                 </div>
             </div>
-        </AppLayout>
+            </>
     );
 }

@@ -1,4 +1,3 @@
-import AppLayout from '@/layouts/app-layout';
 import { Head, useForm } from '@inertiajs/react';
 import { useMemo, useState, useEffect } from 'react';
 import { 
@@ -113,7 +112,7 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
     const breadcrumbs = [{ title: 'Employee Dashboard', href: '/employee/auctions' }];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Employee Dashboard - Auction Management" />
 
             <div className="min-h-screen bg-[#041F1E] p-6 lg:p-8 text-white">
@@ -360,6 +359,6 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                     </div>
                 </DialogContent>
             </Dialog>
-        </AppLayout>
+            </>
     );
 }

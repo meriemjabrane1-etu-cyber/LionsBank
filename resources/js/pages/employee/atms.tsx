@@ -1,4 +1,3 @@
-import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
 import { 
@@ -80,7 +79,7 @@ export default function EmployeeAtmsPage({ atms, stats }: Props) {
     const breadcrumbs = [{ title: 'Employee Dashboard', href: '/employee/atms' }];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
+        <>
             <Head title="Employee Dashboard - ATM Management" />
 
             <div className="min-h-screen bg-[#041F1E] p-6 lg:p-8 text-white">
@@ -268,6 +267,6 @@ export default function EmployeeAtmsPage({ atms, stats }: Props) {
                     </div>
                 </div>
             </div>
-        </AppLayout>
+            </>
     );
 }
