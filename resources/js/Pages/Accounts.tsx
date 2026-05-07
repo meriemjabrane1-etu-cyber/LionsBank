@@ -22,10 +22,33 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
 
-export default function Comptes({ accounts, auth }) {
-  const [selectedAccount, setSelectedAccount] = useState(accounts[0] || null);
+type AccountType = 'current' | 'savings' | 'salary' | 'currency';
 
-  const accountTypes = {
+interface Account {
+  id: number | string;
+  type: AccountType;
+  balance: number | string;
+  account_number: string;
+}
+
+interface AuthUser {
+  name: string;
+}
+
+interface AuthProps {
+  user: AuthUser;
+}
+
+interface AccountsProps {
+  accounts: Account[];
+  auth: AuthProps;
+}
+
+export default function Comptes(props: AccountsProps) {
+  const { accounts, auth } = props;
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(accounts[0] || null);
+
+  const accountTypes: Record<AccountType, { icon: typeof Wallet; label: string; color: string; bg: string }> = {
     'current': { icon: Wallet, label: 'Compte courant', color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
     'savings': { icon: PiggyBank, label: 'Compte épargne', color: 'text-blue-500', bg: 'bg-blue-500/10' },
     'salary': { icon: Lock, label: 'Compte salaire', color: 'text-amber-500', bg: 'bg-amber-500/10' },
@@ -50,7 +73,7 @@ export default function Comptes({ accounts, auth }) {
                 />
              </div>
              <div className="flex items-center gap-3 pl-2">
-                <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black shadow-lg">
+                <div className="h-11 w-11 rounded-2xl bg-linear-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black shadow-lg">
                     {auth.user.name.charAt(0)}
                 </div>
                 <div className="hidden sm:block text-right">
@@ -75,7 +98,7 @@ export default function Comptes({ accounts, auth }) {
                                 key={account.id}
                                 whileHover={{ scale: 1.01 }}
                                 onClick={() => setSelectedAccount(account)}
-                                className={`group relative p-6 rounded-[2rem] border cursor-pointer transition-all duration-300 flex items-center justify-between ${
+                                className={`group relative p-6 rounded-4xl border cursor-pointer transition-all duration-300 flex items-center justify-between ${
                                     isSelected 
                                     ? "bg-white dark:bg-[#062B29] border-[rgb(28,212,132)]/50 shadow-xl" 
                                     : "bg-white dark:bg-[#062B29]/30 border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10"
@@ -174,7 +197,7 @@ export default function Comptes({ accounts, auth }) {
                         </CardContent>
                     </Card>
                 ) : (
-                    <div className="h-[400px] flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem]">
+                    <div className="h-100 flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem]">
                         <p className="text-slate-400 dark:text-white/20 font-bold uppercase tracking-widest text-xs">Sélectionnez un compte</p>
                     </div>
                 )}

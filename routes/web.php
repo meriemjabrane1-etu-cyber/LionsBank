@@ -1,9 +1,10 @@
 <?php
 
-
+use App\Http\Controllers\Aiagentcontroller;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+// use Inertia\Inertia;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AgencyController;
@@ -71,6 +72,13 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/employee/auctions/{auction}/toggle', [AuctionController::class, 'toggleStatus'])->name('employee.auctions.toggle');
     Route::patch('/employee/auctions/{auction}/winner', [AuctionController::class, 'declareWinner'])->name('employee.auctions.winner');
 });
+
+Route::get('/ai-agent', function () {
+    return Inertia::render('AiAgent');
+})->name('ai-agent');
+
+
+
 
 require __DIR__.'/settings.php';
 

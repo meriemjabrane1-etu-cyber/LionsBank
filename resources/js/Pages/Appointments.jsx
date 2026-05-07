@@ -40,10 +40,10 @@ export default function Appointments() {
         <div className="w-full space-y-12 m-0 p-0 max-w-none">
           {/* Header */}
           <div className="mb-12">
-            <h1 className="text-4xl font-extrabold tracking-tight text-white mb-2">
+            <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-2">
               Virtual Hub <span className="text-[rgb(28,212,132)]">&</span> Booking
             </h1>
-            <p className="text-white/40 font-medium text-lg max-w-2xl">
+            <p className="text-slate-500 dark:text-white/40 font-medium text-lg max-w-2xl">
               Manage your banking consultations and schedule new visits securely.
             </p>
           </div>

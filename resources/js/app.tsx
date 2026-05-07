@@ -1,5 +1,6 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
+import type { ComponentType } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -10,19 +11,27 @@ import 'leaflet/dist/leaflet.css';
 import '../css/app.css';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+type PageModule = { default: ComponentType<any> };
+
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
 
     resolve: (name) => {
         const pages = import.meta.glob('./Pages/**/*.{tsx,jsx}', {
             eager: true,
-        });
+        }) as Record<string, PageModule>;
 
-        return pages[`./Pages/${name}.tsx`] || pages[`./Pages/${name}.jsx`];
+        return (
+            (pages[`./Pages/${name}.tsx`] || pages[`./Pages/${name}.jsx`]) as PageModule
+        );
     },
 
     setup({ el, App, props }) {
-        const root = createRoot(el);
+        if (!el) {
+            return;
+        }
+
+        const root = createRoot(el as HTMLElement);
 
         root.render(
             <TooltipProvider delayDuration={0}>

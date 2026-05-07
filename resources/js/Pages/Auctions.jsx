@@ -127,26 +127,26 @@ export default function Auctions() {
                                 </Badge>
                                 <div className="h-1 w-12 bg-gradient-to-r from-[rgb(28,212,132)] to-transparent rounded-full" />
                             </div>
-                            <h1 className="text-5xl lg:text-6xl font-black tracking-tight text-white leading-none">
+                            <h1 className="text-5xl lg:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-none">
                                 MAZAD <span className="text-[rgb(28,212,132)]">VIP</span>
                             </h1>
-                            <p className="text-white/40 max-w-xl text-lg font-medium">
+                            <p className="text-slate-500 dark:text-white/40 max-w-xl text-lg font-medium">
                                 Access the world's most exclusive assets through our secure, high-stakes bidding floor.
                             </p>
                         </div>
 
                         <div className="flex items-center gap-4">
                             <div className="relative group">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-white/20 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-white/20 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
                                 <Input 
                                     placeholder="Find Asset..."
-                                    className="w-64 bg-white/5 border-white/10 pl-11 h-12 rounded-2xl focus:ring-[rgb(28,212,132)]/50 focus:border-[rgb(28,212,132)]"
+                                    className="w-64 bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 pl-11 h-12 rounded-2xl focus:ring-[rgb(28,212,132)]/50 focus:border-[rgb(28,212,132)] text-slate-900 dark:text-white"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            <Button className="h-12 w-12 bg-white/5 border border-white/10 rounded-2xl">
-                                <LayoutGrid className="h-5 w-5 text-white/40" />
+                            <Button className="h-12 w-12 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl">
+                                <LayoutGrid className="h-5 w-5 text-slate-400 dark:text-white/40" />
                             </Button>
                         </div>
                     </div>
@@ -160,10 +160,10 @@ export default function Auctions() {
                         ].map((stat, i) => (
                             <div key={i} className="bg-[#062B29]/40 backdrop-blur-md border border-white/5 p-6 rounded-[2rem] flex items-center justify-between group hover:border-[rgb(28,212,132)]/20 transition-all">
                                 <div>
-                                    <p className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-2">{stat.label}</p>
-                                    <h3 className="text-3xl font-black text-white">{stat.value}</h3>
+                                    <p className="text-[10px] font-bold text-slate-400 dark:text-white/30 uppercase tracking-[0.2em] mb-2">{stat.label}</p>
+                                    <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stat.value}</h3>
                                 </div>
-                                <div className="h-12 w-12 bg-white/5 rounded-2xl flex items-center justify-center text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors">
+                                <div className="h-12 w-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-300 dark:text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors">
                                     <stat.icon className="h-6 w-6" />
                                 </div>
                             </div>
@@ -268,8 +268,8 @@ export default function Auctions() {
                                             <LayoutGrid className="h-7 w-7 text-[rgb(28,212,132)]" />
                                         </div>
                                         <div>
-                                            <h2 className="text-3xl font-black text-white tracking-tight">Active Floor Portfolio</h2>
-                                            <p className="text-white/30 text-sm font-bold uppercase tracking-widest mt-1">Listing items for {selectedAuction.title}</p>
+                                            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Active Floor Portfolio</h2>
+                                            <p className="text-slate-400 dark:text-white/30 text-sm font-bold uppercase tracking-widest mt-1">Listing items for {selectedAuction.title}</p>
                                         </div>
                                     </div>
                                     <Button 

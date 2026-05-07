@@ -62,8 +62,8 @@ export default function Welcome({
                         <div className="flex items-center gap-2 md:gap-3">
                             {auth.user ? (
                                 <Link
-                                    href={dashboard().url}
-                                    className="bg-[#22C55E] px-3 md:px-4 py-2 rounded-md text-xs md:text-sm"
+                                    href={dashboard()}
+                                    className="bg-[#22C55E] px-3 md:px-4 py-2 rounded-[5px] rounded-br-[10px] text-xs md:text-sm"
                                 >
                                     Dashboard →
                                 </Link>
