@@ -63,7 +63,7 @@ export default function Welcome({
                             {auth.user ? (
                                 <Link
                                     href={dashboard()}
-                                    className="bg-[#22C55E] px-3 md:px-4 py-2 rounded-md text-xs md:text-sm"
+                                    className="bg-[#22C55E] px-3 md:px-4 py-2 rounded-[5px] rounded-br-[10px] text-xs md:text-sm"
                                 >
                                     Dashboard →
                                 </Link>

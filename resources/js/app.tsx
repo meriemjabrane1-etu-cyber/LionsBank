@@ -26,7 +26,9 @@ createInertiaApp({
     },
     strictMode: true,
     withApp(app) {
+        // initializeTheme();
         return (
+            
             <TooltipProvider delayDuration={0}>
                 {app}
                 <Toaster />

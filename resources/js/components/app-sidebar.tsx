@@ -15,12 +15,20 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
+import { Bot } from 'lucide-react';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+
+    // 🤖 AI Agent
+    {
+        title: 'AI Agent',
+        href: '/ai-agent',
+        icon: Bot,
     },
 ];
 
