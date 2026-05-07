@@ -1,3 +1,4 @@
+import { Link, usePage } from "@inertiajs/react";
 import {
   Home,
   Wallet,
@@ -12,10 +13,18 @@ import {
   CircleHelp,
   LogOut,
   ShieldCheck,
+  Calendar,
+  Building2,
+  Gavel,
+  LayoutDashboard,
+  MapPin,
+  Laptop,
+  Sun,
+  Moon
 } from "lucide-react";
+import { menuItems as clientMenuItems } from "@/data/dashboardData";
 import type { LucideIcon } from "lucide-react";
-import { Link, usePage } from "@inertiajs/react";
-import { menuItems } from "@/data/dashboardData";
+import { useAppearance } from "@/hooks/use-appearance";
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
@@ -29,71 +38,113 @@ const iconMap: Record<string, LucideIcon> = {
   Clock3,
   Settings,
   CircleHelp,
+  Calendar,
+  Building2,
+  Gavel,
+  LayoutDashboard,
+  MapPin,
+  Laptop
 };
 
 export default function Sidebar() {
-  const { url } = usePage();
+  const { props, url } = usePage();
+  const { auth } = props as any;
+  const isEmployee = auth?.user?.role === 'employee';
+
+  const { appearance, updateAppearance } = useAppearance();
+
+  const toggleTheme = () => {
+    updateAppearance(appearance === 'dark' ? 'light' : 'dark');
+  };
+
+  const employeeMenuItems = [
+    { label: "Overview", icon: "LayoutDashboard", href: "/dashboard" },
+    { label: "Appointments", icon: "Calendar", href: "/employee/appointments" },
+    { label: "ATM Fleet", icon: "Laptop", href: "/employee/atms" },
+    { label: "Agencies", icon: "Building2", href: "/employee/agencies" },
+    { label: "Auctions", icon: "Gavel", href: "/employee/auctions" },
+    { label: "History Log", icon: "Clock3", href: "/dashboard" },
+  ];
+
+  const menuItems = isEmployee ? employeeMenuItems : clientMenuItems;
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-72 bg-gradient-to-b from-[#043b3f] via-[#073c46] to-[#052f35] text-white shadow-2xl">
-      <div className="flex h-full flex-col px-5 py-6">
-        {/* Logo */}
-        <div className="mb-8 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-teal-300">
-            <span className="text-2xl">🦁</span>
-          </div>
-          <div>
-            <h1 className="text-xl font-semibold tracking-tight">LionsBank</h1>
-            <p className="text-xs text-white/60">Premium Banking</p>
-          </div>
+    <aside className="fixed left-0 top-0 h-screen w-72 bg-[#062B29] text-white shadow-2xl border-r border-white/5 z-50 hidden lg:block">
+      <div className="flex h-full flex-col px-6 py-8">
+        <div className="mb-12 flex items-center justify-between px-0">
+          <Link href="/dashboard" className="block scale-110 origin-left">
+            <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto mix-blend-screen" />
+          </Link>
+          
+          <button 
+            onClick={toggleTheme}
+            className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
+            title={appearance === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
+          >
+            {appearance === 'dark' ? (
+              <Sun className="h-5 w-5 text-[rgb(28,212,132)] group-hover:rotate-45 transition-transform duration-500" />
+            ) : (
+              <Moon className="h-5 w-5 text-white/40 group-hover:-rotate-12 transition-transform duration-500" />
+            )}
+          </button>
         </div>
 
-        {/* Menu */}
-        <nav className="flex-1 space-y-1 overflow-y-auto">
-          {menuItems.map((item) => {
+        {/* Navigation Menu */}
+        <nav className="flex-1 space-y-2 overflow-y-auto custom-scrollbar pr-1">
+          {menuItems.map((item: any) => {
             const Icon = iconMap[item.icon] || Home;
-
-            const isActive =
-              url === item.href || url.startsWith(item.href + "/");
-
+            const isActive = url === item.href || (item.href !== '/dashboard' && (url || '').startsWith(item.href));
+            
             return (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left transition ${
+                className={`flex w-full items-center gap-3 rounded-2xl px-5 py-3.5 text-left transition-all duration-300 group ${
                   isActive
-                    ? "bg-gradient-to-r from-teal-400 to-cyan-400 text-[#043b3f] shadow-lg"
-                    : "text-white/75 hover:bg-white/8 hover:text-white"
+                    ? "bg-[rgb(28,212,132)] text-[#041F1E] shadow-[0_0_30px_rgba(28,212,132,0.25)]"
+                    : "text-white/40 hover:bg-white/5 hover:text-white"
                 }`}
               >
-                <Icon className="h-5 w-5" />
-                <span className="text-sm font-medium">{item.label}</span>
+                <Icon className={`h-5 w-5 transition-transform duration-300 ${isActive ? "scale-110" : "group-hover:scale-110 group-hover:text-[rgb(28,212,132)]"}`} />
+                <span className={`text-sm font-bold tracking-wide ${isActive ? "text-[#041F1E]" : "text-inherit"}`}>{item.label}</span>
+                {isActive && <div className="ml-auto h-2 w-2 rounded-full bg-[#041F1E]/20 animate-pulse" />}
               </Link>
             );
           })}
         </nav>
 
-        {/* Security */}
-        <div className="mt-6 rounded-3xl bg-gradient-to-br from-teal-400/20 to-emerald-300/10 p-4 ring-1 ring-white/10">
-          <div className="mb-3 flex items-center gap-2 text-teal-200">
-            <ShieldCheck className="h-5 w-5" />
-            <span className="text-sm font-semibold">
-              Votre sécurité, notre priorité
-            </span>
+        {/* Security / Identity Section */}
+        <div className="mt-auto mb-6 rounded-[2rem] p-6 relative overflow-hidden group shadow-2xl transition-all duration-500">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+              <img src="/images/security-bg.png" alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#041F1E]/90 to-transparent opacity-80"></div>
           </div>
-          <p className="text-sm text-white/70">
-            Vos données sont chiffrées et protégées 24h/24 et 7j/7.
-          </p>
-          <button className="mt-4 rounded-xl border border-white/20 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">
-            En savoir plus
-          </button>
+          
+          <div className="relative z-10">
+            <h4 className="text-xs font-bold text-white mb-1">Votre sécurité,</h4>
+            <h4 className="text-xs font-bold text-white mb-3">notre priorité</h4>
+            <p className="text-[10px] text-white/60 leading-relaxed font-medium mb-4">
+                Vos données sont chiffrées et protégées 24h/24 et 7j/7.
+            </p>
+            <button className="w-full rounded-xl bg-white/10 border border-white/10 py-2.5 text-[10px] font-bold text-white hover:bg-white/20 transition-all backdrop-blur-md">
+                En savoir plus
+            </button>
+          </div>
         </div>
 
-        {/* Logout */}
-        <button className="mt-5 flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium text-white/70 transition hover:bg-white/8 hover:text-white">
-          <LogOut className="h-5 w-5" />
-          Se déconnecter
-        </button>
+        {/* User Actions */}
+        <div className="pt-4 border-t border-white/5">
+            <Link
+            href="/logout"
+            method="post"
+            as="button"
+            className="flex w-full items-center gap-3 rounded-2xl px-5 py-2 text-sm font-bold text-white/40 transition-all hover:text-white group"
+            >
+            <LogOut className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+            <span>Se déconnecter</span>
+            </Link>
+        </div>
       </div>
     </aside>
   );

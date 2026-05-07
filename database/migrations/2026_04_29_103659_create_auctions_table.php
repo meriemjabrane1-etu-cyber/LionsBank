@@ -11,13 +11,13 @@ return new class extends Migration
         Schema::create('auctions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('product_type', ['car', 'gold', 'house', 'other']);
+            $table->string('product_type');
             $table->text('description')->nullable();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->decimal('starting_price', 15, 2);
             $table->decimal('current_price', 15, 2)->default(0);
-            $table->enum('status', ['upcoming', 'live', 'ended'])->default('upcoming');
+            $table->enum('status', ['pending', 'active', 'finished'])->default('pending');
             $table->timestamps();
         });
     }
