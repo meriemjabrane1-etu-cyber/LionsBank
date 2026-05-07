@@ -1,3 +1,5 @@
+
+
 export const menuItems = [
   { label: "Tableau de bord", icon: "Home", href: "/dashboard" },
   { label: "Mes comptes", icon: "Wallet", href: "/comptes" },
@@ -9,7 +11,7 @@ export const menuItems = [
   { label: "Historique", icon: "Clock3", href: "/dashboard#history" },
   { label: "Paramètres", icon: "Settings", href: "/dashboard#settings" },
   { label: "Aide & support", icon: "CircleHelp", href: "/dashboard#help" },
-  { label: "Ai Agent", icon: "CircleHelp", href: "/ai-agent" },
+  { label: "Ai Agent", icon: "", href: "/ai-agent" },
 ];
 
 export const summaryCards = [
