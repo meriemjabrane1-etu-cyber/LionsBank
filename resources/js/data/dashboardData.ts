@@ -1,17 +1,13 @@
 
 
 export const menuItems = [
-  { label: "Tableau de bord", icon: "Home", active: true },
-  { label: "Comptes", icon: "Wallet" },
-  { label: "Virements", icon: "ArrowLeftRight" },
-  { label: "Cartes", icon: "CreditCard" },
-  { label: "Prêts", icon: "Banknote" },
-  { label: "Épargne", icon: "PiggyBank" },
-  { label: "Paiements", icon: "ReceiptText" },
-  { label: "Investissements", icon: "ChartNoAxesColumnIncreasing" },
-  { label: "Historique", icon: "Clock3" },
-  { label: "Paramètres", icon: "Settings" },
-  { label: "Aide & support", icon: "CircleHelp" },
+  { label: "Tableau de bord", href: "/dashboard", icon: "Home" },
+  { label: "Comptes", href: "/accounts", icon: "Wallet" },
+  { label: "Virements", href: "/transfers", icon: "ArrowLeftRight" },
+  { label: "Cartes", href: "/cards", icon: "CreditCard" },
+  { label: "Prêts", href: "/loans", icon: "Banknote" },
+  { label: "Épargne", href: "/savings", icon: "PiggyBank" },
+  { label: "Paiements", href: "/payments", icon: "ReceiptText" },
 ];
 
 export const summaryCards = [

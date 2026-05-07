@@ -37,7 +37,7 @@ class Account extends Model
     }
 
     public function cheques()
-    
+
     {
         return $this->hasMany(Cheque::class);
     }
@@ -51,4 +51,5 @@ class Account extends Model
     {
         return $this->hasMany(Transfer::class, 'to_account_id');
     }
+   
 }
