@@ -115,8 +115,8 @@ export default function Auctions() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mazad VIP Auctions - LionsBank" />
 
-            <div className="min-h-screen py-8 pr-8 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500">
-                <div className="w-full space-y-12 relative z-10">
+            <div className="min-h-screen py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
+                <div className="w-full space-y-12 relative z-10 m-0 p-0 max-w-none">
                     
                     {/* Hero Header */}
                     <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">

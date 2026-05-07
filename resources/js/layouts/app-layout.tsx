@@ -10,18 +10,22 @@ export default function AppLayout({
 }) {
     return (
         <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] flex text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500">
-            {/* Mesh Gradient Background (Dark Mode Only) */}
-            <div className="absolute inset-0 pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500">
-                <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-[rgb(28,212,132)]/5 blur-[120px] rounded-full" />
-                <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-cyan-500/5 blur-[100px] rounded-full" />
-                <div className="absolute -bottom-[10%] left-[20%] w-[35%] h-[35%] bg-[rgb(28,212,132)]/5 blur-[110px] rounded-full" />
+            {/* Mesh Gradient Background */}
+            <div className="absolute inset-0 pointer-events-none transition-opacity duration-500">
+                {/* Dark Mode Glows */}
+                <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-[rgb(28,212,132)]/5 dark:bg-[rgb(28,212,132)]/5 blur-[120px] rounded-full opacity-0 dark:opacity-100" />
+                <div className="absolute top-[20%] -right-[10%] w-[30%] h-[30%] bg-cyan-500/5 blur-[100px] rounded-full opacity-0 dark:opacity-100" />
+                
+                {/* Light Mode Glows (More subtle/vibrant) */}
+                <div className="absolute -top-[10%] -left-[10%] w-[50%] h-[50%] bg-emerald-50/50 blur-[120px] rounded-full dark:opacity-0" />
+                <div className="absolute bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-blue-50/50 blur-[100px] rounded-full dark:opacity-0" />
             </div>
 
             {/* Sidebar */}
             <Sidebar />
 
             {/* Main */}
-            <main className="ml-72 min-h-screen relative z-10 w-full">
+            <main className="ml-72 flex-1 min-h-screen relative z-10 p-0 m-0 w-full max-w-none">
                 {children}
             </main>
         </div>

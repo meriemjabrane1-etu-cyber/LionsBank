@@ -18,10 +18,13 @@ import {
   Gavel,
   LayoutDashboard,
   MapPin,
-  Laptop
+  Laptop,
+  Sun,
+  Moon
 } from "lucide-react";
 import { menuItems as clientMenuItems } from "@/data/dashboardData";
 import type { LucideIcon } from "lucide-react";
+import { useAppearance } from "@/hooks/use-appearance";
 
 const iconMap: Record<string, LucideIcon> = {
   Home,
@@ -48,6 +51,12 @@ export default function Sidebar() {
   const { auth } = props as any;
   const isEmployee = auth?.user?.role === 'employee';
 
+  const { appearance, updateAppearance } = useAppearance();
+
+  const toggleTheme = () => {
+    updateAppearance(appearance === 'dark' ? 'light' : 'dark');
+  };
+
   const employeeMenuItems = [
     { label: "Overview", icon: "LayoutDashboard", href: "/dashboard" },
     { label: "Appointments", icon: "Calendar", href: "/employee/appointments" },
@@ -62,11 +71,22 @@ export default function Sidebar() {
   return (
     <aside className="fixed left-0 top-0 h-screen w-72 bg-[#062B29] text-white shadow-2xl border-r border-white/5 z-50 hidden lg:block">
       <div className="flex h-full flex-col px-6 py-8">
-        <div className="mb-12 flex items-center px-0">
-          <Link href="/dashboard" className="block w-full scale-110 origin-left">
-            <img src="/images/logo-dark.png" alt="LionsBank" className="h-20 w-auto dark:hidden mix-blend-multiply" />
-            <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto hidden dark:block mix-blend-screen" />
+        <div className="mb-12 flex items-center justify-between px-0">
+          <Link href="/dashboard" className="block scale-110 origin-left">
+            <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto mix-blend-screen" />
           </Link>
+          
+          <button 
+            onClick={toggleTheme}
+            className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
+            title={appearance === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
+          >
+            {appearance === 'dark' ? (
+              <Sun className="h-5 w-5 text-[rgb(28,212,132)] group-hover:rotate-45 transition-transform duration-500" />
+            ) : (
+              <Moon className="h-5 w-5 text-white/40 group-hover:-rotate-12 transition-transform duration-500" />
+            )}
+          </button>
         </div>
 
         {/* Navigation Menu */}

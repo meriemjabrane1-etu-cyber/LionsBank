@@ -1,4 +1,4 @@
-import AppLayout from '@/layouts/app-layout';
+// import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
 import { 
   CreditCard, 
@@ -23,9 +23,9 @@ export default function Cards({ auth }) {
   const [selectedCard, setSelectedCard] = useState(0);
 
   const cards = [
-    { id: 0, type: 'Principale', brand: 'VISA', number: '•••• 3456', holder: 'Karim El Amrani', expiry: '06/26', color: 'bg-[#062B29]', textColor: 'text-white', isTeal: true },
-    { id: 1, type: 'Secondaire', brand: 'MasterCard', number: '•••• 7890', holder: 'Karim El Amrani', expiry: '09/25', color: 'bg-gradient-to-br from-amber-400 to-amber-600', textColor: 'text-[#041F1E]', isGold: true },
-    { id: 2, type: 'Compte joint', brand: 'VISA', number: '•••• 1122', holder: 'Karim & Sara', expiry: '02/27', color: 'bg-gradient-to-br from-blue-700 to-blue-900', textColor: 'text-white', isBlue: true },
+    { id: 0, type: 'Principale', brand: 'VISA', number: '•••• 3456', holder: 'Karim El Amrani', expiry: '06/26', color: 'bg-gradient-to-br from-[#062B29] to-[#041F1E]', textColor: 'text-white', bgImage: '/images/featured-card-bg.png', overlay: 'bg-gradient-to-br from-[#1bd382]/20 to-transparent mix-blend-overlay' },
+    { id: 1, type: 'Secondaire', brand: 'MasterCard', number: '•••• 7890', holder: 'Karim El Amrani', expiry: '09/25', color: 'bg-slate-950', textColor: 'text-white', bgImage: '/images/featured-card-bg.png', overlay: 'bg-gradient-to-br from-white/5 to-transparent mix-blend-overlay', filter: 'grayscale(1) brightness(0.6)' },
+    { id: 2, type: 'Compte joint', brand: 'VISA', number: '•••• 1122', holder: 'Karim & Sara', expiry: '02/27', color: 'bg-[#041F1E]', textColor: 'text-white', bgImage: '/images/featured-card-bg.png', overlay: 'bg-gradient-to-br from-blue-400/10 to-transparent mix-blend-overlay', filter: 'hue-rotate(180deg) brightness(0.5)' },
   ];
 
   const limits = [
@@ -53,11 +53,12 @@ export default function Cards({ auth }) {
   const currentCard = cards[selectedCard];
 
   return (
-    <AppLayout breadcrumbs={[{ title: 'Cartes', href: '/cartes' }]}>
+    // <AppLayout breadcrumbs={[{ title: 'Cartes', href: '/cartes' }]}>
+    <>
       <Head title="Mes Cartes - LionsBank" />
 
-      <div className="min-h-screen py-8 pr-8 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500">
-        <div className="w-full space-y-10">
+      <div className="min-h-screen ml-5 py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
+        <div className="w-full space-y-12 m-0 p-0 max-w-none">
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Cartes</h1>
           <div className="flex items-center gap-4">
@@ -97,18 +98,17 @@ export default function Cards({ auth }) {
                         onClick={() => setSelectedCard(i)}
                         className={`relative h-52 rounded-[2rem] p-8 cursor-pointer transition-all duration-500 overflow-hidden group shadow-xl ${card.color} ${card.textColor} ${selectedCard === i ? 'ring-4 ring-[rgb(28,212,132)]/50 scale-105' : 'opacity-80 hover:opacity-100'}`}
                     >
-                        {/* Brand Marks */}
-                        {card.isTeal && (
-                            <div className="absolute -right-10 -bottom-10 opacity-20 pointer-events-none">
-                                <img src="/images/lion-watermark.png" alt="Lion" className="h-64 w-64 object-contain" />
-                            </div>
-                        )}
+                        {/* Brand Background */}
+                        <div className="absolute inset-0 z-0">
+                            <img src={card.bgImage} alt="" className="h-full w-full object-cover opacity-80" style={{ filter: card.filter }} />
+                            <div className={`absolute inset-0 ${card.overlay}`} />
+                        </div>
                         <div className="relative z-10 h-full flex flex-col justify-between">
                             <div className="flex justify-between items-start">
-                                <Badge className={`${card.isGold ? 'bg-black/20 text-[#041F1E]' : 'bg-white/10 text-white'} border-none px-3 py-1 font-bold text-[9px] uppercase tracking-widest`}>
+                                <Badge className="bg-white/10 text-white border-none px-3 py-1 font-bold text-[9px] uppercase tracking-widest backdrop-blur-md">
                                     {card.type}
                                 </Badge>
-                                <span className="text-xl font-black italic">{card.brand}</span>
+                                <span className="text-xl font-black italic tracking-tight">{card.brand}</span>
                             </div>
                             <div>
                                 <p className="text-lg font-mono tracking-[0.2em] mb-1">{card.number}</p>
@@ -152,11 +152,10 @@ export default function Cards({ auth }) {
                         <div className="flex flex-col md:flex-row gap-12 items-center">
                             {/* Visual Card Representation */}
                             <div className={`relative w-72 h-44 rounded-2xl p-6 shadow-2xl transition-all duration-700 ${currentCard.color} ${currentCard.textColor} overflow-hidden`}>
-                                {currentCard.isTeal && (
-                                    <div className="absolute -right-8 -bottom-8 opacity-20 pointer-events-none">
-                                        <img src="/images/lion-watermark.png" alt="Lion" className="h-56 w-56 object-contain" />
-                                    </div>
-                                )}
+                                <div className="absolute inset-0 z-0">
+                                    <img src={currentCard.bgImage} alt="" className="h-full w-full object-cover opacity-90" style={{ filter: currentCard.filter }} />
+                                    <div className={`absolute inset-0 ${currentCard.overlay}`} />
+                                </div>
                                 <div className="relative z-10 h-full flex flex-col justify-between">
                                     <span className="text-lg font-black italic self-end">{currentCard.brand}</span>
                                     <div>
@@ -268,6 +267,7 @@ export default function Cards({ auth }) {
         </div>
         </div>
       </div>
-    </AppLayout>
+      </>
+    // </AppLayout>
   );
 }

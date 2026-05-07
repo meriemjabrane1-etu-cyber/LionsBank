@@ -1,5 +1,6 @@
-import { Bell, Search, ChevronDown, Activity } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
 import { usePage } from "@inertiajs/react";
+import NotificationCenter from "./NotificationCenter";
 
 export default function Topbar() {
   const { auth } = usePage().props as any;
@@ -29,10 +30,7 @@ export default function Topbar() {
           />
         </div>
 
-        <button className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all text-white/60 hover:text-white">
-          <Bell className="h-5 w-5" />
-          <span className="absolute right-3.5 top-3.5 h-2 w-2 rounded-full bg-[rgb(28,212,132)] shadow-[0_0_8px_rgba(28,212,132,0.5)]" />
-        </button>
+        <NotificationCenter />
 
         <button className="flex items-center gap-3 rounded-2xl bg-gradient-to-br from-white/10 to-transparent p-1.5 border border-white/10 hover:border-white/20 transition-all group">
           <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-bold shadow-lg group-hover:scale-105 transition-transform">

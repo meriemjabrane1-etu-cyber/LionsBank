@@ -36,8 +36,8 @@ export default function Appointments() {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Secure Appointments - LionsBank" />
-      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] py-8 pr-8 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500">
-        <div className="w-full">
+      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
+        <div className="w-full space-y-12 m-0 p-0 max-w-none">
           {/* Header */}
           <div className="mb-12">
             <h1 className="text-4xl font-extrabold tracking-tight text-white mb-2">
