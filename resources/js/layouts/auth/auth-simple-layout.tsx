@@ -20,9 +20,7 @@ export default function AuthSimpleLayout({
                         href={home()}
                         className="flex flex-col items-center gap-2 font-medium group"
                     >
-                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#1bd382]/10 border border-[#1bd382]/20 shadow-[0_0_15px_rgba(27,211,130,0.15)] group-hover:shadow-[0_0_25px_rgba(27,211,130,0.3)] transition-all duration-300">
-                            <AppLogoIcon className="size-8 text-[#1bd382]" />
-                        </div>
+                        <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto mix-blend-screen" />
                         <span className="sr-only">{title}</span>
                     </Link>
 

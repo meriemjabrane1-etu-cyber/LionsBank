@@ -52,11 +52,10 @@ export default function AuthSplitLayout({
 
                     {/* Overlay Content */}
                     <div className="absolute inset-0 flex flex-col justify-between p-12 text-white">
-                        <div className="flex items-center gap-3">
-                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-[#1bd382]">
-                                <span className="text-xl">🦁</span>
-                            </div>
-                            <span className="text-2xl font-bold tracking-tight">LionsBank</span>
+                        <div className="flex items-center">
+                            <Link href={home()} className="block scale-110 origin-left">
+                                <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto mix-blend-screen" />
+                            </Link>
                         </div>
 
                         <div className="space-y-6">
@@ -79,6 +78,13 @@ export default function AuthSplitLayout({
                 {/* Right Side: Form Content */}
                 <div className="flex-1 flex flex-col p-8 lg:p-16 overflow-y-auto no-scrollbar bg-[#0f172a] text-white">
                     <div className="flex-1 flex flex-col justify-center max-w-[500px] mx-auto w-full">
+                        {/* Mobile Logo */}
+                        <div className="lg:hidden mb-12 flex justify-center">
+                            <Link href={home()} className="block">
+                                <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto mix-blend-screen" />
+                            </Link>
+                        </div>
+
                         <div className="mb-10 text-center lg:text-left">
                             <h2 className="text-4xl font-bold mb-3">{title.toLowerCase().includes('register') ? 'Join the Adventure' : 'Welcome Back'}</h2>
                             <p className="text-slate-400 font-medium">Complete the details below to {title.toLowerCase().includes('register') ? 'create your account' : 'access your vault'}.</p>
