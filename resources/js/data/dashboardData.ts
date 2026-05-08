@@ -11,7 +11,8 @@ export const menuItems = [
   { label: "Historique", icon: "Clock3", href: "/dashboard#history" },
   { label: "Paramètres", icon: "Settings", href: "/dashboard#settings" },
   { label: "Aide & support", icon: "CircleHelp", href: "/dashboard#help" },
-  { label: "Ai Agent", icon: "", href: "/ai-agent" },
+  { label: "cheque-verification", icon: "CircleHelp", href: "/cheque-verification" },
+  { label: "Ai Agent", icon: "CircleHelp", href: "/ai-agent" },
 ];
 
 export const summaryCards = [

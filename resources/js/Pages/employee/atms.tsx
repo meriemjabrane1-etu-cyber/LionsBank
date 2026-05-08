@@ -34,7 +34,7 @@ interface Agency {
 interface Atm {
     id: number;
     name: string;
-    status: 'active' | 'empty' | 'maintenance';
+    status: 'active' | 'empty' | 'maintenance' | 'out_of_service';
     cash_available: number;
     agency: Agency | null;
 }
@@ -46,6 +46,7 @@ interface Props {
         active: number;
         empty: number;
         maintenance: number;
+        out_of_service: number;
     };
 }
 
@@ -113,6 +114,7 @@ export default function EmployeeAtmsPage({ atms, stats }: Props) {
                             { label: 'Online', value: stats.active, color: 'rgb(28,212,132)', icon: CheckCircle, glow: true },
                             { label: 'Out of Cash', value: stats.empty, color: 'rose-500', icon: AlertTriangle },
                             { label: 'In Maintenance', value: stats.maintenance, color: 'cyan-400', icon: Settings },
+                            { label: 'Offline', value: stats.out_of_service, color: 'orange-400', icon: WifiOff },
                         ].map((stat, i) => (
                             <Card key={i} className={`bg-white/5 border-white/10 backdrop-blur-md overflow-hidden relative group hover:border-[rgb(28,212,132)]/30 transition-all duration-300 ${stat.glow ? 'shadow-[0_0_30px_rgba(28,212,132,0.1)]' : ''}`}>
                                 <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
@@ -148,7 +150,7 @@ export default function EmployeeAtmsPage({ atms, stats }: Props) {
                                     />
                                 </div>
                                 <div className="flex p-1 bg-black/20 rounded-xl border border-white/5">
-                                    {(['all', 'active', 'empty', 'maintenance'] as const).map((value) => (
+                                    {(['all', 'active', 'empty', 'maintenance', 'out_of_service'] as const).map((value) => (
                                         <button
                                             key={value}
                                             onClick={() => setStatusFilter(value)}
@@ -187,7 +189,8 @@ export default function EmployeeAtmsPage({ atms, stats }: Props) {
                                         </div>
                                         <Badge className={`uppercase text-[10px] tracking-widest font-bold px-2 py-0.5 ${
                                             atm.status === 'active' ? 'bg-[rgb(28,212,132)]/20 text-[rgb(28,212,132)] border-[rgb(28,212,132)]/20' : 
-                                            atm.status === 'empty' ? 'bg-rose-500/20 text-rose-500 border-rose-500/20 animate-pulse' : 
+                                            atm.status === 'empty' ? 'bg-rose-500/20 text-rose-500 border-rose-500/20 animate-pulse' :
+                                            atm.status === 'out_of_service' ? 'bg-orange-500/20 text-orange-400 border-orange-500/20' :
                                             'bg-cyan-500/20 text-cyan-500 border-cyan-500/20'
                                         }`} variant="outline">
                                             {atm.status}
@@ -240,6 +243,10 @@ export default function EmployeeAtmsPage({ atms, stats }: Props) {
                                                 <DropdownMenuItem onClick={() => updateStatus(atm.id, 'empty')} className="focus:bg-white/10 text-rose-500">
                                                     <AlertTriangle className="mr-2 h-4 w-4" />
                                                     Mark as Empty
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => updateStatus(atm.id, 'out_of_service')} className="focus:bg-white/10 text-orange-400">
+                                                    <WifiOff className="mr-2 h-4 w-4" />
+                                                    Out of Service
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

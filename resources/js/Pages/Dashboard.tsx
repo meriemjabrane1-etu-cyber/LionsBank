@@ -27,8 +27,13 @@ import { motion } from 'motion/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import SummaryCards from '@/components/SummaryCards';
 import NotificationCenter from '@/components/NotificationCenter';
+import type { Auth } from '@/types';
 
-export default function Dashboard({ auth }) {
+type DashboardProps = {
+    auth: Auth;
+};
+
+export default function Dashboard({ auth }: DashboardProps) {
     const userName = auth.user.name.split(' ')[0];
 
     const transactions = [

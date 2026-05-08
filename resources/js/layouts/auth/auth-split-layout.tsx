@@ -18,6 +18,8 @@ export default function AuthSplitLayout({
     description,
 }: AuthLayoutProps) {
     const [index, setIndex] = useState(0);
+    const pageTitle = title ?? '';
+    const isRegister = pageTitle.toLowerCase().includes('register');
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -80,8 +82,8 @@ export default function AuthSplitLayout({
                 <div className="flex-1 flex flex-col p-8 lg:p-16 overflow-y-auto no-scrollbar bg-[#0f172a] text-white">
                     <div className="flex-1 flex flex-col justify-center max-w-[500px] mx-auto w-full">
                         <div className="mb-10 text-center lg:text-left">
-                            <h2 className="text-4xl font-bold mb-3">{title.toLowerCase().includes('register') ? 'Join the Adventure' : 'Welcome Back'}</h2>
-                            <p className="text-slate-400 font-medium">Complete the details below to {title.toLowerCase().includes('register') ? 'create your account' : 'access your vault'}.</p>
+                            <h2 className="text-4xl font-bold mb-3">{isRegister ? 'Join the Adventure' : 'Welcome Back'}</h2>
+                            <p className="text-slate-400 font-medium">Complete the details below to {isRegister ? 'create your account' : 'access your vault'}.</p>
                         </div>
 
                         <div className="flex justify-center lg:justify-start gap-12 mb-10">
@@ -92,13 +94,13 @@ export default function AuthSplitLayout({
 
                         <div className="relative mb-10 text-center">
                             <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/10"></div></div>
-                            <span className="relative bg-[#0f172a] px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">or {title.toLowerCase().includes('register') ? 'sign up' : 'log in'} manually</span>
+                            <span className="relative bg-[#0f172a] px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">or {isRegister ? 'sign up' : 'log in'} manually</span>
                         </div>
 
                         {children}
 
                         <div className="mt-8 text-center text-sm font-medium text-slate-500">
-                            {title.toLowerCase().includes('register') ? (
+                            {isRegister ? (
                                 <>Already have an account? <Link href="/login" className="text-[#1bd382] hover:underline">Log in</Link></>
                             ) : (
                                 <>Don't have an account? <Link href="/register" className="text-[#1bd382] hover:underline">Sign up</Link></>

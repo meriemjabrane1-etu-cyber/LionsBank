@@ -21,12 +21,35 @@ import { motion } from 'motion/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import type { Auth } from '@/types';
 
-export default function Comptes({ accounts, auth }) {
+type AccountType = 'current' | 'saving' | 'savings' | 'salary' | 'currency';
+
+type BankAccount = {
+  id: number;
+  account_number: string;
+  balance: number | string;
+  type: AccountType;
+};
+
+type AccountTypeInfo = {
+  icon: typeof Wallet;
+  label: string;
+  color: string;
+  bg: string;
+};
+
+type ComptesProps = {
+  accounts: BankAccount[];
+  auth: Auth;
+};
+
+export default function Comptes({ accounts, auth }: ComptesProps) {
   const [selectedAccount, setSelectedAccount] = useState(accounts[0] || null);
 
-  const accountTypes = {
+  const accountTypes: Record<AccountType, AccountTypeInfo> = {
     'current': { icon: Wallet, label: 'Compte courant', color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    'saving': { icon: PiggyBank, label: 'Compte épargne', color: 'text-blue-500', bg: 'bg-blue-500/10' },
     'savings': { icon: PiggyBank, label: 'Compte épargne', color: 'text-blue-500', bg: 'bg-blue-500/10' },
     'salary': { icon: Lock, label: 'Compte salaire', color: 'text-amber-500', bg: 'bg-amber-500/10' },
     'currency': { icon: Globe, label: 'Compte devises', color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
@@ -66,7 +89,7 @@ export default function Comptes({ accounts, auth }) {
             <div className="lg:col-span-2 space-y-6">
                 <h3 className="text-xl font-black text-slate-900 dark:text-white">Mes comptes</h3>
                 <div className="space-y-4">
-                    {accounts.map((account, i) => {
+                    {accounts.map((account) => {
                         const typeInfo = accountTypes[account.type] || accountTypes['current'];
                         const isSelected = selectedAccount?.id === account.id;
                         

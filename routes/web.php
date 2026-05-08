@@ -10,6 +10,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AtmController;
+use App\Http\Controllers\ChequeGuaranteePageController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -76,6 +77,10 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/ai-agent', function () {
     return Inertia::render('AiAgent');
 })->name('ai-agent');
+
+Route::get('/cheque-verification', ChequeGuaranteePageController::class)
+    ->middleware('auth')
+    ->name('ChequeVerification');
 
 
 

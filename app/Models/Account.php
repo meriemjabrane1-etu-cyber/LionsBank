@@ -42,6 +42,16 @@ class Account extends Model
         return $this->hasMany(Cheque::class);
     }
 
+    public function chequeGuarantees()
+    {
+        return $this->hasMany(ChequeGuarantee::class);
+    }
+
+    public function chequeFundReservations()
+    {
+        return $this->hasMany(ChequeFundReservation::class);
+    }
+
     public function outgoingTransfers()
     {
         return $this->hasMany(Transfer::class, 'from_account_id');

@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChequeValidation::class, 'checked_by');
     }
+
+    public function chequeGuarantees()
+    {
+        return $this->hasMany(ChequeGuarantee::class, 'issuer_id');
+    }
 }
