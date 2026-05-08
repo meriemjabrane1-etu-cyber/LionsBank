@@ -37,9 +37,19 @@ class Account extends Model
     }
 
     public function cheques()
-    
+
     {
         return $this->hasMany(Cheque::class);
+    }
+
+    public function chequeGuarantees()
+    {
+        return $this->hasMany(ChequeGuarantee::class);
+    }
+
+    public function chequeFundReservations()
+    {
+        return $this->hasMany(ChequeFundReservation::class);
     }
 
     public function outgoingTransfers()
@@ -51,4 +61,5 @@ class Account extends Model
     {
         return $this->hasMany(Transfer::class, 'to_account_id');
     }
+   
 }

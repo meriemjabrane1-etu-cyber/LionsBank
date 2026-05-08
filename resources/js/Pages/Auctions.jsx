@@ -102,8 +102,8 @@ export default function Auctions() {
     };
 
     const handleBid = (productId, currentBid) => {
-        router.post(`/auctions/products/${productId}/bid`, {
-            bid_amount: currentBid + 1000
+        router.post(`/auctions/product/${productId}/bid`, {
+            amount: Number(currentBid) + 1000
         }, {
             preserveScroll: true
         });
@@ -187,9 +187,9 @@ export default function Auctions() {
                                             <div className="space-y-3">
                                                 <div className="flex items-center gap-3">
                                                     <Badge className={`${
-                                                        auction.status === 'live' ? 'bg-emerald-500 text-[#041F1E]' : 'bg-white/10 text-white/60'
+                                                        auction.status === 'active' ? 'bg-emerald-500 text-[#041F1E]' : 'bg-white/10 text-white/60'
                                                     } uppercase text-[10px] tracking-widest font-black px-3 py-1 rounded-full`}>
-                                                        {auction.status === 'live' && <span className="mr-2 inline-block w-1.5 h-1.5 bg-[#041F1E] rounded-full animate-ping" />}
+                                                        {auction.status === 'active' && <span className="mr-2 inline-block w-1.5 h-1.5 bg-[#041F1E] rounded-full animate-ping" />}
                                                         {auction.status}
                                                     </Badge>
                                                     {auction.isVip && (
@@ -214,7 +214,7 @@ export default function Auctions() {
                                                     <Timer className="w-3 h-3 text-[rgb(28,212,132)]" />
                                                     Time Remaining
                                                 </div>
-                                                <div className="text-2xl font-black text-white">{auction.timeRemaining}</div>
+                                                <div className="text-2xl font-black text-white">{auction.timeRemaining ?? 'Scheduled'}</div>
                                             </div>
                                             <div className="bg-black/20 p-5 rounded-3xl border border-white/5 group-hover:border-[rgb(28,212,132)]/10 transition-colors">
                                                 <div className="flex items-center gap-2 text-white/30 text-[10px] font-bold uppercase tracking-widest mb-2">
@@ -313,7 +313,7 @@ export default function Auctions() {
 
                                             <Button 
                                                 onClick={() => handleBid(product.id, product.current_bid)}
-                                                disabled={selectedAuction.status !== 'live'}
+                                                disabled={selectedAuction.status !== 'active'}
                                                 className="w-full h-14 bg-white/5 border border-white/10 text-white hover:bg-[rgb(28,212,132)] hover:text-[#041F1E] hover:border-transparent rounded-2xl font-black text-xs uppercase tracking-widest transition-all duration-300"
                                             >
                                                 Place Higher Bid

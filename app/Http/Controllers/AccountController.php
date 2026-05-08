@@ -2,27 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class AccountController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $user = $request->user();
+        /** @var User $user */
+        $user = Auth::user();
 
-        $accounts = $user->accounts()
-            ->with('transactions')
-            ->get()
-            ->map(function ($account) {
-                return [
-                    'id' => $account->id,
-                    'account_number' => $account->account_number,
-                    'balance' => $account->balance,
-                    'type' => $account->type,
-                    'transactions_count' => $account->transactions->count(),
-                ];
-            });
+        $accounts = $user->accounts()->latest()->get();
 
         return Inertia::render('Accounts', ['accounts' => $accounts,]);
     }

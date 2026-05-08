@@ -34,4 +34,9 @@ class Cheque extends Model
     {
         return $this->hasMany(ChequeValidation::class);
     }
+
+    public function guarantees()
+    {
+        return $this->hasMany(ChequeGuarantee::class);
+    }
 }

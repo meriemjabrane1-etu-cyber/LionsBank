@@ -85,7 +85,7 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
     };
 
     const toggleStatus = (id: number) => {
-        patch(`/employee/agencies/${id}/toggle-status`, {}, {
+        patch(`/employee/agencies/${id}/toggle-status`, {
             preserveScroll: true,
             onSuccess: () => toast.success('Agency status toggled'),
         });

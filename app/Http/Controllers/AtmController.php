@@ -27,6 +27,7 @@ class AtmController extends Controller
                 'active' => $atms->where('status', 'active')->count(),
                 'empty' => $atms->where('status', 'empty')->count(),
                 'maintenance' => $atms->where('status', 'maintenance')->count(),
+                'out_of_service' => $atms->where('status', 'out_of_service')->count(),
             ]
         ]);
     }
@@ -36,7 +37,7 @@ class AtmController extends Controller
         $this->ensureEmployeeAccess();
 
         $request->validate([
-            'status' => 'required|string|in:active,empty,maintenance'
+            'status' => 'required|string|in:active,empty,maintenance,out_of_service'
         ]);
 
         $atm->update([

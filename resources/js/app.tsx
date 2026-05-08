@@ -1,5 +1,6 @@
 import { createInertiaApp } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
+import type { ComponentType } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -9,19 +10,30 @@ import SettingsLayout from '@/layouts/settings/layout';
 import 'leaflet/dist/leaflet.css';
 import '../css/app.css';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+type InertiaPageModule = { default: ComponentType<Record<string, unknown>> };
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
 
     resolve: (name) => {
-        const pages = import.meta.glob('./Pages/**/*.{tsx,jsx}', {
+        const pages = import.meta.glob<InertiaPageModule>('./Pages/**/*.{tsx,jsx}', {
             eager: true,
         });
 
-        return pages[`./Pages/${name}.tsx`] || pages[`./Pages/${name}.jsx`];
+        const page = pages[`./Pages/${name}.tsx`] || pages[`./Pages/${name}.jsx`];
+
+        if (!page) {
+            throw new Error(`Inertia page not found: ${name}`);
+        }
+
+        return page;
     },
 
     setup({ el, App, props }) {
+        if (!el) {
+            throw new Error('Inertia root element was not found.');
+        }
+
         const root = createRoot(el);
 
         root.render(

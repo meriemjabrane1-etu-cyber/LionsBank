@@ -10,6 +10,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AtmController;
+use App\Http\Controllers\ChequeGuaranteePageController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -34,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-    
+
     Route::get('/comptes', [AccountController::class, 'index'])->name('accounts.index');
     Route::get('/cartes', function () {
         return Inertia::render('Cards');
@@ -45,9 +46,9 @@ Route::middleware(['auth'])->group(function () {
     // Client Side
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
     Route::post('/appointments', [AppointmentController::class, 'store'])->name('appointments.store');
-    
+
     Route::get('/agencies', [AgencyController::class, 'index'])->name('agencies');
-    
+
     Route::get('/auctions', [AuctionController::class, 'index'])->name('auctions');
     Route::post('/auctions/{auction}/join', [AuctionController::class, 'join'])->name('auctions.join');
     Route::post('/auctions/product/{product}/bid', [AuctionController::class, 'bid'])->name('auctions.bid');
@@ -77,7 +78,12 @@ Route::get('/ai-agent', function () {
     return Inertia::render('AiAgent');
 })->name('ai-agent');
 
+Route::get('/cheque-verification', ChequeGuaranteePageController::class)
+    ->middleware('auth')
+    ->name('ChequeVerification');
+
 
 
 
 require __DIR__.'/settings.php';
+

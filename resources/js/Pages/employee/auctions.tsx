@@ -96,14 +96,14 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
     };
 
     const toggleStatus = (id: number) => {
-        patch(`/employee/auctions/${id}/toggle`, {}, {
+        patch(`/employee/auctions/${id}/toggle`, {
             preserveScroll: true,
             onSuccess: () => toast.success('Auction status updated'),
         });
     };
 
     const declareWinner = (id: number) => {
-        patch(`/employee/auctions/${id}/winner`, {}, {
+        patch(`/employee/auctions/${id}/winner`, {
             preserveScroll: true,
             onSuccess: () => toast.success('Winner declared and auction closed'),
         });

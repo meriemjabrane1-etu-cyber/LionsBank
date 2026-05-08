@@ -8,8 +8,11 @@ import AppLayout from "@/layouts/app-layout";
 
 const getStatusConfig = (status) => {
   switch (status.toLowerCase()) {
+    case 'approved':
     case 'confirmed':
       return { color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30', icon: Activity };
+    case 'rejected':
+      return { color: 'bg-rose-500/20 text-rose-400 border-rose-500/30', icon: Calendar };
     case 'pending':
       return { color: 'bg-amber-500/20 text-amber-400 border-amber-500/30', icon: Clock };
     default:

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-
+use App\Models\Account;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
@@ -65,5 +65,10 @@ class User extends Authenticatable
     public function chequeValidations()
     {
         return $this->hasMany(ChequeValidation::class, 'checked_by');
+    }
+
+    public function chequeGuarantees()
+    {
+        return $this->hasMany(ChequeGuarantee::class, 'issuer_id');
     }
 }

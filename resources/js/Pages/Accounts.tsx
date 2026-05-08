@@ -1,10 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
-import { 
-  Wallet, 
-  ArrowRight, 
-  CreditCard, 
-  Activity, 
+import {
+  Wallet,
+  ArrowRight,
+  CreditCard,
+  Activity,
   Landmark,
   PiggyBank,
   Lock,
@@ -21,12 +21,35 @@ import { motion } from 'motion/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
+import type { Auth } from '@/types';
 
-export default function Comptes({ accounts, auth }) {
+type AccountType = 'current' | 'saving' | 'savings' | 'salary' | 'currency';
+
+type BankAccount = {
+  id: number;
+  account_number: string;
+  balance: number | string;
+  type: AccountType;
+};
+
+type AccountTypeInfo = {
+  icon: typeof Wallet;
+  label: string;
+  color: string;
+  bg: string;
+};
+
+type ComptesProps = {
+  accounts: BankAccount[];
+  auth: Auth;
+};
+
+export default function Comptes({ accounts, auth }: ComptesProps) {
   const [selectedAccount, setSelectedAccount] = useState(accounts[0] || null);
 
-  const accountTypes = {
+  const accountTypes: Record<AccountType, AccountTypeInfo> = {
     'current': { icon: Wallet, label: 'Compte courant', color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
+    'saving': { icon: PiggyBank, label: 'Compte épargne', color: 'text-blue-500', bg: 'bg-blue-500/10' },
     'savings': { icon: PiggyBank, label: 'Compte épargne', color: 'text-blue-500', bg: 'bg-blue-500/10' },
     'salary': { icon: Lock, label: 'Compte salaire', color: 'text-amber-500', bg: 'bg-amber-500/10' },
     'currency': { icon: Globe, label: 'Compte devises', color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
@@ -44,13 +67,13 @@ export default function Comptes({ accounts, auth }) {
           <div className="flex items-center gap-4">
              <div className="relative group hidden lg:block">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-white/20 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
-                <input 
+                <input
                     placeholder="Rechercher..."
                     className="w-64 h-12 bg-white dark:bg-[#062B29]/50 border border-slate-200 dark:border-white/5 rounded-2xl pl-11 pr-4 text-sm outline-none focus:border-[rgb(28,212,132)] transition-all shadow-sm dark:shadow-none"
                 />
              </div>
              <div className="flex items-center gap-3 pl-2">
-                <div className="h-11 w-11 rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black shadow-lg">
+                <div className="h-11 w-11 rounded-2xl bg-linear-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black shadow-lg">
                     {auth.user.name.charAt(0)}
                 </div>
                 <div className="hidden sm:block text-right">
@@ -66,18 +89,18 @@ export default function Comptes({ accounts, auth }) {
             <div className="lg:col-span-2 space-y-6">
                 <h3 className="text-xl font-black text-slate-900 dark:text-white">Mes comptes</h3>
                 <div className="space-y-4">
-                    {accounts.map((account, i) => {
+                    {accounts.map((account) => {
                         const typeInfo = accountTypes[account.type] || accountTypes['current'];
                         const isSelected = selectedAccount?.id === account.id;
-                        
+
                         return (
                             <motion.div
                                 key={account.id}
                                 whileHover={{ scale: 1.01 }}
                                 onClick={() => setSelectedAccount(account)}
-                                className={`group relative p-6 rounded-[2rem] border cursor-pointer transition-all duration-300 flex items-center justify-between ${
-                                    isSelected 
-                                    ? "bg-white dark:bg-[#062B29] border-[rgb(28,212,132)]/50 shadow-xl" 
+                                className={`group relative p-6 rounded-4xl border cursor-pointer transition-all duration-300 flex items-center justify-between ${
+                                    isSelected
+                                    ? "bg-white dark:bg-[#062B29] border-[rgb(28,212,132)]/50 shadow-xl"
                                     : "bg-white dark:bg-[#062B29]/30 border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10"
                                 }`}
                             >
@@ -93,7 +116,7 @@ export default function Comptes({ accounts, auth }) {
                                         <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] mt-1">•••• {account.account_number.slice(-4)}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-center gap-4">
                                     <div className="text-right hidden sm:block">
                                         <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-bold text-[8px] uppercase tracking-[0.2em] px-3">Actif</Badge>
@@ -174,7 +197,7 @@ export default function Comptes({ accounts, auth }) {
                         </CardContent>
                     </Card>
                 ) : (
-                    <div className="h-[400px] flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem]">
+                    <div className="h-100 flex items-center justify-center border-2 border-dashed border-slate-200 dark:border-white/10 rounded-[2.5rem]">
                         <p className="text-slate-400 dark:text-white/20 font-bold uppercase tracking-widest text-xs">Sélectionnez un compte</p>
                     </div>
                 )}
