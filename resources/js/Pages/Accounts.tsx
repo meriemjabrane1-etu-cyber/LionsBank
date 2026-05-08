@@ -1,10 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
-import { 
-  Wallet, 
-  ArrowRight, 
-  CreditCard, 
-  Activity, 
+import {
+  Wallet,
+  ArrowRight,
+  CreditCard,
+  Activity,
   Landmark,
   PiggyBank,
   Lock,
@@ -67,7 +67,7 @@ export default function Comptes(props: AccountsProps) {
           <div className="flex items-center gap-4">
              <div className="relative group hidden lg:block">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 dark:text-white/20 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
-                <input 
+                <input
                     placeholder="Rechercher..."
                     className="w-64 h-12 bg-white dark:bg-[#062B29]/50 border border-slate-200 dark:border-white/5 rounded-2xl pl-11 pr-4 text-sm outline-none focus:border-[rgb(28,212,132)] transition-all shadow-sm dark:shadow-none"
                 />
@@ -92,15 +92,15 @@ export default function Comptes(props: AccountsProps) {
                     {accounts.map((account, i) => {
                         const typeInfo = accountTypes[account.type] || accountTypes['current'];
                         const isSelected = selectedAccount?.id === account.id;
-                        
+
                         return (
                             <motion.div
                                 key={account.id}
                                 whileHover={{ scale: 1.01 }}
                                 onClick={() => setSelectedAccount(account)}
                                 className={`group relative p-6 rounded-4xl border cursor-pointer transition-all duration-300 flex items-center justify-between ${
-                                    isSelected 
-                                    ? "bg-white dark:bg-[#062B29] border-[rgb(28,212,132)]/50 shadow-xl" 
+                                    isSelected
+                                    ? "bg-white dark:bg-[#062B29] border-[rgb(28,212,132)]/50 shadow-xl"
                                     : "bg-white dark:bg-[#062B29]/30 border-slate-100 dark:border-white/5 hover:border-slate-200 dark:hover:border-white/10"
                                 }`}
                             >
@@ -116,7 +116,7 @@ export default function Comptes(props: AccountsProps) {
                                         <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] mt-1">•••• {account.account_number.slice(-4)}</p>
                                     </div>
                                 </div>
-                                
+
                                 <div className="flex items-center gap-4">
                                     <div className="text-right hidden sm:block">
                                         <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-bold text-[8px] uppercase tracking-[0.2em] px-3">Actif</Badge>
