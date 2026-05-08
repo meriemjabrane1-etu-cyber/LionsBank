@@ -113,7 +113,7 @@ export default function Dashboard({ auth }: DashboardProps) {
                             </div>
                             <NotificationCenter />
                             <div className="flex items-center gap-3 pl-2">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 font-black text-[#041F1E] shadow-lg">
+                                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-[rgb(28,212,132)] to-emerald-600 font-black text-[#041F1E] shadow-lg">
                                     {userName.charAt(0)}
                                 </div>
                                 <div className="hidden sm:block">
@@ -151,7 +151,7 @@ export default function Dashboard({ auth }: DashboardProps) {
                                     </select>
                                 </CardHeader>
                                 <CardContent className="p-8">
-                                    <div className="relative h-[280px]">
+                                    <div className="relative h-70">
                                         {/* Area Chart Mockup */}
                                         <svg className="h-full w-full overflow-visible">
                                             <defs>
@@ -246,7 +246,7 @@ export default function Dashboard({ auth }: DashboardProps) {
                                     src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=1200"
                                     className="absolute inset-0 h-full w-full object-cover brightness-[0.3] grayscale transition-transform duration-700 group-hover:scale-105"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-r from-[#041F1E] to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-r from-[#041F1E] to-transparent" />
                                 <div className="relative flex h-full max-w-lg flex-col justify-center p-10">
                                     <h3 className="mb-2 text-2xl font-black text-white">
                                         La banque qui innove pour votre avenir
@@ -418,16 +418,9 @@ export default function Dashboard({ auth }: DashboardProps) {
                             </Card>
                         </div>
                     </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+
                 </div>
-                <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-[600px] dark:border-sidebar-border">
-                 
-                </div>
+
             </div>
         </>
         // </AppLayout>

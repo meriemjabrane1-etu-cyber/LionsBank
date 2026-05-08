@@ -1,12 +1,5 @@
 // resources/js/Layouts/DashboardLayout.jsx
 import { Head } from '@inertiajs/react';
-import { ReactNode } from 'react';
-
-type DashboardLayoutProps = {
-  title: string;
-  active: string;
-  children: ReactNode;
-};
 
 const menuItems = [
   'Tableau de bord',
@@ -22,16 +15,15 @@ const menuItems = [
   'Aide & support',
 ];
 
-export default function DashboardLayout({ title, active, children }: DashboardLayoutProps) {
+export default function DashboardLayout({ title, active, children }) {
   return (
     <>
       <Head title={title} />
 
-
       <div className="min-h-screen bg-[#f6f8fb] text-slate-900">
         <div className="flex min-h-screen">
           {/* SIDEBAR */}
-          <aside className="hidden w-72 flex-col bg-linear-to-b from-[#06283D] to-[#0B3B4A] px-5 py-6 text-white lg:flex">
+          <aside className="hidden w-72 flex-col bg-gradient-to-b from-[#06283D] to-[#0B3B4A] px-5 py-6 text-white lg:flex">
             <div className="mb-10 flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
                 <span className="text-xl">🦁</span>
@@ -41,7 +33,6 @@ export default function DashboardLayout({ title, active, children }: DashboardLa
                 <div className="text-xs text-white/60">Banking dashboard</div>
               </div>
             </div>
-
 
             <nav className="space-y-2 text-sm">
               {menuItems.map((item) => (
@@ -58,7 +49,6 @@ export default function DashboardLayout({ title, active, children }: DashboardLa
               ))}
             </nav>
 
-
             <div className="mt-auto rounded-3xl bg-white/10 p-5 backdrop-blur">
               <div className="text-sm font-semibold">Votre sécurité, notre priorité</div>
               <p className="mt-2 text-xs leading-5 text-white/70">
@@ -69,13 +59,11 @@ export default function DashboardLayout({ title, active, children }: DashboardLa
               </button>
             </div>
 
-
             <button className="mt-6 flex items-center gap-2 px-2 py-3 text-sm text-white/80 hover:text-white">
               {/* <span>↩</span>
               <span>Se déconnecter</span> */}
             </button>
           </aside>
-
 
           {/* MAIN */}
           <main className="flex-1">
@@ -84,7 +72,6 @@ export default function DashboardLayout({ title, active, children }: DashboardLa
                 <div>
                   <h1 className="text-3xl font-semibold tracking-tight">{title}</h1>
                 </div>
-
 
                 <div className="flex items-center gap-4">
                   <div className="hidden w-72 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-400 md:block">
@@ -106,7 +93,6 @@ export default function DashboardLayout({ title, active, children }: DashboardLa
                 </div>
               </div>
             </header>
-
 
             <div className="px-6 py-6 lg:px-8">{children}</div>
           </main>
