@@ -14,7 +14,8 @@ import {
     ArrowUpRight,
     Search,
     Eye,
-    Package
+    Package,
+    Trash2
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -68,6 +69,10 @@ interface Props {
 export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
     const [search, setSearch] = useState('');
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [isProductModalOpen, setIsProductModalOpen] = useState(false);
+    const [isItemsModalOpen, setIsItemsModalOpen] = useState(false);
+    const [selectedAuctionForProduct, setSelectedAuctionForProduct] = useState<Auction | null>(null);
+    const [selectedAuctionForItems, setSelectedAuctionForItems] = useState<Auction | null>(null);
     const [selectedAuctionBids, setSelectedAuctionBids] = useState<Auction | null>(null);
 
     const filteredAuctions = useMemo(() => {
@@ -84,6 +89,12 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
         end_date: '',
     });
 
+    const productForm = useForm({
+        name: '',
+        image_url: '',
+        starting_bid: '',
+    });
+
     const handleCreate = (e: React.FormEvent) => {
         e.preventDefault();
         post('/employee/auctions', {
@@ -95,6 +106,19 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
         });
     };
 
+    const handleAddProduct = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedAuctionForProduct) return;
+        
+        productForm.post(`/employee/auctions/${selectedAuctionForProduct.id}/products`, {
+            onSuccess: () => {
+                toast.success('Product added successfully');
+                setIsProductModalOpen(false);
+                productForm.reset();
+            }
+        });
+    };
+
     const toggleStatus = (id: number) => {
         patch(`/employee/auctions/${id}/toggle`, {
             preserveScroll: true,
@@ -102,10 +126,28 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
         });
     };
 
+    const deleteProduct = (id: number) => {
+        if (!confirm('Are you sure you want to remove this item?')) return;
+        
+        router.delete(`/employee/products/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => toast.success('Item removed'),
+        });
+    };
+
     const declareWinner = (id: number) => {
         patch(`/employee/auctions/${id}/winner`, {
             preserveScroll: true,
             onSuccess: () => toast.success('Winner declared and auction closed'),
+        });
+    };
+
+    const deleteAuction = (id: number) => {
+        if (!confirm('Are you sure you want to delete this entire auction? This will remove all items and bids.')) return;
+        
+        router.delete(`/employee/auctions/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => toast.success('Auction deleted'),
         });
     };
 
@@ -246,6 +288,14 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                                         }`}>
                                             {auction.status}
                                         </Badge>
+                                        <Button 
+                                            variant="ghost" 
+                                            size="icon"
+                                            onClick={() => deleteAuction(auction.id)}
+                                            className="absolute top-3 right-3 h-8 w-8 bg-black/20 backdrop-blur-md text-white/40 hover:text-rose-500 hover:bg-black/40 rounded-xl transition-all"
+                                        >
+                                            <Trash2 className="h-4 w-4" />
+                                        </Button>
                                         <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-white/60 dark:bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-200 dark:border-white/10">
                                             <Users className="h-3 w-3 text-emerald-600 dark:text-[rgb(28,212,132)]" />
                                             <span className="text-[10px] font-bold uppercase tracking-wider text-slate-700 dark:text-white">{auction.bids_count} Participants</span>
@@ -277,6 +327,18 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                                         <div className="grid grid-cols-2 gap-2 pt-2">
                                             <Button 
                                                 variant="ghost"
+                                                onClick={() => {
+                                                    setSelectedAuctionForItems(auction);
+                                                    setIsItemsModalOpen(true);
+                                                }}
+                                                className="bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/5 text-xs font-bold uppercase tracking-widest rounded-xl h-10 text-slate-600 dark:text-white"
+                                            >
+                                                <Package className="mr-2 h-4 w-4" />
+                                                Items
+                                            </Button>
+
+                                            <Button 
+                                                variant="ghost"
                                                 onClick={() => setSelectedAuctionBids(auction)}
                                                 className="bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/5 text-xs font-bold uppercase tracking-widest rounded-xl h-10 text-slate-600 dark:text-white"
                                             >
@@ -305,6 +367,18 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                                                     Finished
                                                 </Button>
                                             )}
+                                            
+                                            <Button 
+                                                variant="ghost"
+                                                onClick={() => {
+                                                    setSelectedAuctionForProduct(auction);
+                                                    setIsProductModalOpen(true);
+                                                }}
+                                                className="col-span-2 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 hover:bg-emerald-500 hover:text-white font-bold uppercase tracking-widest text-[10px] rounded-xl h-10 transition-all mt-2"
+                                            >
+                                                <Plus className="mr-2 h-4 w-4" />
+                                                Add Item
+                                            </Button>
                                         </div>
 
                                         {auction.status === 'active' && (
@@ -357,6 +431,94 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                     </div>
                 </DialogContent>
             </Dialog>
+            {/* Add Product Modal */}
+            <Dialog open={isProductModalOpen} onOpenChange={setIsProductModalOpen}>
+                <DialogContent className="bg-white dark:bg-[#062B29] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white max-w-md rounded-3xl">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold text-[rgb(28,212,132)]">Add New Item</DialogTitle>
+                        <p className="text-xs text-slate-500 uppercase font-bold tracking-widest">{selectedAuctionForProduct?.title}</p>
+                    </DialogHeader>
+                    <form onSubmit={handleAddProduct} className="space-y-6 pt-4">
+                        <div className="space-y-2">
+                            <Label className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Item Name</Label>
+                            <Input 
+                                value={productForm.data.name}
+                                onChange={e => productForm.setData('name', e.target.value)}
+                                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                placeholder="e.g. Diamond Rolex Oyster"
+                            />
+                            {productForm.errors.name && <p className="text-rose-500 text-xs font-medium">{productForm.errors.name}</p>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Item Image</Label>
+                            <Input 
+                                type="file"
+                                accept="image/*"
+                                onChange={e => productForm.setData('image_url', e.target.files ? e.target.files[0] : null)}
+                                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)] file:bg-[rgb(28,212,132)]/10 file:text-[rgb(28,212,132)] file:border-0 file:rounded-lg file:px-3 file:py-1 file:mr-3 file:font-bold file:cursor-pointer"
+                            />
+                            {productForm.errors.image_url && <p className="text-rose-500 text-xs font-medium">{productForm.errors.image_url}</p>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Starting Bid (USD)</Label>
+                            <Input 
+                                type="number"
+                                value={productForm.data.starting_bid}
+                                onChange={e => productForm.setData('starting_bid', e.target.value)}
+                                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                placeholder="0.00"
+                            />
+                        </div>
+                        <Button type="submit" disabled={productForm.processing} className="w-full bg-[rgb(28,212,132)] text-[#041F1E] font-bold h-12 rounded-xl">
+                            Add to Catalog
+                        </Button>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            {/* Items View Modal */}
+            <Dialog open={isItemsModalOpen} onOpenChange={(open) => !open && setIsItemsModalOpen(null)}>
+                <DialogContent className="bg-white dark:bg-[#062B29] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white max-w-lg rounded-3xl shadow-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold text-[rgb(28,212,132)]">Auction Catalog</DialogTitle>
+                        <p className="text-sm text-slate-500 dark:text-white/40 font-medium">{selectedAuctionForItems?.title}</p>
+                    </DialogHeader>
+                    <div className="space-y-4 pt-4 max-h-[500px] overflow-y-auto">
+                        {selectedAuctionForItems?.products?.map((product) => (
+                            <div key={product.id} className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 group hover:border-[rgb(28,212,132)]/20 transition-all overflow-hidden w-full">
+                                <div className="h-14 w-14 rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 flex-shrink-0">
+                                    <img 
+                                        src={product.image_url || 'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&q=80&w=800'} 
+                                        alt={product.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="flex-1 min-w-0 overflow-hidden">
+                                    <p className="font-bold text-slate-900 dark:text-white truncate block w-full">{product.name}</p>
+                                    <p className="text-[10px] text-[rgb(28,212,132)] font-black uppercase tracking-widest truncate block w-full">
+                                        Current: {Number(product.current_bid).toLocaleString()} MAD
+                                    </p>
+                                </div>
+                                <Button 
+                                    variant="ghost" 
+                                    size="icon"
+                                    onClick={() => deleteProduct(product.id)}
+                                    className="h-10 w-10 text-rose-500 hover:text-white hover:bg-rose-500 rounded-xl transition-all flex-shrink-0 ml-auto"
+                                >
+                                    <Trash2 className="h-5 w-5" />
+                                </Button>
+                            </div>
+                        ))}
+                        {!selectedAuctionForItems?.products?.length && (
+                            <div className="text-center py-10 text-slate-300 dark:text-white/20">
+                                <Package className="h-12 w-12 mx-auto mb-2 opacity-20" />
+                                <p className="font-bold uppercase tracking-widest text-sm">Catalog is empty</p>
+                            </div>
+                        )}
+                    </div>
+                </DialogContent>
+            </Dialog>
+
             </>
     );
 }

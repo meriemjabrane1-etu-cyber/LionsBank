@@ -81,19 +81,19 @@ const EmptyState = ({
             : config.ctaLabel;
 
     return (
-        <div className="flex flex-col items-center justify-center py-12 px-6 text-center rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-white/[0.05] dark:bg-white/[0.02] dark:shadow-none">
+        <div className="flex flex-col items-center justify-center py-16 px-8 text-center rounded-[2.5rem] border border-slate-200 bg-white shadow-sm dark:border-white/[0.07] dark:bg-white/[0.03] dark:shadow-none transition-all duration-500">
 
             {/* Icon */}
-            <div className="w-14 h-14 rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-center text-slate-500 mb-4 dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-slate-400">
-                <Icon size={24} />
+            <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/[0.05] border border-slate-100 dark:border-white/10 flex items-center justify-center text-slate-400 dark:text-white/20 mb-6 shadow-sm">
+                <Icon size={28} />
             </div>
 
             {/* Copy */}
-            <h3 className="text-sm font-semibold text-slate-900 mb-1.5 dark:text-slate-200">
+            <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight mb-2">
                 {displayTitle}
             </h3>
 
-            <p className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed max-w-xs">
+            <p className="text-xs font-medium text-slate-500 dark:text-white/40 leading-relaxed max-w-[240px] mx-auto">
                 {displayDesc}
             </p>
 
@@ -101,7 +101,7 @@ const EmptyState = ({
             {displayCta && onCta && (
                 <button
                     onClick={onCta}
-                    className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-[#041f1e] text-xs font-bold hover:-translate-y-0.5 hover:shadow-lg hover:shadow-green-500/20 transition-all"
+                    className="mt-8 inline-flex items-center gap-3 px-8 py-3 rounded-2xl bg-gradient-to-r from-[rgb(28,212,132)] to-emerald-600 text-[#041F1E] text-[10px] font-black uppercase tracking-widest hover:translate-y-[-2px] hover:shadow-xl hover:shadow-[rgb(28,212,132)]/20 active:scale-[0.98] transition-all"
                 >
                     {displayCta}
                 </button>

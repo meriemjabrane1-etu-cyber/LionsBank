@@ -16,39 +16,39 @@ import { ShieldCheck, ShieldX, Key, Settings, Clock } from 'lucide-react';
 
 const EVENT_TYPE_CONFIG = {
     verified: {
-        dotColor: 'bg-green-400',
+        dotColor: 'bg-emerald-500',
         icon: ShieldCheck,
-        iconBg: 'bg-green-500/10',
-        iconColor: 'text-green-400',
-        badge: { label: 'Verified', cls: 'text-green-400 border-green-500/20 bg-green-500/10' },
+        iconBg: 'bg-emerald-500/10',
+        iconColor: 'text-emerald-600 dark:text-[rgb(28,212,132)]',
+        badge: { label: 'Verified', cls: 'text-emerald-600 dark:text-[rgb(28,212,132)] border-emerald-500/20 bg-emerald-500/10' },
     },
     failed: {
-        dotColor: 'bg-red-400',
+        dotColor: 'bg-rose-500',
         icon: ShieldX,
-        iconBg: 'bg-red-500/10',
-        iconColor: 'text-red-400',
-        badge: { label: 'Failed', cls: 'text-red-400 border-red-500/20 bg-red-500/10' },
+        iconBg: 'bg-rose-500/10',
+        iconColor: 'text-rose-500',
+        badge: { label: 'Failed', cls: 'text-rose-600 dark:text-rose-400 border-rose-500/20 bg-rose-500/10' },
     },
     issued: {
-        dotColor: 'bg-green-400',
+        dotColor: 'bg-emerald-500',
         icon: Key,
-        iconBg: 'bg-green-500/10',
-        iconColor: 'text-green-400',
-        badge: { label: 'Issued', cls: 'text-green-400 border-green-500/20 bg-green-500/10' },
+        iconBg: 'bg-emerald-500/10',
+        iconColor: 'text-emerald-600 dark:text-[rgb(28,212,132)]',
+        badge: { label: 'Issued', cls: 'text-emerald-600 dark:text-[rgb(28,212,132)] border-emerald-500/20 bg-emerald-500/10' },
     },
     system: {
-        dotColor: 'bg-slate-500',
+        dotColor: 'bg-slate-400',
         icon: Settings,
         iconBg: 'bg-slate-500/10',
-        iconColor: 'text-slate-400',
-        badge: { label: 'System', cls: 'text-slate-400 border-slate-500/20 bg-slate-500/10' },
+        iconColor: 'text-slate-500 dark:text-white/40',
+        badge: { label: 'System', cls: 'text-slate-500 dark:text-white/40 border-slate-500/20 bg-slate-500/10' },
     },
     expired: {
-        dotColor: 'bg-amber-400',
+        dotColor: 'bg-amber-500',
         icon: Clock,
         iconBg: 'bg-amber-500/10',
-        iconColor: 'text-amber-400',
-        badge: { label: 'Expired', cls: 'text-amber-400 border-amber-500/20 bg-amber-500/10' },
+        iconColor: 'text-amber-500',
+        badge: { label: 'Expired', cls: 'text-amber-600 dark:text-amber-400 border-amber-500/20 bg-amber-500/10' },
     },
 };
 
@@ -62,32 +62,32 @@ const HistoryRow = ({ event, isLast }) => {
     const Icon = cfg.icon;
 
     return (
-        <div className={`flex items-start gap-3.5 py-3.5 ${!isLast ? 'border-b border-slate-200/70 dark:border-white/[0.05]' : ''}`}>
+        <div className={`flex items-start gap-4 py-5 ${!isLast ? 'border-b border-slate-100 dark:border-white/[0.05]' : ''}`}>
             {/* Timeline Dot */}
-            <div className="flex flex-col items-center gap-0 flex-shrink-0 pt-1">
-                <div className={`w-2 h-2 rounded-full ${cfg.dotColor}`} />
+            <div className="flex flex-col items-center gap-0 flex-shrink-0 pt-2">
+                <div className={`w-2.5 h-2.5 rounded-full ${cfg.dotColor} shadow-[0_0_8px_rgba(16,185,129,0.2)]`} />
             </div>
 
             {/* Event Icon */}
-            <div className={`w-8 h-8 rounded-lg ${cfg.iconBg} flex items-center justify-center ${cfg.iconColor} flex-shrink-0`}>
-                <Icon size={14} />
+            <div className={`w-10 h-10 rounded-xl ${cfg.iconBg} flex items-center justify-center ${cfg.iconColor} flex-shrink-0 shadow-sm`}>
+                <Icon size={18} />
             </div>
 
             {/* Event Info */}
             <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-900 leading-tight dark:text-slate-200">{event.title}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-500 mt-0.5">{event.time}</p>
+                <p className="text-sm font-black text-slate-900 dark:text-white leading-tight">{event.title}</p>
+                <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mt-1.5">{event.time}</p>
                 {event.ip && (
-                    <p className="text-[11px] text-slate-500 mt-0.5 font-mono dark:text-slate-600">{event.ip}</p>
+                    <p className="text-[10px] text-slate-400 dark:text-white/10 mt-1 font-mono">{event.ip}</p>
                 )}
             </div>
 
             {/* Amount or Badge */}
             <div className="flex-shrink-0 text-right">
                 {event.amount ? (
-                    <span className="text-sm font-semibold text-green-400">{event.amount}</span>
+                    <span className="text-sm font-black text-emerald-600 dark:text-[rgb(28,212,132)]">{event.amount}</span>
                 ) : (
-                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold border ${cfg.badge.cls}`}>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${cfg.badge.cls}`}>
                         {cfg.badge.label}
                     </span>
                 )}
@@ -118,19 +118,19 @@ const VerificationHistory = ({ events = [], maxVisible = 10 }) => {
     const displayEvents = events.length > 0 ? visible : DEFAULT_EVENTS;
 
     return (
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/[0.07] dark:bg-white/[0.03] dark:shadow-none">
+        <div className="rounded-[2.5rem] border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.03] p-8 shadow-sm dark:shadow-none transition-all duration-500">
             {/* Card Header */}
-            <div className="flex items-center justify-between mb-1">
-                <p className="text-[11px] font-semibold text-slate-500 dark:text-slate-500 uppercase tracking-widest">
+            <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] font-black text-slate-400 dark:text-white/20 uppercase tracking-[0.2em]">
                     Verification History
                 </p>
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold border text-blue-400 border-blue-500/20 bg-blue-500/10">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border text-blue-600 dark:text-blue-400 border-blue-500/20 bg-blue-500/10 shadow-sm">
                     {events.length || DEFAULT_EVENTS.length} entries
                 </span>
             </div>
 
             {/* Event List */}
-            <div className="mt-3">
+            <div className="mt-4">
                 {displayEvents.map((event, idx) => (
                     <HistoryRow
                         key={event.id}
@@ -144,7 +144,7 @@ const VerificationHistory = ({ events = [], maxVisible = 10 }) => {
             {hasMore && (
                 <button
                     onClick={() => setExpanded((p) => !p)}
-                    className="mt-3 w-full py-2 text-xs font-semibold text-green-700 border border-green-200 rounded-xl bg-green-50 hover:bg-green-100 transition-colors dark:text-green-400 dark:border-green-500/15 dark:bg-green-500/[0.04] dark:hover:bg-green-500/[0.08]"
+                    className="mt-6 w-full py-4 text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-[rgb(28,212,132)] border border-slate-100 dark:border-white/5 rounded-2xl bg-slate-50 dark:bg-white/[0.02] hover:bg-slate-100 dark:hover:bg-white/5 transition-all shadow-sm active:scale-[0.99]"
                 >
                     {expanded ? 'Show less' : `Show ${events.length - maxVisible} more`}
                 </button>

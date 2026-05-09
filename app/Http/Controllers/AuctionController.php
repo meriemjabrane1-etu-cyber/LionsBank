@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Auction;
 use App\Models\Product;
+use App\Models\Bid;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,6 +83,52 @@ class AuctionController extends Controller
         return back()->with('success', 'Auction ended and winner declared.');
     }
 
+    public function deleteAuction(Auction $auction)
+    {
+        $this->ensureEmployeeAccess();
+
+        // Explicitly delete related records to avoid constraint issues
+        $auction->bids()->delete();
+        $auction->products()->delete();
+        $auction->delete();
+
+        return back()->with('success', 'Auction deleted successfully.');
+    }
+
+    public function addProduct(Request $request, Auction $auction)
+    {
+        $this->ensureEmployeeAccess();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'starting_bid' => 'required|numeric|min:0',
+        ]);
+
+        $imagePath = null;
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('products', 'public');
+            $imagePath = '/storage/' . $path;
+        }
+
+        $auction->products()->create([
+            'name' => $validated['name'],
+            'image_url' => $imagePath,
+            'current_bid' => $validated['starting_bid'],
+        ]);
+
+        return back()->with('success', 'Item added to auction successfully.');
+    }
+
+    public function deleteProduct(Product $product)
+    {
+        $this->ensureEmployeeAccess();
+
+        $product->delete();
+
+        return back()->with('success', 'Item removed from auction.');
+    }
+
     public function join(Auction $auction)
     {
         return back()->with('success', "You have joined the auction: {$auction->title}");
@@ -95,6 +142,13 @@ class AuctionController extends Controller
 
         $product->update([
             'current_bid' => $request->amount
+        ]);
+
+        // Create a record in the bids table
+        Bid::create([
+            'user_id' => Auth::id(),
+            'auction_id' => $product->auction_id,
+            'amount' => $request->amount,
         ]);
 
         return back()->with('success', "Bid placed successfully on {$product->name}!");

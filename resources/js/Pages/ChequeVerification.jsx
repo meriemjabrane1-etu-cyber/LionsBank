@@ -96,15 +96,15 @@ const computeSummary = (form, availableBalance = 84200) => {
 // ─────────────────────────────────────────────
 
 const TabBar = ({ activeTab, onChange }) => (
-    <div className="flex gap-1 bg-white border border-slate-200 shadow-sm dark:bg-white/[0.04] dark:border-green-500/10 dark:shadow-none rounded-xl p-1 mb-8">
+    <div className="flex gap-1 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 shadow-sm rounded-xl p-1 mb-8">
         {TABS.map(({ id, label, icon: Icon }) => (
             <button
                 key={id}
                 onClick={() => onChange(id)}
-                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
                     activeTab === id
-                        ? 'bg-green-50 text-green-700 border border-green-200 dark:bg-green-500/15 dark:text-green-400 dark:border-green-500/25'
-                        : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50 dark:hover:text-slate-300 dark:hover:bg-white/[0.04]'
+                        ? 'bg-[rgb(28,212,132)] text-[#041F1E] shadow-lg'
+                        : 'text-slate-500 dark:text-white/50 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'
                 }`}
             >
                 <Icon size={14} />
@@ -120,7 +120,7 @@ const TabBar = ({ activeTab, onChange }) => (
 // ─────────────────────────────────────────────
 
 const ScreenCreate = ({ summary, onFormChange, onGenerate, availableBalance }) => (
-    <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-6">
+    <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-8">
         {/* Left Column — Form */}
         <FundsReservation
             availableBalance={availableBalance}
@@ -141,7 +141,7 @@ const ScreenCreate = ({ summary, onFormChange, onGenerate, availableBalance }) =
 // ─────────────────────────────────────────────
 
 const ScreenVerify = ({ onVerify }) => (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-8">
         <SecurityBanner compact />
         <VerificationForm onVerify={onVerify} />
     </div>
@@ -153,16 +153,16 @@ const ScreenVerify = ({ onVerify }) => (
 // ─────────────────────────────────────────────
 
 const ScreenStatus = () => (
-    <div className="space-y-5">
+    <div className="space-y-8">
         {/* Status Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <ExpirationCard
                 totalSeconds={72 * 3600}
                 initialRemaining={71 * 3600 + 42 * 60 + 18}
                 amount="MAD 15,000"
                 expiresLabel="May 11, 2026"
             />
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <VerificationStatus
                     status="enabled"
                     verifiableAmount="MAD 15,000"
@@ -257,12 +257,12 @@ const ChequeVerification = ({
             <Head title="Cheque Verification & Funds Guarantee — LionsBank" />
 
             {/* Page Shell */}
-            <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#041f1e] dark:text-slate-100">
+            <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] text-slate-900 dark:text-white transition-colors duration-500">
                 {/* Top Navigation Bar */}
-                <nav className="sticky top-0 z-50 flex items-center justify-between px-6 h-14 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-green-500/15 dark:bg-[#041f1e]/95">
+                <nav className="sticky top-0 z-50 flex items-center justify-between px-6 h-16 border-b border-slate-200 dark:border-white/5 bg-white/80 dark:bg-[#041F1E]/80 backdrop-blur-md">
                     {/* Logo */}
-                    <div className="flex items-center gap-2.5 text-green-600 dark:text-green-400 font-bold text-lg tracking-tight">
-                        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-[#041f1e] font-black text-base">
+                    <div className="flex items-center gap-2.5 text-[rgb(28,212,132)] font-black text-xl tracking-tight">
+                        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-[#041F1E] font-black text-lg shadow-lg shadow-[rgb(28,212,132)]/20">
                             L
                         </div>
                         LionsBank
@@ -270,11 +270,14 @@ const ChequeVerification = ({
 
                     {/* User Info */}
                     {auth?.user && (
-                        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
-                            <div className="w-7 h-7 rounded-full bg-green-50 border border-green-200 flex items-center justify-center text-green-700 font-bold text-[11px] dark:bg-green-500/15 dark:border-green-500/20 dark:text-green-400">
+                        <div className="flex items-center gap-3">
+                            <div className="text-right hidden sm:block">
+                                <p className="text-sm font-black leading-none">{auth.user.name}</p>
+                                <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mt-1">Authorized User</p>
+                            </div>
+                            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-[rgb(28,212,132)] font-black">
                                 {auth.user.name?.charAt(0).toUpperCase()}
                             </div>
-                            <span className="hidden sm:inline">{auth.user.name}</span>
                         </div>
                     )}
                 </nav>

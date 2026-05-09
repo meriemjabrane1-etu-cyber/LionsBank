@@ -72,6 +72,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/employee/auctions', [AuctionController::class, 'store'])->name('employee.auctions.store');
     Route::patch('/employee/auctions/{auction}/toggle', [AuctionController::class, 'toggleStatus'])->name('employee.auctions.toggle');
     Route::patch('/employee/auctions/{auction}/winner', [AuctionController::class, 'declareWinner'])->name('employee.auctions.winner');
+    Route::delete('/employee/auctions/{auction}', [AuctionController::class, 'deleteAuction'])->name('employee.auctions.delete');
+    Route::post('/employee/auctions/{auction}/products', [AuctionController::class, 'addProduct'])->name('employee.auctions.addProduct');
+    Route::delete('/employee/products/{product}', [AuctionController::class, 'deleteProduct'])->name('employee.auctions.deleteProduct');
 });
 
 Route::get('/ai-agent', function () {

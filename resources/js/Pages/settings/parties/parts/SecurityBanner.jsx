@@ -43,13 +43,13 @@ const SECURITY_FEATURES = [
 // ─────────────────────────────────────────────
 
 const FeatureItem = ({ icon: Icon, title, description }) => (
-    <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 mt-0.5 dark:bg-green-500/10 dark:text-green-400">
-            <Icon size={15} />
+    <div className="flex items-start gap-4">
+        <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-[rgb(28,212,132)] flex-shrink-0 shadow-sm">
+            <Icon size={18} />
         </div>
-        <div className="min-w-0">
-            <p className="text-xs font-semibold text-slate-900 dark:text-slate-200">{title}</p>
-            <p className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed mt-0.5">{description}</p>
+        <div className="min-w-0 pt-0.5">
+            <p className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight">{title}</p>
+            <p className="text-[10px] font-medium text-slate-500 dark:text-white/40 leading-relaxed mt-1">{description}</p>
         </div>
     </div>
 );
@@ -61,42 +61,42 @@ const FeatureItem = ({ icon: Icon, title, description }) => (
 const SecurityBanner = ({ compact = false }) => {
     if (compact) {
         return (
-            <div className="flex items-center gap-3 px-4 py-3 rounded-xl border border-green-200 bg-green-50 dark:border-green-500/15 dark:bg-green-500/[0.04]">
-                <ShieldCheck size={16} className="text-green-600 flex-shrink-0 dark:text-green-400" />
-                <p className="text-xs text-slate-600 leading-relaxed dark:text-slate-400">
-                    This feature is protected by <span className="text-green-700 font-semibold dark:text-green-400">LionsBank bank-grade security</span>.
-                    All fund movements are encrypted, logged, and audited.
+            <div className="flex items-center gap-4 px-6 py-4 rounded-2xl border-2 border-emerald-500/20 bg-emerald-500/[0.03] animate-in fade-in duration-500">
+                <ShieldCheck size={20} className="text-emerald-600 dark:text-[rgb(28,212,132)] flex-shrink-0" />
+                <p className="text-xs font-medium text-slate-600 dark:text-white/60 leading-relaxed">
+                    This session is protected by <span className="text-emerald-600 dark:text-[rgb(28,212,132)] font-black">LionsBank Bank-Grade Security</span>.
+                    All fund movements are end-to-end encrypted and audited.
                 </p>
             </div>
         );
     }
 
     return (
-        <div className="rounded-2xl border border-green-200 bg-green-50 p-6 shadow-sm dark:border-green-500/15 dark:bg-green-500/[0.03] dark:shadow-none">
+        <div className="rounded-[2.5rem] border border-emerald-500/20 bg-white dark:bg-white/[0.03] p-10 shadow-sm dark:shadow-none transition-all duration-500">
             {/* Banner Header */}
-            <div className="flex items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 dark:bg-green-500/12 dark:text-green-400">
-                    <ShieldCheck size={20} />
+            <div className="flex flex-col md:flex-row md:items-center gap-6 mb-10">
+                <div className="w-16 h-16 rounded-[1.5rem] bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-[rgb(28,212,132)] flex-shrink-0 shadow-lg shadow-emerald-500/10">
+                    <ShieldCheck size={32} />
                 </div>
-                <div>
-                    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100">Security & Guarantee Standards</h3>
-                    <p className="text-xs text-slate-500 dark:text-slate-500 mt-0.5">LionsBank — Funds Protection Framework</p>
+                <div className="flex-1">
+                    <h3 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Security & Guarantee Standards</h3>
+                    <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] mt-2">LionsBank — Funds Protection Framework</p>
                 </div>
-                <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold text-green-700 border border-green-200 bg-green-100 dark:text-green-400 dark:border-green-500/20 dark:bg-green-500/10">
-                    <ShieldCheck size={10} /> Active
+                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-[rgb(28,212,132)] border border-emerald-500/20 bg-emerald-500/10 shadow-sm">
+                    <ShieldCheck size={12} /> System Active
                 </span>
             </div>
 
             {/* Feature Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
                 {SECURITY_FEATURES.map((feat) => (
                     <FeatureItem key={feat.title} {...feat} />
                 ))}
             </div>
 
             {/* Disclaimer */}
-            <div className="mt-5 pt-4 border-t border-green-200 text-xs text-slate-500 leading-relaxed dark:border-white/[0.05] dark:text-slate-500">
-                LionsBank's Cheque Verification system does not disclose account balances, full cheque amounts,
+            <div className="mt-10 pt-8 border-t border-slate-100 dark:border-white/5 text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] leading-relaxed">
+                System Disclosure: LionsBank's Cheque Verification system does not disclose account balances, full cheque amounts,
                 or any sensitive financial data to beneficiaries. Only the amount explicitly authorized by the issuer is shown.
             </div>
         </div>

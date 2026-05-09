@@ -34,34 +34,33 @@ const RESULT_STATE = {
 // ─────────────────────────────────────────────
 
 const ResultSuccess = ({ data }) => (
-    <div className="mt-5 rounded-2xl border border-green-200 bg-green-50 p-6 dark:border-green-500/20 dark:bg-green-500/[0.04]">
-
-        <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600 dark:bg-green-500/15 dark:text-green-400">
-                <ShieldCheck size={20} />
+    <div className="mt-8 rounded-[2.5rem] border-2 border-emerald-500/20 bg-emerald-500/[0.03] p-8 animate-in fade-in zoom-in duration-500">
+        <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 rounded-2xl bg-white dark:bg-white/10 flex items-center justify-center text-emerald-600 dark:text-[rgb(28,212,132)] shadow-lg shadow-emerald-500/10">
+                <ShieldCheck size={24} />
             </div>
 
             <div className="flex-1">
-                <p className="text-sm font-bold text-green-400">Funds Guaranteed</p>
-                <p className="text-xs text-slate-500 dark:text-slate-500">Verified by LionsBank</p>
+                <p className="text-sm font-black text-emerald-600 dark:text-[rgb(28,212,132)] uppercase tracking-widest">Funds Guaranteed</p>
+                <p className="text-xs font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest mt-1">Verified by LionsBank</p>
             </div>
 
-            <span className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-green-400 border border-green-500/20 bg-green-500/10">
-                 <Shield size={10} /> Certified 
+            <span className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-[rgb(28,212,132)] border border-emerald-500/20 bg-emerald-500/10">
+                 <Shield size={12} /> Certified 
             </span>
         </div>
 
-        <div className="space-y-0 divide-y divide-slate-200/70 dark:divide-white/[0.05]">
-            <ResultRow label="Guaranteed Amount" value={data.amount} valueClass="text-green-700 dark:text-green-400 text-base font-bold" />
+        <div className="space-y-0 divide-y divide-slate-100 dark:divide-white/[0.05]">
+            <ResultRow label="Guaranteed Amount" value={data.amount} valueClass="text-emerald-700 dark:text-[rgb(28,212,132)] text-2xl font-black" />
             <ResultRow label="Reservation Status" value={<StatusPill color="blue" label={`Active · ${data.timeLeft}`} />} />
             <ResultRow label="Reservation Expires" value={data.expires} />
             <ResultRow label="Verification Status" value={<StatusPill color="green" label="Authenticated" />} />
-            <ResultRow label="Reference ID" value={<span className="font-mono text-xs text-slate-500 dark:text-slate-400">{data.referenceId}</span>} />
+            <ResultRow label="Reference ID" value={<span className="font-mono text-xs font-bold text-slate-500 dark:text-white/40">{data.referenceId}</span>} />
         </div>
 
-        <div className="mt-4 px-3 py-2.5 rounded-lg bg-white text-xs text-slate-500 flex items-center gap-2 dark:bg-white/[0.03] dark:text-slate-500">
-            <Info size={13} className="text-green-600 flex-shrink-0 dark:text-green-400" />
-            Account balance and full cheque amount are not disclosed for your privacy.
+        <div className="mt-6 px-4 py-3 rounded-2xl bg-white dark:bg-white/5 border border-slate-100 dark:border-white/5 text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest flex items-center gap-3">
+            <Info size={14} className="text-emerald-500 flex-shrink-0" />
+            Privacy Shield Active: Only guaranteed amounts are visible.
         </div>
     </div>
 );
@@ -71,22 +70,21 @@ const ResultSuccess = ({ data }) => (
 // ─────────────────────────────────────────────
 
 const ResultExpired = () => (
-    <div className="mt-5 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center dark:border-amber-500/20 dark:bg-amber-500/[0.04]">
-
-        <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 mx-auto mb-3">
-            <ClockAlert size={24} />
+    <div className="mt-8 rounded-[2.5rem] border-2 border-amber-500/20 bg-amber-500/[0.03] p-8 text-center animate-in fade-in zoom-in duration-500">
+        <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/10 flex items-center justify-center text-amber-500 mx-auto mb-4 shadow-lg shadow-amber-500/10">
+            <ClockAlert size={28} />
         </div>
 
-        <p className="text-sm font-bold text-amber-400 mb-1.5">
+        <p className="text-sm font-black text-amber-500 uppercase tracking-widest mb-2">
             Verification Expired
         </p>
 
-        <p className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+        <p className="text-xs font-medium text-slate-500 dark:text-white/40 leading-relaxed max-w-xs mx-auto">
             This reservation period has elapsed. Contact the cheque issuer to generate a new code.
         </p>
 
-        <button className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold text-amber-400 border border-amber-500/20 bg-amber-500/10 hover:bg-amber-500/15 transition-colors">
-            <ExternalLink size={12} /> Request New Code
+        <button className="mt-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 border border-amber-500/20 bg-amber-500/10 hover:bg-amber-500/20 transition-all active:scale-95">
+            <ExternalLink size={14} /> Request New Code
         </button>
     </div>
 );
@@ -96,21 +94,20 @@ const ResultExpired = () => (
 // ─────────────────────────────────────────────
 
 const ResultInvalid = () => (
-    <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-6 text-center dark:border-red-500/20 dark:bg-red-500/[0.04]">
-
-        <div className="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-400 mx-auto mb-3">
-            <ShieldX size={24} />
+    <div className="mt-8 rounded-[2.5rem] border-2 border-rose-500/20 bg-rose-500/[0.03] p-8 text-center animate-in fade-in zoom-in duration-500">
+        <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/10 flex items-center justify-center text-rose-500 mx-auto mb-4 shadow-lg shadow-rose-500/10">
+            <ShieldX size={28} />
         </div>
 
-        <p className="text-sm font-bold text-red-400 mb-1.5">
-            Invalid Verification Code
+        <p className="text-sm font-black text-rose-500 uppercase tracking-widest mb-2">
+            Invalid Code
         </p>
 
-        <p className="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+        <p className="text-xs font-medium text-slate-500 dark:text-white/40 leading-relaxed max-w-xs mx-auto">
             This code does not match any active cheque. Verify the code with the issuer and try again.
         </p>
 
-        <button className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold text-red-400 border border-red-500/20 bg-red-500/10 hover:bg-red-500/15 transition-colors">
+        <button className="mt-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400 border border-rose-500/20 bg-rose-500/10 hover:bg-rose-500/20 transition-all active:scale-95">
             Contact Issuer
         </button>
     </div>
@@ -133,14 +130,14 @@ const ResultRow = ({ label, value, valueClass = 'text-slate-900 dark:text-slate-
 
 const StatusPill = ({ color, label }) => {
     const palette = {
-        green: 'text-green-400 border-green-500/20 bg-green-500/10',
-        blue: 'text-blue-400 border-blue-500/20 bg-blue-500/10',
-        amber: 'text-amber-400 border-amber-500/20 bg-amber-500/10',
-        red: 'text-red-400 border-red-500/20 bg-red-500/10',
+        green: 'text-emerald-600 dark:text-[rgb(28,212,132)] border-emerald-500/20 bg-emerald-500/10',
+        blue: 'text-blue-600 dark:text-blue-400 border-blue-500/20 bg-blue-500/10',
+        amber: 'text-amber-600 dark:text-amber-400 border-amber-500/20 bg-amber-500/10',
+        red: 'text-rose-600 dark:text-rose-400 border-rose-500/20 bg-rose-500/10',
     };
 
     return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${palette[color] || palette.green}`}>
+        <span className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${palette[color] || palette.green}`}>
             {label}
         </span>
     );
@@ -179,25 +176,25 @@ const VerificationForm = ({ onVerify, isLoading = false }) => {
     return (
         <div className="max-w-lg mx-auto">
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-white/[0.07] dark:bg-white/[0.03] dark:shadow-none">
+            <div className="rounded-[3rem] border border-slate-200 bg-white p-10 shadow-sm dark:border-white/[0.07] dark:bg-white/[0.03] dark:shadow-none transition-all duration-500">
 
-                <div className="text-center mb-7">
-                    <div className="w-16 h-16 rounded-2xl border-2 border-green-200 bg-green-50 flex items-center justify-center text-green-600 mx-auto mb-4 dark:border-green-500/20 dark:bg-green-500/10 dark:text-green-400">
-                        <Shield size={30} />
+                <div className="text-center mb-10">
+                    <div className="w-20 h-20 rounded-[2rem] bg-gradient-to-br from-white to-slate-50 dark:from-white/10 dark:to-white/5 border border-slate-100 dark:border-white/10 flex items-center justify-center text-emerald-600 dark:text-[rgb(28,212,132)] mx-auto mb-6 shadow-xl shadow-emerald-500/10">
+                        <Shield size={36} className="animate-pulse" />
                     </div>
 
-                    <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">
-                        Funds Verification Portal
+                    <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                        Verification Portal
                     </h2>
 
-                    <p className="text-xs text-slate-500 dark:text-slate-500 mt-1">
-                        Secure · Private · Bank-Certified
+                    <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-[0.2em] mt-2">
+                        Bank-Grade Secure Protocol
                     </p>
                 </div>
 
-                <div className="mb-5">
-                    <label className="block text-[11px] font-semibold text-slate-500 uppercase tracking-widest mb-2 dark:text-slate-400">
-                        Verification Code
+                <div className="mb-8">
+                    <label className="block text-[10px] font-bold text-slate-400 dark:text-white/30 uppercase tracking-widest mb-3 text-center">
+                        Secure Verification Code
                     </label>
 
                     <input
@@ -205,18 +202,18 @@ const VerificationForm = ({ onVerify, isLoading = false }) => {
                         value={code}
                         onChange={(e) => setCode(e.target.value.toUpperCase())}
                         onKeyDown={handleKeyDown}
-                        placeholder="e.g. LB-4F9K-2M7X"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-slate-900 text-lg font-mono tracking-[0.15em] text-center placeholder-slate-400 outline-none focus:border-green-500/40 focus:bg-green-50 focus:ring-2 focus:ring-green-500/10 transition-all dark:bg-white/[0.05] dark:border-white/10 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:bg-green-500/[0.04]"
+                        placeholder="LB-XXXX-XXXX"
+                        className="w-full bg-slate-50 dark:bg-black/20 border border-slate-200 dark:border-white/10 rounded-2xl px-6 py-5 text-slate-900 dark:text-white text-2xl font-mono font-black tracking-[0.2em] text-center placeholder:text-slate-300 dark:placeholder:text-white/10 outline-none focus:border-[rgb(28,212,132)]/50 focus:bg-white dark:focus:bg-white/[0.05] focus:ring-8 focus:ring-[rgb(28,212,132)]/5 transition-all shadow-inner"
                     />
                 </div>
 
                 <button
                     onClick={handleVerify}
                     disabled={!code.trim() || isLoading || isVerifying}
-                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-[#041f1e] text-sm font-bold"
+                    className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl bg-gradient-to-r from-[rgb(28,212,132)] to-emerald-600 text-[#041F1E] text-sm font-black uppercase tracking-widest shadow-lg shadow-[rgb(28,212,132)]/20 hover:translate-y-[-2px] active:scale-[0.98] transition-all disabled:opacity-50"
                 >
-                    <ShieldCheck size={16} />
-                    {isLoading || isVerifying ? 'Verifying...' : 'Verify Now'}
+                    <ShieldCheck size={18} />
+                    {isLoading || isVerifying ? 'Authenticating...' : 'Verify Cheque Guarantee'}
                 </button>
 
                 {resultState === RESULT_STATE.SUCCESS && resultData && <ResultSuccess data={resultData} />}
@@ -224,9 +221,9 @@ const VerificationForm = ({ onVerify, isLoading = false }) => {
                 {resultState === RESULT_STATE.INVALID && <ResultInvalid />}
             </div>
 
-            <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-white/[0.06] dark:bg-white/[0.02] dark:shadow-none">
-                <p className="text-xs text-slate-500 dark:text-slate-500">
-                    LionsBank only shows verified data authorized by issuer.
+            <div className="mt-6 rounded-2xl border border-slate-200 dark:border-white/[0.06] bg-white dark:bg-white/[0.02] p-5 shadow-sm dark:shadow-none text-center">
+                <p className="text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest leading-relaxed">
+                    System Notice: LionsBank only displays verifiable fund commitments authorized by the issuer. Full balance details remain encrypted.
                 </p>
             </div>
 
