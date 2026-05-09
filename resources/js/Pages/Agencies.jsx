@@ -62,6 +62,29 @@ const agenciesData = [
   { id: 4, name: "Lions Bank Ain Diab", address: "Ain Diab, Casablanca", status: "Open", cash: true, position: [33.6031, -7.6721] },
   { id: 5, name: "Lions Bank Derb Sultan", address: "Derb Sultan", status: "Closed", cash: true, position: [33.5709, -7.6026] },
   { id: 6, name: "Lions Bank Sidi Maarouf", address: "Sidi Maarouf", status: "Open", cash: false, position: [33.5296, -7.6472] },
+
+  // Bernoussi
+  { id: 7, name: "Lions Bank Sidi Bernoussi 1", address: "Sidi Bernoussi", status: "Open", cash: true, position: [33.6185, -7.4982] },
+  { id: 8, name: "Lions Bank Sidi Bernoussi 2", address: "Al Qods, Bernoussi", status: "Closed", cash: false, position: [33.6151, -7.5038] },
+  { id: 9, name: "Lions Bank Bernoussi Industrial", address: "Zone Industrielle Bernoussi", status: "Open", cash: true, position: [33.6217, -7.4875] },
+
+  // Ain Sebaa
+  { id: 10, name: "Lions Bank Ain Sebaa 1", address: "Ain Sebaa", status: "Open", cash: true, position: [33.6123, -7.5402] },
+  { id: 11, name: "Lions Bank Ain Sebaa 2", address: "Route de Rabat", status: "Closed", cash: false, position: [33.6089, -7.5480] },
+  { id: 12, name: "Lions Bank Ain Sebaa Port", address: "Port Area", status: "Open", cash: true, position: [33.6157, -7.5324] },
+  { id: 13, name: "Lions Bank Beaulieu", address: "Beaulieu", status: "Open", cash: true, position: [33.6068, -7.5562] },
+  { id: 14, name: "Lions Bank Hay Mohammadi", address: "Hay Mohammadi", status: "Closed", cash: false, position: [33.5995, -7.5527] },
+
+  // Sidi Moumen
+  { id: 15, name: "Lions Bank Sidi Moumen 1", address: "Sidi Moumen", status: "Open", cash: true, position: [33.6033, -7.5095] },
+  { id: 16, name: "Lions Bank Sidi Moumen 2", address: "Al Mostakbal", status: "Open", cash: false, position: [33.5981, -7.5148] },
+  { id: 17, name: "Lions Bank Sidi Moumen Center", address: "Centre Sidi Moumen", status: "Closed", cash: true, position: [33.6054, -7.5017] },
+
+  // Roches Noires
+  { id: 18, name: "Lions Bank Roches Noires 1", address: "Roches Noires", status: "Open", cash: true, position: [33.5932, -7.5710] },
+  { id: 19, name: "Lions Bank Roches Noires 2", address: "Bd Moulay Ismail", status: "Open", cash: true, position: [33.5897, -7.5665] },
+  { id: 20, name: "Lions Bank Roches Noires 3", address: "Hay Hassani Roches Noires", status: "Closed", cash: false, position: [33.5955, -7.5628] },
+  { id: 21, name: "Lions Bank Roches Noires Port", address: "Port District", status: "Open", cash: true, position: [33.5910, -7.5582] },
 ];
 
 function getDistanceKm(lat1, lon1, lat2, lon2) {

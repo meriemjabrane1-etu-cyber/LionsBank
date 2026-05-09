@@ -20,6 +20,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Hold to Confirm Button component inside the file to avoid separate imports
 const HoldToConfirmButton = ({ onConfirm, label, duration = 1500 }) => {
@@ -250,78 +256,86 @@ export default function Auctions() {
                         </AnimatePresence>
                     </div>
 
-                    {/* Selected Auction Detail Floor */}
-                    <AnimatePresence>
-                        {selectedAuction && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 50 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: 50 }}
-                                className="mt-12 bg-white/90 dark:bg-[#062B29]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[50px] p-10 relative overflow-hidden shadow-2xl dark:shadow-none"
-                            >
-                                <div className="absolute top-0 left-0 w-full h-full bg-[rgb(28,212,132)]/2 pointer-events-none" />
-                                
-                                <div className="flex items-center justify-between mb-10 relative z-10">
-                                    <div className="flex items-center gap-6">
-                                        <div className="h-14 w-14 bg-[rgb(28,212,132)]/10 rounded-2xl flex items-center justify-center border border-[rgb(28,212,132)]/30">
-                                            <LayoutGrid className="h-7 w-7 text-[rgb(28,212,132)]" />
-                                        </div>
-                                        <div>
-                                            <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Active Floor Portfolio</h2>
-                                            <p className="text-slate-400 dark:text-white/30 text-sm font-bold uppercase tracking-widest mt-1">Listing items for {selectedAuction.title}</p>
-                                        </div>
+                    {/* Selected Auction Detail Floor Modal */}
+                    <Dialog open={!!selectedAuction} onOpenChange={(open) => !open && setSelectedAuction(null)}>
+                        <DialogContent className="!max-w-6xl w-full h-[85vh] bg-white/95 dark:bg-[#062B29]/95 backdrop-blur-3xl border-slate-200 dark:border-white/10 rounded-[50px] p-0 overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.5)] flex flex-col">
+                            <div className="absolute top-0 left-0 w-full h-full bg-[rgb(28,212,132)]/[0.02] pointer-events-none" />
+                            
+                            {/* Modal Header */}
+                            <div className="p-10 pb-6 border-b border-slate-100 dark:border-white/5 flex items-center justify-between relative z-10">
+                                <div className="flex items-center gap-6">
+                                    <div className="h-16 w-16 bg-[rgb(28,212,132)]/10 rounded-2xl flex items-center justify-center border border-[rgb(28,212,132)]/30">
+                                        <LayoutGrid className="h-8 w-8 text-[rgb(28,212,132)]" />
                                     </div>
-                                    <Button 
-                                        variant="ghost" 
-                                        onClick={() => setSelectedAuction(null)}
-                                        className="h-12 px-6 rounded-2xl text-slate-400 dark:text-white/40 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 font-bold uppercase text-[10px] tracking-widest border border-slate-200 dark:border-white/5"
-                                    >
-                                        Close Floor
-                                    </Button>
+                                    <div>
+                                        <DialogTitle className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">Active Floor Portfolio</DialogTitle>
+                                        <p className="text-slate-400 dark:text-white/30 text-xs font-bold uppercase tracking-[0.2em] mt-1">Listing items for {selectedAuction?.title}</p>
+                                    </div>
                                 </div>
+                                <div className="flex items-center gap-4">
+                                    <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 px-4 py-2 text-[10px] font-black uppercase tracking-widest">
+                                        {selectedAuction?.products.length} Items Listed
+                                    </Badge>
+                                </div>
+                            </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 relative z-10">
-                                    {selectedAuction.products.map((product) => (
+                            {/* Modal Body - Scrollable */}
+                            <div className="flex-1 overflow-y-auto p-10 relative z-10 custom-scrollbar">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
+                                    {selectedAuction?.products.map((product) => (
                                         <motion.div
                                             key={product.id}
-                                            whileHover={{ y: -8 }}
-                                            className="bg-slate-50 dark:bg-black/40 border border-slate-100 dark:border-white/5 rounded-[32px] p-5 group transition-all duration-500 hover:border-[rgb(28,212,132)]/30 hover:shadow-[0_20px_50px_rgba(28,212,132,0.1)] shadow-sm dark:shadow-none"
+                                            whileHover={{ y: -10, scale: 1.02 }}
+                                            className="relative bg-white dark:bg-[#072422]/60 backdrop-blur-xl border border-slate-200/60 dark:border-white/[0.08] rounded-[40px] p-6 group transition-all duration-500 hover:border-[rgb(28,212,132)]/40 hover:shadow-[0_30px_60px_-15px_rgba(28,212,132,0.2)] flex flex-col h-full overflow-hidden"
                                         >
-                                            <div className="aspect-square rounded-[24px] overflow-hidden mb-6 relative">
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10" />
+                                            <div className="absolute -inset-px bg-gradient-to-br from-[rgb(28,212,132)]/10 to-transparent opacity-0 group-hover:opacity-100 rounded-[40px] transition-opacity duration-500 pointer-events-none" />
+                                            
+                                            <div className="relative aspect-square rounded-[30px] overflow-hidden mb-7 flex-shrink-0 shadow-2xl shadow-black/20">
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-60 z-10 group-hover:opacity-40 transition-opacity duration-500" />
                                                 <img 
                                                     src={product.image_url || 'https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&q=80&w=800'} 
                                                     alt={product.name}
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
                                                 />
-                                                <div className="absolute top-4 left-4 z-20">
-                                                    <Badge className="bg-black/60 backdrop-blur-md text-[rgb(28,212,132)] border border-[rgb(28,212,132)]/30 text-[9px] font-black uppercase tracking-widest px-3 py-1">
-                                                        Lot #{product.id}
+                                                <div className="absolute top-5 left-5 z-20 flex flex-col gap-2">
+                                                    <Badge className="bg-black/40 backdrop-blur-md text-[rgb(28,212,132)] border border-[rgb(28,212,132)]/20 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
+                                                        LOT #{product.id}
                                                     </Badge>
                                                 </div>
                                             </div>
                                             
-                                            <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-6 line-clamp-1 group-hover:text-[rgb(28,212,132)] transition-colors px-1">{product.name}</h4>
-                                            
-                                            <div className="bg-white dark:bg-[#041F1E] border border-slate-100 dark:border-white/5 rounded-2xl p-4 mb-6 group-hover:border-[rgb(28,212,132)]/10 transition-colors shadow-inner dark:shadow-none">
-                                                <div className="text-[10px] text-slate-400 dark:text-white/20 font-bold uppercase tracking-widest mb-1">Current Bid</div>
-                                                <div className="text-2xl font-black text-[rgb(28,212,132)]">
-                                                    {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.current_bid)}
+                                            <div className="relative z-20 flex-1 flex flex-col">
+                                                <h4 className="text-2xl font-black text-slate-900 dark:text-white mb-6 leading-tight group-hover:text-[rgb(28,212,132)] transition-colors duration-300">
+                                                    {product.name}
+                                                </h4>
+                                                
+                                                <div className="mt-auto space-y-5">
+                                                    <div className="relative overflow-hidden bg-slate-50 dark:bg-black/40 border border-slate-200/50 dark:border-white/[0.05] rounded-[24px] p-5 group-hover:border-[rgb(28,212,132)]/20 transition-all duration-500">
+                                                        <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 group-hover:scale-125 transition-all duration-700">
+                                                            <TrendingUp className="h-10 w-10 text-[rgb(28,212,132)]" />
+                                                        </div>
+                                                        <div className="text-[10px] text-slate-400 dark:text-white/30 font-black uppercase tracking-[0.2em] mb-2">Current Valuation</div>
+                                                        <div className="text-3xl font-black text-slate-900 dark:text-white flex items-baseline gap-1">
+                                                            <span className="text-sm font-bold text-[rgb(28,212,132)]">$</span>
+                                                            {Number(product.current_bid).toLocaleString()}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <Button 
+                                                        onClick={() => handleBid(product.id, product.current_bid)}
+                                                        disabled={selectedAuction.status !== 'active'}
+                                                        className="w-full h-16 bg-[rgb(28,212,132)] text-[#041F1E] hover:bg-[#15b06d] disabled:bg-slate-800 disabled:text-white/20 border-0 rounded-[24px] font-black text-sm uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_15px_30px_-10px_rgba(28,212,132,0.4)] hover:shadow-[0_20px_40px_-5px_rgba(28,212,132,0.5)] active:scale-95"
+                                                    >
+                                                        Submit Bid
+                                                    </Button>
                                                 </div>
                                             </div>
-                                            <Button 
-                                                onClick={() => handleBid(product.id, product.current_bid)}
-                                                disabled={selectedAuction.status !== 'active'}
-                                                className="w-full h-14 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-[rgb(28,212,132)] hover:text-[#041F1E] hover:border-transparent rounded-2xl font-black text-xs uppercase tracking-widest transition-all duration-300 shadow-sm dark:shadow-none"
-                                            >
-                                                Place Higher Bid
-                                            </Button>
                                         </motion.div>
                                     ))}
                                 </div>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </div>
                 
                 {/* Security Authorization Overlay */}
