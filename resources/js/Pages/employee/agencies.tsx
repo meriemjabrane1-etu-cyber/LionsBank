@@ -97,16 +97,16 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
         <>
             <Head title="Employee Dashboard - Agency Management" />
 
-            <div className="min-h-screen bg-[#041F1E] p-6 lg:p-8 text-white">
+            <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] p-6 lg:p-8 text-slate-900 dark:text-white transition-colors duration-500">
                 <div className="mx-auto max-w-[1400px] space-y-8">
                     
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-4xl font-bold tracking-tight text-white">
+                            <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
                                 Agency Management
                             </h1>
-                            <p className="mt-2 text-white/50">
+                            <p className="mt-2 text-slate-500 dark:text-white/50">
                                 Oversee branch operations and physical location details.
                             </p>
                         </div>
@@ -127,7 +127,7 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                                     Add New Agency
                                 </Button>
                             </DialogTrigger>
-                            <DialogContent className="bg-[#062B29] border-white/10 text-white max-w-md rounded-3xl">
+                            <DialogContent className="bg-white dark:bg-[#062B29] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white max-w-md rounded-3xl">
                                 <DialogHeader>
                                     <DialogTitle className="text-2xl font-bold text-[rgb(28,212,132)]">
                                         {editingAgency ? 'Edit Agency' : 'Create New Agency'}
@@ -135,37 +135,37 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                                 </DialogHeader>
                                 <form onSubmit={handleSubmit} className="space-y-6 pt-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="name" className="text-white/60 font-bold uppercase text-[10px] tracking-widest">Agency Name</Label>
+                                        <Label htmlFor="name" className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Agency Name</Label>
                                         <Input 
                                             id="name"
                                             value={data.name}
                                             onChange={e => setData('name', e.target.value)}
-                                            className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                            className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
                                             placeholder="e.g. LionsBank Casablanca"
                                         />
-                                        {errors.name && <p className="text-rose-500 text-xs">{errors.name}</p>}
+                                        {errors.name && <p className="text-rose-500 text-xs font-medium">{errors.name}</p>}
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="address" className="text-white/60 font-bold uppercase text-[10px] tracking-widest">Address</Label>
+                                        <Label htmlFor="address" className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Address</Label>
                                         <Input 
                                             id="address"
                                             value={data.address}
                                             onChange={e => setData('address', e.target.value)}
-                                            className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                            className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
                                             placeholder="e.g. 123 Finance St."
                                         />
-                                        {errors.address && <p className="text-rose-500 text-xs">{errors.address}</p>}
+                                        {errors.address && <p className="text-rose-500 text-xs font-medium">{errors.address}</p>}
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="hours" className="text-white/60 font-bold uppercase text-[10px] tracking-widest">Working Hours</Label>
+                                        <Label htmlFor="hours" className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Working Hours</Label>
                                         <Input 
                                             id="hours"
                                             value={data.working_hours}
                                             onChange={e => setData('working_hours', e.target.value)}
-                                            className="bg-white/5 border-white/10 text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                            className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
                                             placeholder="e.g. 09:00 - 17:00"
                                         />
-                                        {errors.working_hours && <p className="text-rose-500 text-xs">{errors.working_hours}</p>}
+                                        {errors.working_hours && <p className="text-rose-500 text-xs font-medium">{errors.working_hours}</p>}
                                     </div>
                                     <Button 
                                         type="submit" 
@@ -182,22 +182,22 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                     {/* Stats Cards */}
                     <div className="grid gap-6 sm:grid-cols-3 lg:grid-cols-4">
                         {[
-                            { label: 'Total Branches', value: stats.total, color: 'white', icon: Building2 },
+                            { label: 'Total Branches', value: stats.total, color: 'current', icon: Building2 },
                             { label: 'Currently Open', value: stats.open, color: 'rgb(28,212,132)', icon: CheckCircle2, glow: true },
-                            { label: 'Closed Branches', value: stats.closed, color: 'rose-500', icon: Power },
+                            { label: 'Closed Branches', value: stats.closed, color: 'rgb(244, 63, 94)', icon: Power },
                         ].map((stat, i) => (
-                            <Card key={i} className={`bg-white/5 border-white/10 backdrop-blur-md overflow-hidden relative group hover:border-[rgb(28,212,132)]/30 transition-all duration-300 ${stat.glow ? 'shadow-[0_0_30px_rgba(28,212,132,0.1)]' : ''}`}>
-                                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <Card key={i} className={`bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md overflow-hidden relative group hover:border-[rgb(28,212,132)]/30 transition-all duration-300 shadow-sm dark:shadow-none ${stat.glow ? 'dark:shadow-[0_0_30px_rgba(28,212,132,0.1)]' : ''}`}>
+                                <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
                                     <stat.icon className="h-12 w-12" />
                                 </div>
                                 <CardHeader className="pb-2">
-                                    <CardTitle className="text-xs font-bold uppercase tracking-widest text-white/40">{stat.label}</CardTitle>
+                                    <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">{stat.label}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-3xl font-bold" style={{ color: stat.color === 'white' ? 'white' : stat.color }}>
+                                    <p className="text-3xl font-bold text-slate-900 dark:text-white" style={{ color: stat.color === 'current' ? undefined : stat.color }}>
                                         {stat.value}
                                     </p>
-                                    <div className="mt-2 flex items-center gap-1 text-[10px] text-white/30">
+                                    <div className="mt-2 flex items-center gap-1 text-[10px] text-slate-400 dark:text-white/30 font-bold">
                                         <ArrowUpRight className="h-3 w-3" />
                                         <span>Active Network</span>
                                     </div>
@@ -207,12 +207,12 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                     </div>
 
                     {/* Search */}
-                    <Card className="bg-white/5 border-white/10 backdrop-blur-md">
+                    <Card className="bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm dark:shadow-none">
                         <CardContent className="p-4">
                             <div className="relative group">
-                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
+                                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-white/30 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
                                 <Input
-                                    className="pl-10 bg-white/5 border-white/10 focus-visible:ring-[rgb(28,212,132)] text-white placeholder:text-white/20"
+                                    className="pl-10 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 focus-visible:ring-[rgb(28,212,132)] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20"
                                     placeholder="Search by agency name or address..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
@@ -224,35 +224,33 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                     {/* Agency Grid */}
                     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {filteredAgencies.map((agency) => (
-                            <Card key={agency.id} className="bg-white/5 border-white/10 hover:border-white/20 transition-all group overflow-hidden">
+                            <Card key={agency.id} className="bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-[rgb(28,212,132)]/30 transition-all group overflow-hidden shadow-sm dark:shadow-none">
                                 <CardContent className="p-0">
                                     {/* Agency Image Mockup */}
-                                    <div className="h-40 bg-gradient-to-br from-[#062B29] to-[#041F1E] flex items-center justify-center border-b border-white/5 relative">
-                                        <Building2 className="h-16 w-16 text-white/10" />
-                                        <Badge className={`absolute top-4 right-4 uppercase text-[10px] tracking-widest font-bold ${
+                                    <div className="h-40 bg-gradient-to-br from-slate-100 to-slate-50 dark:from-[#062B29] dark:to-[#041F1E] flex items-center justify-center border-b border-slate-200 dark:border-white/5 relative">
+                                        <Building2 className="h-16 w-16 text-slate-300 dark:text-white/10" />
+                                        <Badge className={`absolute top-4 right-4 uppercase text-[10px] tracking-widest font-black ${
                                             agency.status === 'open' ? 'bg-[rgb(28,212,132)] text-[#041F1E]' : 'bg-rose-500 text-white'
                                         }`}>
                                             {agency.status}
                                         </Badge>
                                     </div>
-
                                     <div className="p-6 space-y-4">
                                         <div>
-                                            <h3 className="text-xl font-bold group-hover:text-[rgb(28,212,132)] transition-colors">{agency.name}</h3>
-                                            <div className="flex items-center gap-2 mt-1 text-white/40 text-sm">
+                                            <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[rgb(28,212,132)] transition-colors">{agency.name}</h3>
+                                            <div className="flex items-center gap-2 mt-1 text-slate-500 dark:text-white/40 text-sm font-medium">
                                                 <MapPin className="h-4 w-4" />
                                                 <span>{agency.address}</span>
                                             </div>
                                         </div>
-
-                                        <div className="flex justify-between items-center py-4 border-y border-white/5">
+                                        <div className="flex justify-between items-center py-4 border-y border-slate-100 dark:border-white/5">
                                             <div className="flex items-center gap-2">
                                                 <Clock className="h-4 w-4 text-[rgb(28,212,132)]" />
-                                                <span className="text-sm text-white/80 font-semibold">{agency.working_hours || 'N/A'}</span>
+                                                <span className="text-sm text-slate-700 dark:text-white/80 font-bold">{agency.working_hours || 'N/A'}</span>
                                             </div>
-                                            <div className="flex items-center gap-1.5 bg-white/5 px-2 py-1 rounded-lg">
-                                                <Activity className="h-3 w-3 text-cyan-400" />
-                                                <span className="text-[10px] font-bold uppercase tracking-wider">{agency.atms_count} ATMs</span>
+                                            <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-white/5 px-2 py-1 rounded-lg">
+                                                <Activity className="h-3 w-3 text-cyan-600 dark:text-cyan-400" />
+                                                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-white/60">{agency.atms_count} ATMs</span>
                                             </div>
                                         </div>
 
@@ -267,7 +265,7 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                                                         working_hours: agency.working_hours || '',
                                                     });
                                                 }}
-                                                className="flex-1 bg-white/5 hover:bg-white/10 border border-white/5 text-xs font-bold uppercase tracking-widest rounded-xl h-10"
+                                                className="flex-1 bg-slate-100 dark:bg-white/5 hover:bg-slate-200 dark:hover:bg-white/10 border border-slate-200 dark:border-white/5 text-xs font-bold uppercase tracking-widest rounded-xl h-10 text-slate-600 dark:text-white"
                                             >
                                                 <Edit className="mr-2 h-4 w-4" />
                                                 Edit
@@ -290,7 +288,7 @@ export default function EmployeeAgenciesPage({ agencies, stats }: Props) {
                         ))}
 
                         {filteredAgencies.length === 0 && (
-                            <div className="col-span-full flex flex-col items-center justify-center p-20 bg-white/5 rounded-3xl border border-dashed border-white/10 text-white/30">
+                            <div className="col-span-full flex flex-col items-center justify-center p-20 bg-white/40 dark:bg-white/5 rounded-3xl border border-dashed border-slate-200 dark:border-white/10 text-slate-400 dark:text-white/30">
                                 <Building2 className="h-12 w-12 mb-4 opacity-20" />
                                 <p className="font-bold uppercase tracking-widest text-sm">No Agencies Found</p>
                                 <p className="text-xs mt-1">Try adding a new branch or adjusting your search.</p>

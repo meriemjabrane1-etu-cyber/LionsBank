@@ -90,26 +90,26 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
         <>
             <Head title="Employee Dashboard - Appointments" />
 
-            <div className="min-h-screen bg-[#041F1E] p-6 lg:p-8 text-white">
+            <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] p-6 lg:p-8 text-slate-900 dark:text-white transition-colors duration-500">
                 <div className="mx-auto max-w-[1400px] space-y-8">
                     
                     {/* Header */}
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-4xl font-bold tracking-tight text-white">
+                            <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
                                 RDV Management
                             </h1>
-                            <p className="mt-2 text-white/50">
+                            <p className="mt-2 text-slate-500 dark:text-white/50">
                                 Oversee and manage client appointments with high precision.
                             </p>
                         </div>
-                        <div className="flex items-center gap-3 bg-white/5 p-2 rounded-2xl border border-white/10 backdrop-blur-sm">
+                        <div className="flex items-center gap-3 bg-white dark:bg-white/5 p-2 rounded-2xl border border-slate-200 dark:border-white/10 backdrop-blur-sm shadow-sm dark:shadow-none">
                             <div className="h-10 w-10 rounded-xl bg-[rgb(28,212,132)]/20 flex items-center justify-center text-[rgb(28,212,132)]">
                                 <Activity className="h-5 w-5" />
                             </div>
                             <div>
-                                <p className="text-xs text-white/40 uppercase font-bold tracking-wider">Live System Status</p>
-                                <p className="text-sm font-semibold text-[rgb(28,212,132)]">Operational</p>
+                                <p className="text-xs text-slate-400 dark:text-white/40 uppercase font-bold tracking-wider">Live System Status</p>
+                                <p className="text-sm font-bold text-[rgb(28,212,132)]">Operational</p>
                             </div>
                         </div>
                     </div>
@@ -117,23 +117,23 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                     {/* Stats Cards */}
                     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                         {[
-                            { label: 'Total RDV', value: stats.total, color: 'white', icon: Calendar },
+                            { label: 'Total RDV', value: stats.total, color: 'current', icon: Calendar },
                             { label: 'Pending Approval', value: stats.pending, color: 'rgb(28,212,132)', icon: Clock3, glow: true },
-                            { label: 'Confirmed', value: stats.approved, color: 'cyan-400', icon: CheckCircle2 },
-                            { label: 'Declined', value: stats.rejected, color: 'rose-500', icon: XCircle },
+                            { label: 'Confirmed', value: stats.approved, color: 'rgb(8, 145, 178)', icon: CheckCircle2 },
+                            { label: 'Declined', value: 'rgb(244, 63, 94)', valueRaw: stats.rejected, color: 'rose-500', icon: XCircle },
                         ].map((stat, i) => (
-                            <Card key={i} className={`bg-white/5 border-white/10 backdrop-blur-md overflow-hidden relative group hover:border-[rgb(28,212,132)]/30 transition-all duration-300 ${stat.glow ? 'shadow-[0_0_30px_rgba(28,212,132,0.1)]' : ''}`}>
-                                <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <Card key={i} className={`bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md overflow-hidden relative group hover:border-[rgb(28,212,132)]/30 transition-all duration-300 shadow-sm dark:shadow-none ${stat.glow ? 'dark:shadow-[0_0_30px_rgba(28,212,132,0.1)]' : ''}`}>
+                                <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:opacity-10 dark:group-hover:opacity-20 transition-opacity">
                                     <stat.icon className="h-12 w-12" />
                                 </div>
                                 <CardHeader className="pb-2">
-                                    <CardTitle className="text-xs font-bold uppercase tracking-widest text-white/40">{stat.label}</CardTitle>
+                                    <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-white/40">{stat.label}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <p className="text-3xl font-bold" style={{ color: stat.color === 'white' ? 'white' : stat.color }}>
-                                        {stat.value}
+                                    <p className="text-3xl font-bold text-slate-900 dark:text-white" style={{ color: stat.color === 'current' ? undefined : (typeof stat.color === 'string' && stat.color.startsWith('rgb') ? stat.color : undefined) }}>
+                                        {stat.valueRaw ?? stat.value}
                                     </p>
-                                    <div className="mt-2 flex items-center gap-1 text-[10px] text-white/30">
+                                    <div className="mt-2 flex items-center gap-1 text-[10px] text-slate-400 dark:text-white/30 font-bold">
                                         <ArrowUpRight className="h-3 w-3" />
                                         <span>Updated just now</span>
                                     </div>
@@ -147,19 +147,19 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                         {/* Main Content */}
                         <div className="lg:col-span-8 space-y-6">
                             {/* Filters */}
-                            <Card className="bg-white/5 border-white/10 backdrop-blur-md">
+                            <Card className="bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm dark:shadow-none">
                                 <CardContent className="p-4">
                                     <div className="flex flex-col gap-4 md:flex-row">
                                         <div className="relative flex-1 group">
-                                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
+                                            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-white/30 group-focus-within:text-[rgb(28,212,132)] transition-colors" />
                                             <Input
-                                                className="pl-10 bg-white/5 border-white/10 focus-visible:ring-[rgb(28,212,132)] text-white placeholder:text-white/20"
+                                                className="pl-10 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20"
                                                 placeholder="Search client, service, or status..."
                                                 value={search}
                                                 onChange={(e) => setSearch(e.target.value)}
                                             />
                                         </div>
-                                        <div className="flex p-1 bg-black/20 rounded-xl border border-white/5">
+                                        <div className="flex p-1 bg-slate-100 dark:bg-black/20 rounded-xl border border-slate-200 dark:border-white/5">
                                             {(['all', 'pending', 'approved', 'rejected'] as const).map((value) => (
                                                 <button
                                                     key={value}
@@ -167,7 +167,7 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                                     className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${
                                                         statusFilter === value 
                                                             ? 'bg-[rgb(28,212,132)] text-[#041F1E] shadow-lg' 
-                                                            : 'text-white/50 hover:text-white hover:bg-white/5'
+                                                            : 'text-slate-500 dark:text-white/50 hover:text-slate-900 dark:hover:text-white hover:bg-white/5'
                                                     }`}
                                                 >
                                                     {value}
@@ -181,16 +181,16 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                             {/* Appointments List */}
                             <div className="grid gap-4">
                                 {filteredAppointments.map((appointment) => (
-                                    <Card key={appointment.id} className="bg-white/5 border-white/10 hover:border-white/20 transition-all group overflow-hidden">
+                                    <Card key={appointment.id} className="bg-white dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-[rgb(28,212,132)]/30 transition-all group overflow-hidden shadow-sm dark:shadow-none">
                                         <CardContent className="p-0">
                                             <div className="flex flex-col md:flex-row">
                                                 {/* Left: Client Info */}
-                                                <div className="p-6 flex flex-1 items-center gap-4 border-b md:border-b-0 md:border-r border-white/5">
+                                                <div className="p-6 flex flex-1 items-center gap-4 border-b md:border-b-0 md:border-r border-slate-100 dark:border-white/5">
                                                     <div className="relative">
-                                                        <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-xl font-bold shadow-lg">
+                                                        <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[rgb(28,212,132)] to-emerald-600 flex items-center justify-center text-xl font-bold shadow-lg text-[#041F1E]">
                                                             {appointment.user?.name.charAt(0)}
                                                         </div>
-                                                        <div className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-[#041F1E] flex items-center justify-center text-[8px] ${
+                                                        <div className={`absolute -bottom-1 -right-1 h-5 w-5 rounded-full border-2 border-white dark:border-[#041F1E] flex items-center justify-center text-[8px] ${
                                                             appointment.status === 'pending' ? 'bg-amber-500' : 
                                                             appointment.status === 'approved' ? 'bg-[rgb(28,212,132)]' : 'bg-rose-500'
                                                         }`}>
@@ -198,26 +198,26 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                                         </div>
                                                     </div>
                                                     <div>
-                                                        <h3 className="font-bold text-lg text-white group-hover:text-[rgb(28,212,132)] transition-colors">
+                                                        <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-[rgb(28,212,132)] transition-colors">
                                                             {appointment.service_type}
                                                         </h3>
                                                         <div className="flex items-center gap-2 mt-1">
-                                                            <User className="h-3 w-3 text-white/30" />
-                                                            <span className="text-sm text-white/60">{appointment.user?.name ?? 'Unknown'}</span>
+                                                            <User className="h-3 w-3 text-slate-400 dark:text-white/30" />
+                                                            <span className="text-sm text-slate-500 dark:text-white/60 font-medium">{appointment.user?.name ?? 'Unknown'}</span>
                                                         </div>
                                                         <div className="flex items-center gap-2 mt-0.5">
-                                                            <Calendar className="h-3 w-3 text-white/30" />
-                                                            <span className="text-sm text-white/40">{new Date(appointment.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</span>
+                                                            <Calendar className="h-3 w-3 text-slate-400 dark:text-white/30" />
+                                                            <span className="text-sm text-slate-400 dark:text-white/40 font-medium">{new Date(appointment.date).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</span>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 {/* Right: Actions */}
-                                                <div className="p-6 flex flex-col justify-center items-end gap-3 bg-black/5 min-w-[200px]">
+                                                <div className="p-6 flex flex-col justify-center items-end gap-3 bg-slate-50 dark:bg-black/5 min-w-[200px]">
                                                     <Badge className={`uppercase text-[10px] tracking-widest font-bold px-3 py-1 ${
-                                                        appointment.status === 'pending' ? 'bg-amber-500/20 text-amber-500 border-amber-500/20' : 
-                                                        appointment.status === 'approved' ? 'bg-[rgb(28,212,132)]/20 text-[rgb(28,212,132)] border-[rgb(28,212,132)]/20' : 
-                                                        'bg-rose-500/20 text-rose-500 border-rose-500/20'
+                                                        appointment.status === 'pending' ? 'bg-amber-500/20 text-amber-600 dark:text-amber-500 border-amber-500/20' : 
+                                                        appointment.status === 'approved' ? 'bg-emerald-500/20 text-emerald-600 dark:text-[rgb(28,212,132)] border-emerald-500/20' : 
+                                                        'bg-rose-500/20 text-rose-600 dark:text-rose-500 border-rose-500/20'
                                                     }`} variant="outline">
                                                         {appointment.status}
                                                     </Badge>
@@ -228,7 +228,7 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                                                 <Button 
                                                                     size="sm"
                                                                     variant="ghost"
-                                                                    className="h-9 w-9 rounded-xl border border-white/10 hover:bg-[rgb(28,212,132)] hover:text-[#041F1E] transition-all"
+                                                                    className="h-9 w-9 rounded-xl border border-slate-200 dark:border-white/10 hover:bg-[rgb(28,212,132)] hover:text-[#041F1E] transition-all text-slate-400 dark:text-white/40"
                                                                     onClick={() => actOnAppointment(appointment.id, 'approve')}
                                                                     title="Approve"
                                                                 >
@@ -237,7 +237,7 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                                                 <Button 
                                                                     size="sm"
                                                                     variant="ghost"
-                                                                    className="h-9 w-9 rounded-xl border border-white/10 hover:bg-rose-500 hover:text-white transition-all"
+                                                                    className="h-9 w-9 rounded-xl border border-slate-200 dark:border-white/10 hover:bg-rose-500 hover:text-white transition-all text-slate-400 dark:text-white/40"
                                                                     onClick={() => actOnAppointment(appointment.id, 'reject')}
                                                                     title="Reject"
                                                                 >
@@ -248,7 +248,7 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                                         {!appointment.employee && appointment.status === 'pending' && (
                                                             <Button 
                                                                 size="sm"
-                                                                className="h-9 gap-2 rounded-xl bg-white/10 hover:bg-white/20 text-white border border-white/5 transition-all"
+                                                                className="h-9 gap-2 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-600 dark:text-white border border-slate-200 dark:border-white/5 transition-all shadow-sm dark:shadow-none"
                                                                 onClick={() => actOnAppointment(appointment.id, 'assign')}
                                                             >
                                                                 <UserPlus className="h-4 w-4 text-[rgb(28,212,132)]" />
@@ -256,7 +256,7 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                                             </Button>
                                                         )}
                                                         {appointment.employee && (
-                                                            <div className="flex items-center gap-2 text-white/40">
+                                                            <div className="flex items-center gap-2 text-slate-400 dark:text-white/40">
                                                                 <Briefcase className="h-3 w-3" />
                                                                 <span className="text-[10px] font-bold uppercase tracking-tighter truncate max-w-[100px]">Assigned: {appointment.employee.name}</span>
                                                             </div>
@@ -269,9 +269,9 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                 ))}
 
                                 {filteredAppointments.length === 0 && (
-                                    <div className="flex flex-col items-center justify-center p-20 bg-white/5 rounded-3xl border border-dashed border-white/10 text-white/30">
+                                    <div className="flex flex-col items-center justify-center p-20 bg-white/40 dark:bg-white/5 rounded-3xl border border-dashed border-slate-200 dark:border-white/10 text-slate-400 dark:text-white/30">
                                         <Clock3 className="h-12 w-12 mb-4 opacity-20" />
-                                        <p className="font-bold uppercase tracking-widest text-sm">No Appointments Found</p>
+                                        <p className="font-bold uppercase tracking-widest text-sm text-slate-600 dark:text-white/50">No Appointments Found</p>
                                         <p className="text-xs mt-1">Try adjusting your filters or search query.</p>
                                     </div>
                                 )}
@@ -280,24 +280,24 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
 
                         {/* Sidebar: Activity Feed */}
                         <div className="lg:col-span-4 space-y-6">
-                            <Card className="bg-white/5 border-white/10 backdrop-blur-md sticky top-8">
-                                <CardHeader className="border-b border-white/5">
-                                    <CardTitle className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
+                            <Card className="bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md sticky top-8 shadow-sm dark:shadow-none">
+                                <CardHeader className="border-b border-slate-100 dark:border-white/5">
+                                    <CardTitle className="text-sm font-bold uppercase tracking-widest flex items-center gap-2 text-slate-900 dark:text-white">
                                         <Activity className="h-4 w-4 text-[rgb(28,212,132)]" />
                                         Live Activity Feed
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="p-0">
-                                    <div className="divide-y divide-white/5">
+                                    <div className="divide-y divide-slate-100 dark:divide-white/5">
                                         {activities.map((activity) => (
-                                            <div key={activity.id} className="p-4 hover:bg-white/5 transition-colors cursor-pointer group">
+                                            <div key={activity.id} className="p-4 hover:bg-slate-50 dark:hover:bg-white/5 transition-colors cursor-pointer group">
                                                 <div className="flex gap-3">
                                                     <div className="h-2 w-2 rounded-full bg-[rgb(28,212,132)] mt-1.5 shadow-[0_0_8px_rgba(28,212,132,0.5)]" />
                                                     <div>
-                                                        <p className="text-xs text-white/80">
-                                                            <span className="font-bold text-white group-hover:text-[rgb(28,212,132)] transition-colors">{activity.user}</span> {activity.action}
+                                                        <p className="text-xs text-slate-600 dark:text-white/80">
+                                                            <span className="font-bold text-slate-900 dark:text-white group-hover:text-[rgb(28,212,132)] transition-colors">{activity.user}</span> {activity.action}
                                                         </p>
-                                                        <p className="text-[10px] text-white/30 mt-1 uppercase font-bold tracking-tighter">
+                                                        <p className="text-[10px] text-slate-400 dark:text-white/30 mt-1 uppercase font-bold tracking-tighter">
                                                             {activity.time}
                                                         </p>
                                                     </div>
@@ -313,13 +313,13 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                                 </CardContent>
                             </Card>
 
-                            <Card className="bg-gradient-to-br from-[rgb(28,212,132)]/20 to-transparent border-white/10 p-6 relative overflow-hidden group">
+                            <Card className="bg-gradient-to-br from-[rgb(28,212,132)]/20 to-transparent border-slate-200 dark:border-white/10 p-6 relative overflow-hidden group shadow-sm dark:shadow-none">
                                 <div className="absolute -right-8 -bottom-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
-                                    <Briefcase className="h-32 w-32" />
+                                    <Briefcase className="h-32 w-32 text-slate-300 dark:text-white" />
                                 </div>
-                                <h4 className="font-bold text-lg leading-tight">Need help with complex cases?</h4>
-                                <p className="text-sm text-white/60 mt-2">Access our specialized support channel for banking employees.</p>
-                                <Button className="mt-4 bg-white text-[#041F1E] hover:bg-white/90 font-bold rounded-xl text-xs uppercase tracking-wider">
+                                <h4 className="font-bold text-lg leading-tight text-slate-900 dark:text-white">Need help with complex cases?</h4>
+                                <p className="text-sm text-slate-500 dark:text-white/60 mt-2 font-medium">Access our specialized support channel for banking employees.</p>
+                                <Button className="mt-4 bg-slate-900 dark:bg-white text-white dark:text-[#041F1E] hover:bg-slate-800 dark:hover:bg-white/90 font-bold rounded-xl text-xs uppercase tracking-wider shadow-lg">
                                     Contact Support
                                 </Button>
                             </Card>

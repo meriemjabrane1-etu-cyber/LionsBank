@@ -64,14 +64,14 @@ const HoldToConfirmButton = ({ onConfirm, label, duration = 1500 }) => {
             onMouseLeave={handleEnd}
             onTouchStart={handleStart}
             onTouchEnd={handleEnd}
-            className="relative w-full h-14 bg-white/5 border border-white/10 rounded-2xl overflow-hidden group transition-all active:scale-95"
+            className="relative w-full h-14 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden group transition-all active:scale-95"
         >
             <div 
                 className="absolute inset-0 bg-emerald-500/20 transition-all duration-300"
                 style={{ width: `${progress}%` }}
             />
-            <div className="relative z-10 flex items-center justify-center gap-3 font-bold text-white">
-                <Fingerprint className={`h-5 w-5 ${isHolding ? 'animate-pulse text-emerald-400' : 'text-white/40'}`} />
+            <div className="relative z-10 flex items-center justify-center gap-3 font-bold text-slate-900 dark:text-white">
+                <Fingerprint className={`h-5 w-5 ${isHolding ? 'animate-pulse text-emerald-500 dark:text-emerald-400' : 'text-slate-400 dark:text-white/40'}`} />
                 <span>{isComplete ? 'DECRYPTED' : isHolding ? 'BIOMETRIC SCAN...' : label}</span>
             </div>
         </button>
@@ -115,7 +115,7 @@ export default function Auctions() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Mazad VIP Auctions - LionsBank" />
 
-            <div className="min-h-screen py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
+            <div className="min-h-screen ml-8 py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
                 <div className="w-full space-y-12 relative z-10 m-0 p-0 max-w-none">
                     
                     {/* Hero Header */}
@@ -158,12 +158,12 @@ export default function Auctions() {
                             { label: 'Network Value', value: '$45.2M', icon: TrendingUp, color: 'cyan-400' },
                             { label: 'Security Level', value: 'Ultra', icon: ShieldCheck, color: 'emerald-500' },
                         ].map((stat, i) => (
-                            <div key={i} className="bg-[#062B29]/40 backdrop-blur-md border border-white/5 p-6 rounded-[2rem] flex items-center justify-between group hover:border-[rgb(28,212,132)]/20 transition-all">
+                            <div key={i} className="bg-white/80 dark:bg-[#062B29]/40 backdrop-blur-md border border-slate-200 dark:border-white/5 p-6 rounded-[2rem] flex items-center justify-between group hover:border-[rgb(28,212,132)]/20 transition-all shadow-sm dark:shadow-none">
                                 <div>
                                     <p className="text-[10px] font-bold text-slate-400 dark:text-white/30 uppercase tracking-[0.2em] mb-2">{stat.label}</p>
                                     <h3 className="text-3xl font-black text-slate-900 dark:text-white">{stat.value}</h3>
                                 </div>
-                                <div className="h-12 w-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-300 dark:text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors">
+                                <div className="h-12 w-12 bg-slate-100 dark:bg-white/5 rounded-2xl flex items-center justify-center text-slate-400 dark:text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors">
                                     <stat.icon className="h-6 w-6" />
                                 </div>
                             </div>
@@ -177,7 +177,7 @@ export default function Auctions() {
                                 <motion.div
                                     key={auction.id}
                                     layout
-                                    className="bg-[#062B29]/60 backdrop-blur-xl border border-white/10 rounded-[40px] overflow-hidden group hover:border-[rgb(28,212,132)]/40 transition-all duration-500 shadow-2xl relative"
+                                    className="bg-white/80 dark:bg-[#062B29]/60 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-[40px] overflow-hidden group hover:border-[rgb(28,212,132)]/40 transition-all duration-500 shadow-2xl relative"
                                 >
                                     {/* Glass Highlight */}
                                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[rgb(28,212,132)]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -187,41 +187,40 @@ export default function Auctions() {
                                             <div className="space-y-3">
                                                 <div className="flex items-center gap-3">
                                                     <Badge className={`${
-                                                        auction.status === 'active' ? 'bg-emerald-500 text-[#041F1E]' : 'bg-white/10 text-white/60'
-                                                    } uppercase text-[10px] tracking-widest font-black px-3 py-1 rounded-full`}>
+                                                        auction.status === 'active' ? 'bg-emerald-500 text-[#041F1E]' : 'bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-white/60'
+                                                    } uppercase text-[10px] tracking-widest font-black px-3 py-1 rounded-full border-none`}>
                                                         {auction.status === 'active' && <span className="mr-2 inline-block w-1.5 h-1.5 bg-[#041F1E] rounded-full animate-ping" />}
                                                         {auction.status}
                                                     </Badge>
                                                     {auction.isVip && (
-                                                        <Badge variant="outline" className="border-amber-500/50 text-amber-500 uppercase text-[10px] tracking-widest font-black px-3 py-1 rounded-full bg-amber-500/5">
+                                                        <Badge variant="outline" className="border-amber-500/50 text-amber-600 dark:text-amber-500 uppercase text-[10px] tracking-widest font-black px-3 py-1 rounded-full bg-amber-500/5">
                                                             <Lock className="w-3 h-3 mr-1.5" />
                                                             VIP
                                                         </Badge>
                                                     )}
                                                 </div>
-                                                <h3 className="text-3xl font-black text-white group-hover:text-[rgb(28,212,132)] transition-colors">{auction.title}</h3>
+                                                <h3 className="text-3xl font-black text-slate-900 dark:text-white group-hover:text-[rgb(28,212,132)] transition-colors">{auction.title}</h3>
                                             </div>
-                                            <div className="h-16 w-16 bg-white/5 border border-white/10 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                                                <Gavel className="h-7 w-7 text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors" />
+                                            <div className="h-16 w-16 bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                                                <Gavel className="h-7 w-7 text-slate-300 dark:text-white/20 group-hover:text-[rgb(28,212,132)] transition-colors" />
                                             </div>
                                         </div>
-
-                                        <p className="text-white/40 leading-relaxed mb-8 text-lg">{auction.description}</p>
+                                        <p className="text-slate-500 dark:text-white/40 leading-relaxed mb-8 text-lg">{auction.description}</p>
 
                                         <div className="grid grid-cols-2 gap-4 mb-8">
-                                            <div className="bg-black/20 p-5 rounded-3xl border border-white/5 group-hover:border-[rgb(28,212,132)]/10 transition-colors">
-                                                <div className="flex items-center gap-2 text-white/30 text-[10px] font-bold uppercase tracking-widest mb-2">
+                                            <div className="bg-slate-50 dark:bg-black/20 p-5 rounded-3xl border border-slate-100 dark:border-white/5 group-hover:border-[rgb(28,212,132)]/10 transition-colors">
+                                                <div className="flex items-center gap-2 text-slate-400 dark:text-white/30 text-[10px] font-bold uppercase tracking-widest mb-2">
                                                     <Timer className="w-3 h-3 text-[rgb(28,212,132)]" />
                                                     Time Remaining
                                                 </div>
-                                                <div className="text-2xl font-black text-white">{auction.timeRemaining ?? 'Scheduled'}</div>
+                                                <div className="text-2xl font-black text-slate-900 dark:text-white">{auction.timeRemaining ?? 'Scheduled'}</div>
                                             </div>
-                                            <div className="bg-black/20 p-5 rounded-3xl border border-white/5 group-hover:border-[rgb(28,212,132)]/10 transition-colors">
-                                                <div className="flex items-center gap-2 text-white/30 text-[10px] font-bold uppercase tracking-widest mb-2">
-                                                    <TrendingUp className="w-3 h-3 text-cyan-400" />
+                                            <div className="bg-slate-50 dark:bg-black/20 p-5 rounded-3xl border border-slate-100 dark:border-white/5 group-hover:border-[rgb(28,212,132)]/10 transition-colors">
+                                                <div className="flex items-center gap-2 text-slate-400 dark:text-white/30 text-[10px] font-bold uppercase tracking-widest mb-2">
+                                                    <TrendingUp className="w-3 h-3 text-cyan-500 dark:text-cyan-400" />
                                                     Active Bids
                                                 </div>
-                                                <div className="text-2xl font-black text-white">{auction.products.length} Items</div>
+                                                <div className="text-2xl font-black text-slate-900 dark:text-white">{auction.products.length} Items</div>
                                             </div>
                                         </div>
 
@@ -229,8 +228,8 @@ export default function Auctions() {
                                             onClick={() => handleViewAssets(auction)}
                                             className={`w-full h-16 rounded-3xl font-black uppercase tracking-widest text-xs gap-3 transition-all duration-500 ${
                                                 unlockedAuctions.includes(auction.id) || !auction.isVip
-                                                ? "bg-[rgb(28,212,132)] text-[#041F1E] hover:bg-white shadow-[0_0_30px_rgba(28,212,132,0.15)]"
-                                                : "bg-white/5 border border-white/10 text-white/40 hover:bg-white/10 hover:text-white"
+                                                ? "bg-[rgb(28,212,132)] text-[#041F1E] hover:bg-slate-900 dark:hover:bg-white shadow-[0_0_30px_rgba(28,212,132,0.15)]"
+                                                : "bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-400 dark:text-white/40 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white"
                                             }`}
                                         >
                                             {unlockedAuctions.includes(auction.id) || !auction.isVip ? (
@@ -258,7 +257,7 @@ export default function Auctions() {
                                 initial={{ opacity: 0, y: 50 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 50 }}
-                                className="mt-12 bg-[#062B29]/40 backdrop-blur-3xl border border-white/10 rounded-[50px] p-10 relative overflow-hidden"
+                                className="mt-12 bg-white/90 dark:bg-[#062B29]/40 backdrop-blur-3xl border border-slate-200 dark:border-white/10 rounded-[50px] p-10 relative overflow-hidden shadow-2xl dark:shadow-none"
                             >
                                 <div className="absolute top-0 left-0 w-full h-full bg-[rgb(28,212,132)]/2 pointer-events-none" />
                                 
@@ -275,7 +274,7 @@ export default function Auctions() {
                                     <Button 
                                         variant="ghost" 
                                         onClick={() => setSelectedAuction(null)}
-                                        className="h-12 px-6 rounded-2xl text-white/40 hover:text-white hover:bg-white/5 font-bold uppercase text-[10px] tracking-widest border border-white/5"
+                                        className="h-12 px-6 rounded-2xl text-slate-400 dark:text-white/40 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 font-bold uppercase text-[10px] tracking-widest border border-slate-200 dark:border-white/5"
                                     >
                                         Close Floor
                                     </Button>
@@ -286,7 +285,7 @@ export default function Auctions() {
                                         <motion.div
                                             key={product.id}
                                             whileHover={{ y: -8 }}
-                                            className="bg-black/40 border border-white/5 rounded-[32px] p-5 group transition-all duration-500 hover:border-[rgb(28,212,132)]/30 hover:shadow-[0_20px_50px_rgba(28,212,132,0.1)]"
+                                            className="bg-slate-50 dark:bg-black/40 border border-slate-100 dark:border-white/5 rounded-[32px] p-5 group transition-all duration-500 hover:border-[rgb(28,212,132)]/30 hover:shadow-[0_20px_50px_rgba(28,212,132,0.1)] shadow-sm dark:shadow-none"
                                         >
                                             <div className="aspect-square rounded-[24px] overflow-hidden mb-6 relative">
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60 z-10" />
@@ -302,19 +301,18 @@ export default function Auctions() {
                                                 </div>
                                             </div>
                                             
-                                            <h4 className="text-xl font-bold text-white mb-6 line-clamp-1 group-hover:text-[rgb(28,212,132)] transition-colors px-1">{product.name}</h4>
+                                            <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-6 line-clamp-1 group-hover:text-[rgb(28,212,132)] transition-colors px-1">{product.name}</h4>
                                             
-                                            <div className="bg-[#041F1E] border border-white/5 rounded-2xl p-4 mb-6 group-hover:border-[rgb(28,212,132)]/10 transition-colors">
-                                                <div className="text-[10px] text-white/20 font-bold uppercase tracking-widest mb-1">Current Bid</div>
+                                            <div className="bg-white dark:bg-[#041F1E] border border-slate-100 dark:border-white/5 rounded-2xl p-4 mb-6 group-hover:border-[rgb(28,212,132)]/10 transition-colors shadow-inner dark:shadow-none">
+                                                <div className="text-[10px] text-slate-400 dark:text-white/20 font-bold uppercase tracking-widest mb-1">Current Bid</div>
                                                 <div className="text-2xl font-black text-[rgb(28,212,132)]">
                                                     {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(product.current_bid)}
                                                 </div>
                                             </div>
-
                                             <Button 
                                                 onClick={() => handleBid(product.id, product.current_bid)}
                                                 disabled={selectedAuction.status !== 'active'}
-                                                className="w-full h-14 bg-white/5 border border-white/10 text-white hover:bg-[rgb(28,212,132)] hover:text-[#041F1E] hover:border-transparent rounded-2xl font-black text-xs uppercase tracking-widest transition-all duration-300"
+                                                className="w-full h-14 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white hover:bg-[rgb(28,212,132)] hover:text-[#041F1E] hover:border-transparent rounded-2xl font-black text-xs uppercase tracking-widest transition-all duration-300 shadow-sm dark:shadow-none"
                                             >
                                                 Place Higher Bid
                                             </Button>
@@ -341,7 +339,7 @@ export default function Auctions() {
                                 initial={{ scale: 0.95, opacity: 0, y: 30 }}
                                 animate={{ scale: 1, opacity: 1, y: 0 }}
                                 exit={{ scale: 0.95, opacity: 0, y: 30 }}
-                                className="relative w-full max-w-lg bg-[#062B29] border border-white/10 rounded-[50px] p-10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
+                                className="relative w-full max-w-lg bg-white dark:bg-[#062B29] border border-slate-200 dark:border-white/10 rounded-[50px] p-10 shadow-[0_50px_100px_rgba(0,0,0,0.8)] overflow-hidden"
                             >
                                 {/* Decorative elements */}
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-[rgb(28,212,132)]/10 rounded-full blur-[100px] pointer-events-none" />
@@ -350,18 +348,18 @@ export default function Auctions() {
                                     <div className="w-24 h-24 bg-[rgb(28,212,132)]/10 border border-[rgb(28,212,132)]/30 rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_50px_rgba(28,212,132,0.2)]">
                                         <ShieldCheck className="w-10 h-10 text-[rgb(28,212,132)]" />
                                     </div>
-                                    <h2 className="text-3xl font-black text-white mb-3 tracking-tight">Security Escrow Authorization</h2>
-                                    <p className="text-white/40 text-lg leading-relaxed px-4 font-medium">
+                                    <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3 tracking-tight">Security Escrow Authorization</h2>
+                                    <p className="text-slate-500 dark:text-white/40 text-lg leading-relaxed px-4 font-medium">
                                         This is a restricted floor. A <span className="text-[rgb(28,212,132)] font-bold">{authorizingAuction.accessFee} MAD</span> security hold is required for entry.
                                     </p>
                                 </div>
 
-                                <div className="bg-black/30 border border-white/5 rounded-3xl p-6 mb-10 relative z-10">
-                                    <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-4">
-                                        <span className="text-white/30 font-bold uppercase tracking-widest text-[10px]">Hold Amount</span>
+                                <div className="bg-slate-50 dark:bg-black/30 border border-slate-100 dark:border-white/5 rounded-3xl p-6 mb-10 relative z-10">
+                                    <div className="flex justify-between items-center mb-4 border-b border-slate-100 dark:border-white/5 pb-4">
+                                        <span className="text-slate-400 dark:text-white/30 font-bold uppercase tracking-widest text-[10px]">Hold Amount</span>
                                         <span className="font-black text-[rgb(28,212,132)] text-2xl">{authorizingAuction.accessFee} MAD</span>
                                     </div>
-                                    <div className="flex items-center gap-3 text-xs text-white/50 font-medium">
+                                    <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-white/50 font-medium">
                                         <CheckCircle2 className="w-4 h-4 text-[rgb(28,212,132)]" />
                                         <span>Fully refundable if no purchases are finalized.</span>
                                     </div>

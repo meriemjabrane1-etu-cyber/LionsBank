@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AppLayout from "@/layouts/app-layout";
+import { useAppearance } from "@/hooks/use-appearance";
 import "leaflet/dist/leaflet.css";
 
 // Fix Leaflet icons for React
@@ -72,6 +73,7 @@ function getDistanceKm(lat1, lon1, lat2, lon2) {
 }
 
 export default function Agencies() {
+  const { resolvedAppearance } = useAppearance();
   const [userLocation, setUserLocation] = useState([33.5731, -7.5898]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -112,28 +114,28 @@ export default function Agencies() {
         <div className="absolute top-[-200px] left-[-200px] w-[500px] h-[500px] bg-[rgb(28,212,132)]/5 rounded-full blur-[150px] pointer-events-none z-0" />
 
         {/* Header Bar */}
-        <div className="bg-[#062B29]/80 backdrop-blur-xl border-b border-white/10 px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 z-20">
+        <div className="bg-white/80 dark:bg-[#062B29]/80 backdrop-blur-xl border-b border-slate-200 dark:border-white/10 px-8 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 z-20">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-[rgb(28,212,132)]/10 rounded-xl flex items-center justify-center border border-[rgb(28,212,132)]/20 shadow-[0_0_15px_rgba(28,212,132,0.1)]">
               <ShieldCheck className="w-6 h-6 text-[rgb(28,212,132)]" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white tracking-wide">Secure Locations</h1>
-              <p className="text-sm text-white/40">Find encrypted endpoints and physical branches.</p>
+              <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-wide">Secure Locations</h1>
+              <p className="text-sm text-slate-500 dark:text-white/40">Find encrypted endpoints and physical branches.</p>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
             <div className="relative w-72">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-white/40" />
               <Input 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search branch..."
-                className="pl-10 bg-[#041F1E] border-white/10 text-white placeholder:text-white/20 focus-visible:ring-[rgb(28,212,132)]/50 focus-visible:border-[rgb(28,212,132)] rounded-xl h-11"
+                className="pl-10 bg-slate-50 dark:bg-[#041F1E] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-white/20 focus-visible:ring-[rgb(28,212,132)]/50 focus-visible:border-[rgb(28,212,132)] rounded-xl h-11"
               />
             </div>
-            <div className="flex bg-[#041F1E] p-1 rounded-xl border border-white/10">
+            <div className="flex bg-slate-100 dark:bg-[#041F1E] p-1 rounded-xl border border-slate-200 dark:border-white/10">
               {['all', 'open', 'cash'].map((f) => (
                 <button
                   key={f}
@@ -141,7 +143,7 @@ export default function Agencies() {
                   className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all duration-300 ${
                     filter === f 
                     ? 'bg-[rgb(28,212,132)] text-[#041F1E] shadow-[0_0_10px_rgba(28,212,132,0.3)]' 
-                    : 'text-white/40 hover:text-white'
+                    : 'text-slate-500 dark:text-white/40 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   {f.toUpperCase()}
@@ -153,7 +155,7 @@ export default function Agencies() {
 
         <div className="flex-1 flex overflow-hidden z-10">
           {/* Sidebar List */}
-          <div className="w-[420px] bg-[#062B29]/90 backdrop-blur-md border-r border-white/10 overflow-y-auto p-6 flex flex-col gap-4 shadow-xl custom-scrollbar">
+          <div className="w-[420px] bg-slate-50/90 dark:bg-[#062B29]/90 backdrop-blur-md border-r border-slate-200 dark:border-white/10 overflow-y-auto p-6 flex flex-col gap-4 shadow-xl custom-scrollbar">
             <div className="flex items-center justify-between mb-2 px-1">
               <span className="text-[10px] font-bold text-[rgb(28,212,132)] uppercase tracking-[0.2em] flex items-center gap-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-[rgb(28,212,132)] animate-pulse"></div>
@@ -171,33 +173,33 @@ export default function Agencies() {
                   className={`shrink-0 p-5 rounded-[24px] border transition-all cursor-pointer group relative overflow-hidden ${
                     activeAgency?.id === agency.id 
                     ? 'border-[rgb(28,212,132)] bg-[rgb(28,212,132)]/10 shadow-[0_0_20px_rgba(28,212,132,0.1)]' 
-                    : 'border-white/5 hover:border-white/20 bg-white/5 hover:bg-white/10'
+                    : 'border-slate-200/50 dark:border-white/5 hover:border-[rgb(28,212,132)]/30 dark:hover:border-white/20 bg-white dark:bg-white/5 hover:bg-slate-100 dark:hover:bg-white/10 shadow-sm dark:shadow-none'
                   }`}
                   onClick={() => setActiveAgency(agency)}
                 >
                   <div className="flex justify-between items-center mb-3 relative z-10">
-                    <h3 className="font-bold text-white group-hover:text-[rgb(28,212,132)] transition-colors text-lg">{agency.name}</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-white group-hover:text-[rgb(28,212,132)] transition-colors text-lg">{agency.name}</h3>
                     <Badge variant="outline" className={`font-bold tracking-wide ${
                       agency.status === 'Open' 
-                      ? 'text-[rgb(28,212,132)] border-[rgb(28,212,132)]/30 bg-[rgb(28,212,132)]/10' 
-                      : 'text-rose-400 border-rose-500/30 bg-rose-500/10'
+                      ? 'text-emerald-600 dark:text-[rgb(28,212,132)] border-emerald-500/20 dark:border-[rgb(28,212,132)]/30 bg-emerald-500/10 dark:bg-[rgb(28,212,132)]/10' 
+                      : 'text-rose-600 dark:text-rose-400 border-rose-500/20 dark:border-rose-500/30 bg-rose-500/10 dark:bg-rose-500/10'
                     }`}>
                       {agency.status}
                     </Badge>
                   </div>
-                  <p className="text-sm text-white/40 mb-5 flex items-center gap-2 relative z-10">
+                  <p className="text-sm text-slate-500 dark:text-white/40 mb-5 flex items-center gap-2 relative z-10">
                     <MapPin className="w-4 h-4 text-[rgb(28,212,132)]/70" />
                     {agency.address}
                   </p>
                   <div className="flex items-center justify-between relative z-10">
                     <div className="flex gap-6">
                       <div className="flex flex-col">
-                        <span className="text-[10px] text-white/20 font-bold uppercase tracking-wider mb-1">Distance</span>
-                        <span className="text-sm font-bold text-white">{agency.distance?.toFixed(1)} <span className="text-white/40 text-xs">KM</span></span>
+                        <span className="text-[10px] text-slate-400 dark:text-white/20 font-bold uppercase tracking-wider mb-1">Distance</span>
+                        <span className="text-sm font-bold text-slate-900 dark:text-white">{agency.distance?.toFixed(1)} <span className="text-slate-400 dark:text-white/40 text-xs">KM</span></span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[10px] text-white/20 font-bold uppercase tracking-wider mb-1">Status</span>
-                        <span className={`text-sm font-bold ${agency.cash ? 'text-[rgb(28,212,132)]' : 'text-rose-400'}`}>
+                        <span className="text-[10px] text-slate-400 dark:text-white/20 font-bold uppercase tracking-wider mb-1">Status</span>
+                        <span className={`text-sm font-bold ${agency.cash ? 'text-emerald-600 dark:text-[rgb(28,212,132)]' : 'text-rose-600 dark:text-rose-400'}`}>
                           {agency.cash ? 'Secured' : 'Empty'}
                         </span>
                       </div>
@@ -206,8 +208,8 @@ export default function Agencies() {
                       onClick={(e) => { e.stopPropagation(); openMapsDirection(agency); }}
                       className={`h-10 px-4 rounded-xl font-bold transition-all duration-300 ${
                         activeAgency?.id === agency.id
-                        ? 'bg-[rgb(28,212,132)] text-[#041F1E] hover:bg-white'
-                        : 'bg-white/5 border border-white/10 text-white hover:border-[rgb(28,212,132)] hover:text-[rgb(28,212,132)]'
+                        ? 'bg-[rgb(28,212,132)] text-[#041F1E] hover:bg-slate-900 dark:hover:bg-white'
+                        : 'bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-white hover:border-[rgb(28,212,132)] hover:text-[rgb(28,212,132)] shadow-sm dark:shadow-none'
                       }`}
                     >
                       <Navigation className="w-4 h-4 mr-2" />
@@ -229,7 +231,10 @@ export default function Agencies() {
             >
               <TileLayer
                 attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
-                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                url={resolvedAppearance === 'dark' 
+                  ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                  : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                }
               />
 
               <Marker position={userLocation} icon={userLocationIcon}>
@@ -246,28 +251,28 @@ export default function Agencies() {
                   eventHandlers={{ click: () => setActiveAgency(agency) }}
                 >
                   <Popup className="premium-dark-popup">
-                    <div className="w-64 p-4 bg-[#062B29] rounded-[2rem] border border-[rgb(28,212,132)]/30 shadow-2xl">
+                    <div className="w-64 p-4 bg-white dark:bg-[#062B29] rounded-[2rem] border border-slate-200 dark:border-[rgb(28,212,132)]/30 shadow-2xl">
                       <div className="flex items-center gap-3 mb-4">
                         <div className="w-10 h-10 bg-[rgb(28,212,132)]/20 rounded-xl flex items-center justify-center border border-[rgb(28,212,132)]/40 shadow-[0_0_10px_rgba(28,212,132,0.2)]">
                           <ShieldCheck className="w-5 h-5 text-[rgb(28,212,132)]" />
                         </div>
-                        <h2 className="font-bold text-white text-lg tracking-wide">{agency.name}</h2>
+                        <h2 className="font-bold text-slate-900 dark:text-white text-lg tracking-wide">{agency.name}</h2>
                       </div>
                       
-                      <div className="space-y-3 mb-5 p-3 bg-[#041F1E] rounded-xl border border-white/5">
-                        <div className="flex items-center gap-3 text-sm text-white/60">
+                      <div className="space-y-3 mb-5 p-3 bg-slate-50 dark:bg-[#041F1E] rounded-xl border border-slate-100 dark:border-white/5">
+                        <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-white/60">
                           <Clock className="w-4 h-4 text-[rgb(28,212,132)]" />
                           <span className="font-medium">24/7 Monitoring</span>
                         </div>
-                        <div className="flex items-center gap-3 text-sm text-white/60">
+                        <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-white/60">
                           <Phone className="w-4 h-4 text-[rgb(28,212,132)]" />
-                          <span className="font-mono">+212 522-SECURE</span>
+                          <span className="font-mono text-xs">+212 522-SECURE</span>
                         </div>
                       </div>
 
                       <Button 
                         onClick={() => openMapsDirection(agency)}
-                        className="w-full bg-[rgb(28,212,132)] hover:bg-white text-[#041F1E] rounded-xl h-12 font-bold shadow-lg transition-all duration-300"
+                        className="w-full bg-[rgb(28,212,132)] hover:bg-slate-900 dark:hover:bg-white text-[#041F1E] dark:text-[#041F1E] hover:text-white dark:hover:text-[#041F1E] rounded-xl h-12 font-bold shadow-lg transition-all duration-300"
                       >
                         <Navigation className="w-5 h-5 mr-2" />
                         Establish Route
@@ -280,16 +285,16 @@ export default function Agencies() {
 
             {/* Map Controls Overlay */}
             <div className="absolute top-6 right-6 flex flex-col gap-3 z-[400]">
-              <Button size="icon" className="shadow-2xl rounded-xl h-12 w-12 bg-[#062B29] border border-white/10 hover:border-[rgb(28,212,132)] hover:bg-[rgb(28,212,132)]/10 text-white/40 hover:text-[rgb(28,212,132)] transition-colors"><Layers className="w-5 h-5" /></Button>
-              <Button size="icon" className="shadow-2xl rounded-xl h-12 w-12 bg-[#062B29] border border-white/10 hover:border-[rgb(28,212,132)] hover:bg-[rgb(28,212,132)]/10 text-white/40 hover:text-[rgb(28,212,132)] transition-colors"><Globe className="w-5 h-5" /></Button>
-              <Button size="icon" onClick={() => setUserLocation(userLocation)} className="shadow-2xl rounded-xl h-12 w-12 bg-[#062B29] border border-white/10 hover:border-[rgb(28,212,132)] hover:bg-[rgb(28,212,132)]/10 text-white/40 hover:text-[rgb(28,212,132)] transition-colors"><Target className="w-5 h-5" /></Button>
+              <Button size="icon" className="shadow-2xl rounded-xl h-12 w-12 bg-white dark:bg-[#062B29] border border-slate-200 dark:border-white/10 hover:border-[rgb(28,212,132)] hover:bg-[rgb(28,212,132)]/10 text-slate-400 dark:text-white/40 hover:text-[rgb(28,212,132)] transition-colors shadow-lg"><Layers className="w-5 h-5" /></Button>
+              <Button size="icon" className="shadow-2xl rounded-xl h-12 w-12 bg-white dark:bg-[#062B29] border border-slate-200 dark:border-white/10 hover:border-[rgb(28,212,132)] hover:bg-[rgb(28,212,132)]/10 text-slate-400 dark:text-white/40 hover:text-[rgb(28,212,132)] transition-colors shadow-lg"><Globe className="w-5 h-5" /></Button>
+              <Button size="icon" onClick={() => setUserLocation(userLocation)} className="shadow-2xl rounded-xl h-12 w-12 bg-white dark:bg-[#062B29] border border-slate-200 dark:border-white/10 hover:border-[rgb(28,212,132)] hover:bg-[rgb(28,212,132)]/10 text-slate-400 dark:text-white/40 hover:text-[rgb(28,212,132)] transition-colors shadow-lg"><Target className="w-5 h-5" /></Button>
             </div>
           </div>
         </div>
       </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        .leaflet-container { font-family: inherit; background: #020D0D !important; }
+        .leaflet-container { font-family: inherit; background: ${resolvedAppearance === 'dark' ? '#020D0D' : '#F8FAFC'} !important; }
         .premium-dark-popup .leaflet-popup-content-wrapper {
           background: transparent !important;
           border-radius: 32px;
@@ -314,7 +319,7 @@ export default function Agencies() {
           background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgba(255,255,255,0.05);
+          background: ${resolvedAppearance === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'};
           border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {

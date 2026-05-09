@@ -10,13 +10,13 @@ const getStatusConfig = (status) => {
   switch (status.toLowerCase()) {
     case 'approved':
     case 'confirmed':
-      return { color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30', icon: Activity };
+      return { color: 'bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border-emerald-500/20 dark:border-emerald-500/30', icon: Activity };
     case 'rejected':
-      return { color: 'bg-rose-500/20 text-rose-400 border-rose-500/30', icon: Calendar };
+      return { color: 'bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 border-rose-500/20 dark:border-rose-500/30', icon: Calendar };
     case 'pending':
-      return { color: 'bg-amber-500/20 text-amber-400 border-amber-500/30', icon: Clock };
+      return { color: 'bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/20 dark:border-amber-500/30', icon: Clock };
     default:
-      return { color: 'bg-white/10 text-white/60 border-white/20', icon: Calendar };
+      return { color: 'bg-slate-100 dark:bg-white/10 text-slate-400 dark:text-white/60 border-slate-200 dark:border-white/20', icon: Calendar };
   }
 };
 
@@ -39,7 +39,7 @@ export default function Appointments() {
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
       <Head title="Secure Appointments - LionsBank" />
-      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
+      <div className="m-8 min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] py-10 pr-10 pl-0 text-slate-900 dark:text-white relative transition-colors duration-500 m-0 w-full max-w-none">
         <div className="w-full space-y-12 m-0 p-0 max-w-none">
           {/* Header */}
           <div className="mb-12">
@@ -54,47 +54,47 @@ export default function Appointments() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {/* Create Form Section */}
             <div className="lg:col-span-1">
-              <div className="bg-[#062B29]/80 backdrop-blur-md border border-white/10 shadow-2xl rounded-[2.5rem] overflow-hidden sticky top-8">
-                <div className="border-b border-white/5 p-8 bg-gradient-to-b from-white/5 to-transparent">
+              <div className="bg-white/80 dark:bg-[#062B29]/80 backdrop-blur-md border border-slate-200 dark:border-white/10 shadow-2xl rounded-[2.5rem] overflow-hidden sticky top-8">
+                <div className="border-b border-slate-100 dark:border-white/5 p-8 bg-gradient-to-b from-slate-50 dark:from-white/5 to-transparent">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2.5 bg-[rgb(28,212,132)]/10 rounded-xl border border-[rgb(28,212,132)]/20 shadow-lg">
                       <Plus className="w-5 h-5 text-[rgb(28,212,132)]" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">New Request</h3>
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">New Request</h3>
                   </div>
-                  <p className="text-white/40 text-sm">Select a service and preferred time.</p>
+                  <p className="text-slate-500 dark:text-white/40 text-sm">Select a service and preferred time.</p>
                 </div>
                 <div className="p-8">
                   <form onSubmit={submit} className="space-y-6">
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest text-white/30 ml-1">Service Type</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-white/30 ml-1">Service Type</label>
                       <select
                         value={data.service_type}
                         onChange={(e) => setData("service_type", e.target.value)}
-                        className="w-full h-12 bg-[#041F1E] text-white rounded-2xl border border-white/10 px-4 outline-none focus:ring-2 focus:ring-[rgb(28,212,132)]/50 transition-all focus:border-[rgb(28,212,132)]"
+                        className="w-full h-12 bg-slate-50 dark:bg-[#041F1E] text-slate-900 dark:text-white rounded-2xl border border-slate-200 dark:border-white/10 px-4 outline-none focus:ring-2 focus:ring-[rgb(28,212,132)]/50 transition-all focus:border-[rgb(28,212,132)]"
                       >
-                        <option value="" className="bg-[#041F1E]">Choose a service...</option>
-                        <option value="Card issue" className="bg-[#041F1E]">💳 Card Issue / Replacement</option>
-                        <option value="Loan request" className="bg-[#041F1E]">💰 Loan Request Consultation</option>
-                        <option value="Account problem" className="bg-[#041F1E]">⚠️ Account Security / Support</option>
-                        <option value="Cheque validation" className="bg-[#041F1E]">📑 Cheque Validation</option>
+                        <option value="" className="bg-white dark:bg-[#041F1E]">Choose a service...</option>
+                        <option value="Card issue" className="bg-white dark:bg-[#041F1E]">💳 Card Issue / Replacement</option>
+                        <option value="Loan request" className="bg-white dark:bg-[#041F1E]">💰 Loan Request Consultation</option>
+                        <option value="Account problem" className="bg-white dark:bg-[#041F1E]">⚠️ Account Security / Support</option>
+                        <option value="Cheque validation" className="bg-white dark:bg-[#041F1E]">📑 Cheque Validation</option>
                       </select>
                       {errors.service_type && (
-                        <p className="text-xs text-rose-400 font-medium mt-1 ml-1">{errors.service_type}</p>
+                        <p className="text-xs text-rose-500 font-medium mt-1 ml-1">{errors.service_type}</p>
                       )}
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-widest text-white/30 ml-1">Date & Time</label>
+                      <label className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-white/30 ml-1">Date & Time</label>
                       <Input
                         type="datetime-local"
                         value={data.date}
                         onChange={(e) => setData("date", e.target.value)}
-                        className="h-12 bg-[#041F1E] text-white border-white/10 rounded-2xl focus-visible:ring-[rgb(28,212,132)]/50 focus-visible:border-[rgb(28,212,132)]"
-                        style={{ colorScheme: 'dark' }}
+                        className="h-12 bg-slate-50 dark:bg-[#041F1E] text-slate-900 dark:text-white border-slate-200 dark:border-white/10 rounded-2xl focus-visible:ring-[rgb(28,212,132)]/50 focus-visible:border-[rgb(28,212,132)]"
+                        // style={{ colorScheme: 'dark' }} // Let the theme handle it
                       />
                       {errors.date && (
-                        <p className="text-xs text-rose-400 font-medium mt-1 ml-1">{errors.date}</p>
+                        <p className="text-xs text-rose-500 font-medium mt-1 ml-1">{errors.date}</p>
                       )}
                     </div>
 
@@ -125,37 +125,37 @@ export default function Appointments() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
                       >
-                        <div className="group bg-[#062B29]/60 backdrop-blur-sm border border-white/5 rounded-[2rem] overflow-hidden hover:border-[rgb(28,212,132)]/30 hover:shadow-[0_8px_30px_rgba(28,212,132,0.1)] transition-all duration-500 p-6">
+                        <div className="group bg-white/70 dark:bg-[#062B29]/60 backdrop-blur-sm border border-slate-200 dark:border-white/5 rounded-[2rem] overflow-hidden hover:border-[rgb(28,212,132)]/30 hover:shadow-[0_8px_30px_rgba(28,212,132,0.1)] transition-all duration-500 p-6">
                             <div className="flex justify-between items-start mb-6">
                               <Badge className={`${status.color} border font-bold px-3 py-1 rounded-full backdrop-blur-md text-[10px] uppercase tracking-tighter`}>
                                 <StatusIcon className="w-3 h-3 mr-1.5" />
                                 {rdv.status}
                               </Badge>
-                              <div className="text-white/10 group-hover:text-[rgb(28,212,132)] transition-colors">
+                              <div className="text-slate-300 dark:text-white/10 group-hover:text-[rgb(28,212,132)] transition-colors">
                                 <Activity className="w-5 h-5" />
                               </div>
                             </div>
                             
-                            <h3 className="text-xl font-bold text-white tracking-wide group-hover:text-[rgb(28,212,132)] transition-colors line-clamp-1">
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-wide group-hover:text-[rgb(28,212,132)] transition-colors line-clamp-1">
                                 {rdv.service_type}
                             </h3>
                             
                             <div className="mt-6 space-y-4">
-                              <div className="flex items-center gap-3 bg-white/5 p-4 rounded-2xl border border-white/5">
+                              <div className="flex items-center gap-3 bg-slate-50 dark:bg-white/5 p-4 rounded-2xl border border-slate-100 dark:border-white/5">
                                 <div className="p-2 bg-[rgb(28,212,132)]/10 rounded-xl border border-[rgb(28,212,132)]/20">
                                   <Calendar className="w-4 h-4 text-[rgb(28,212,132)]" />
                                 </div>
-                                <span className="font-bold text-sm text-white/80">{rdv.date}</span>
+                                <span className="font-bold text-sm text-slate-700 dark:text-white/80">{rdv.date}</span>
                               </div>
                               
-                              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                              <div className="pt-4 border-t border-slate-100 dark:border-white/5 flex items-center justify-between">
                                 <div className="flex items-center gap-2">
-                                  <UserIcon className="w-4 h-4 text-white/20" />
-                                  <span className="text-xs font-bold text-white/60">{rdv.user?.name}</span>
+                                  <UserIcon className="w-4 h-4 text-slate-300 dark:text-white/20" />
+                                  <span className="text-xs font-bold text-slate-500 dark:text-white/60">{rdv.user?.name}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <Briefcase className="w-4 h-4 text-white/20" />
-                                  <span className="text-xs font-bold text-white/40">{rdv.employee?.name ?? "Dispatching..."}</span>
+                                  <Briefcase className="w-4 h-4 text-slate-300 dark:text-white/20" />
+                                  <span className="text-xs font-bold text-slate-400 dark:text-white/40">{rdv.employee?.name ?? "Dispatching..."}</span>
                                 </div>
                               </div>
                             </div>
@@ -166,12 +166,12 @@ export default function Appointments() {
                 </AnimatePresence>
                 
                 {appointments.length === 0 && (
-                  <div className="col-span-full py-32 text-center bg-white/5 rounded-[3rem] border-2 border-dashed border-white/5 flex flex-col items-center justify-center">
-                    <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6 border border-white/10 shadow-inner">
-                      <Calendar className="w-10 h-10 text-white/10" />
+                  <div className="col-span-full py-32 text-center bg-white/40 dark:bg-white/5 rounded-[3rem] border-2 border-dashed border-slate-200 dark:border-white/5 flex flex-col items-center justify-center">
+                    <div className="w-20 h-20 bg-slate-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 border border-slate-100 dark:border-white/10 shadow-inner">
+                      <Calendar className="w-10 h-10 text-slate-200 dark:text-white/10" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white">No Appointments</h3>
-                    <p className="text-white/30 mt-2 max-w-xs mx-auto">You haven't scheduled any consultations yet. Start by using the secure form.</p>
+                    <h3 className="text-2xl font-bold text-slate-900 dark:text-white">No Appointments</h3>
+                    <p className="text-slate-500 dark:text-white/30 mt-2 max-w-xs mx-auto">You haven't scheduled any consultations yet. Start by using the secure form.</p>
                   </div>
                 )}
               </div>
