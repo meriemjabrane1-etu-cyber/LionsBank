@@ -37,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/comptes', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/virements', [\App\Http\Controllers\TransferController::class, 'index'])->name('virements.index');
+    Route::post('/virements', [\App\Http\Controllers\TransferController::class, 'store'])->name('virements.store');
     Route::get('/cartes', function () {
         return Inertia::render('Cards');
     })->name('cards');

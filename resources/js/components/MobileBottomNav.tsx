@@ -7,7 +7,7 @@ export default function MobileBottomNav() {
     const navItems = [
         { label: 'Accueil', icon: Home, href: '/dashboard' },
         { label: 'Comptes', icon: Wallet, href: '/comptes' },
-        { label: 'Virements', icon: ArrowLeftRight, href: '#virements', isAction: true },
+        { label: 'Virements', icon: ArrowLeftRight, href: '/virements', isAction: true },
         { label: 'Cartes', icon: CreditCard, href: '/cartes' },
         { label: 'Plus', icon: LayoutGrid, href: '#plus' },
     ];
