@@ -279,8 +279,8 @@ export default function EmployeeAppointmentsPage({ appointments, stats }: Props)
                         </div>
 
                         {/* Sidebar: Activity Feed */}
-                        <div className="lg:col-span-4 space-y-6">
-                            <Card className="bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md sticky top-8 shadow-sm dark:shadow-none">
+                        <div className="lg:col-span-4 space-y-6 sticky top-8 self-start">
+                            <Card className="bg-white/80 dark:bg-white/5 border-slate-200 dark:border-white/10 backdrop-blur-md shadow-sm dark:shadow-none">
                                 <CardHeader className="border-b border-slate-100 dark:border-white/5">
                                     <CardTitle className="text-sm font-bold uppercase tracking-widest flex items-center gap-2 text-slate-900 dark:text-white">
                                         <Activity className="h-4 w-4 text-[rgb(28,212,132)]" />

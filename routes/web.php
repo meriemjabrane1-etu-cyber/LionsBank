@@ -37,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     Route::get('/comptes', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/virements', [\App\Http\Controllers\TransferController::class, 'index'])->name('virements.index');
+    Route::post('/virements', [\App\Http\Controllers\TransferController::class, 'store'])->name('virements.store');
     Route::get('/cartes', function () {
         return Inertia::render('Cards');
     })->name('cards');
@@ -74,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/employee/auctions/{auction}/winner', [AuctionController::class, 'declareWinner'])->name('employee.auctions.winner');
     Route::delete('/employee/auctions/{auction}', [AuctionController::class, 'deleteAuction'])->name('employee.auctions.delete');
     Route::post('/employee/auctions/{auction}/products', [AuctionController::class, 'addProduct'])->name('employee.auctions.addProduct');
+    Route::post('/employee/products/{product}/update', [AuctionController::class, 'updateProduct'])->name('employee.auctions.updateProduct');
     Route::delete('/employee/products/{product}', [AuctionController::class, 'deleteProduct'])->name('employee.auctions.deleteProduct');
 });
 

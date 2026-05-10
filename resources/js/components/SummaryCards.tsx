@@ -26,17 +26,17 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function SummaryCards() {
     return (
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:gap-5 lg:grid-cols-2 xl:grid-cols-4">
             {summaryCards.map((card: Card) => {
                 const Icon = iconMap[card.icon] || Landmark;
 
                 return (
                     <div
                         key={card.title}
-                        className={`group relative overflow-hidden rounded-[2.5rem] border p-8 transition-all duration-500 hover:scale-[1.02] ${
+                        className={`group relative overflow-hidden rounded-3xl lg:rounded-[2.5rem] border p-5 lg:p-8 transition-all duration-500 hover:scale-[1.02] ${
                             card.featured
-                                ? 'border-[rgb(28,212,132)]/30 bg-gradient-to-br from-[#062B29] to-[#041F1E] text-white shadow-[0_0_50px_rgba(28,212,132,0.15)]'
-                                : 'border-slate-200 bg-white shadow-md hover:border-[rgb(28,212,132)]/30 dark:border-white/10 dark:bg-[#062B29]/50 dark:shadow-none'
+                                ? 'col-span-2 border-[rgb(28,212,132)]/30 bg-gradient-to-br from-[#062B29] to-[#041F1E] text-white shadow-[0_0_50px_rgba(28,212,132,0.15)] xl:col-span-1'
+                                : 'col-span-1 border-slate-200 bg-white shadow-md hover:border-[rgb(28,212,132)]/30 dark:border-white/10 dark:bg-[#062B29]/50 dark:shadow-none xl:col-span-1'
                         }`}
                     >
                         {/* Background Glow for Featured */}
@@ -81,7 +81,11 @@ export default function SummaryCards() {
                                     {card.title}
                                 </p>
                                 <h3
-                                    className={`mt-1 text-3xl font-bold tracking-tight ${card.featured ? 'text-white' : 'text-slate-900 dark:text-white'}`}
+                                    className={`mt-1 font-bold tracking-tight ${
+                                        card.featured 
+                                            ? 'text-3xl text-white' 
+                                            : 'text-xl lg:text-3xl text-slate-900 dark:text-white'
+                                    }`}
                                 >
                                     {card.value.split(' ')[0]}{' '}
                                     <span className="text-sm font-medium opacity-40">
@@ -90,7 +94,7 @@ export default function SummaryCards() {
                                 </h3>
                                 <div className="mt-3 flex items-center gap-2">
                                     <span
-                                        className={`text-xs font-medium ${card.featured ? 'text-white/60' : 'text-slate-500 dark:text-white/40'}`}
+                                        className={`text-[10px] lg:text-xs font-medium ${card.featured ? 'text-white/60' : 'text-slate-500 dark:text-white/40'}`}
                                     >
                                         {card.description}
                                     </span>

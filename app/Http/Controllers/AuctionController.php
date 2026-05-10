@@ -120,6 +120,31 @@ class AuctionController extends Controller
         return back()->with('success', 'Item added to auction successfully.');
     }
 
+    public function updateProduct(Request $request, Product $product)
+    {
+        $this->ensureEmployeeAccess();
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'starting_bid' => 'required|numeric|min:0',
+        ]);
+
+        $updateData = [
+            'name' => $validated['name'],
+            'current_bid' => $validated['starting_bid'],
+        ];
+
+        if ($request->hasFile('image_url')) {
+            $path = $request->file('image_url')->store('products', 'public');
+            $updateData['image_url'] = '/storage/' . $path;
+        }
+
+        $product->update($updateData);
+
+        return back()->with('success', 'Item updated successfully.');
+    }
+
     public function deleteProduct(Product $product)
     {
         $this->ensureEmployeeAccess();

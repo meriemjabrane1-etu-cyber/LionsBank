@@ -22,7 +22,8 @@ import {
   MapPin,
   Laptop,
   Sun,
-  Moon
+  Moon,
+  X
 } from "lucide-react";
 import { menuItems as clientMenuItems } from "@/data/dashboardData";
 import type { LucideIcon } from "lucide-react";
@@ -50,7 +51,13 @@ const iconMap: Record<string, LucideIcon> = {
   Laptop
 };
 
-export default function Sidebar() {
+export default function Sidebar({ 
+  isMobileOpen = false, 
+  onClose 
+}: { 
+  isMobileOpen?: boolean;
+  onClose?: () => void;
+}) {
   const { props, url } = usePage();
   const { auth } = props as any;
   const isEmployee = auth?.user?.role === 'employee';
@@ -73,24 +80,44 @@ export default function Sidebar() {
   const menuItems = isEmployee ? employeeMenuItems : clientMenuItems;
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-72 bg-[#062B29] text-white shadow-2xl border-r border-white/5 z-50 hidden lg:block">
+    <>
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Sidebar Container */}
+      <aside className={`fixed left-0 top-0 h-screen w-72 bg-[#062B29] text-white shadow-2xl border-r border-white/5 z-50 transition-transform duration-300 lg:translate-x-0 ${
+        isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
       <div className="flex h-full flex-col px-6 py-8">
         <div className="mb-12 flex items-center justify-between px-0">
           <Link href="/dashboard" className="block scale-110 origin-left">
             <img src="/images/logo-white.png" alt="LionsBank" className="h-20 w-auto mix-blend-screen" />
           </Link>
           
-          <button 
-            onClick={toggleTheme}
-            className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
-            title={appearance === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
-          >
-            {appearance === 'dark' ? (
-              <Sun className="h-5 w-5 text-[rgb(28,212,132)] group-hover:rotate-45 transition-transform duration-500" />
-            ) : (
-              <Moon className="h-5 w-5 text-white/40 group-hover:-rotate-12 transition-transform duration-500" />
-            )}
-          </button>
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all group"
+              title={appearance === 'dark' ? 'Passer au mode clair' : 'Passer au mode sombre'}
+            >
+              {appearance === 'dark' ? (
+                <Sun className="h-5 w-5 text-[rgb(28,212,132)] group-hover:rotate-45 transition-transform duration-500" />
+              ) : (
+                <Moon className="h-5 w-5 text-white/40 group-hover:-rotate-12 transition-transform duration-500" />
+              )}
+            </button>
+            <button 
+              onClick={onClose}
+              className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all lg:hidden"
+            >
+              <X className="h-5 w-5 text-white" />
+            </button>
+          </div>
         </div>
 
         {/* Navigation Menu */}
@@ -151,5 +178,6 @@ export default function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }
