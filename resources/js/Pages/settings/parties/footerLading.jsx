@@ -1,11 +1,10 @@
 
-
-
 export default function Footer() {
     return (
-        <footer className="min-h-screen bg-[#151515] relative  px-10 overflow-hidden">
+        <footer className="min-h-screen bg-[#151515] relative px-10 overflow-hidden">
+            <div className="absolute inset-0 bg-black/70 z-0" />
 
-            <div className="absolute inset-0 grid grid-cols-4 pointer-events-none">
+            <div className="absolute inset-0 grid grid-cols-4 pointer-events-none z-0">
 
                 <div className="border-r border-dashed border-gray-500/30"></div>
                 <div className="border-r border-dashed border-gray-500/30"></div>
@@ -15,7 +14,7 @@ export default function Footer() {
 
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pt-56">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 pt-56 relative z-10">
 
                 {/* Column 1 */}
                 <div className="space-y-4">

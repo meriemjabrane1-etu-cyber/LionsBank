@@ -3,7 +3,7 @@
 export const menuItems = [
   { label: "Tableau de bord", icon: "Home", href: "/dashboard" },
   { label: "Mes comptes", icon: "Wallet", href: "/comptes" },
-  { label: "Virements", icon: "ArrowLeftRight", href: "/dashboard#virements" },
+  { label: "Virements", icon: "ArrowLeftRight", href: "/virements" },
   { label: "Cartes", icon: "CreditCard", href: "/cartes" },
   { label: "Rendez-vous", icon: "Calendar", href: "/appointments" },
   { label: "Agences", icon: "Building2", href: "/agencies" },
@@ -11,8 +11,8 @@ export const menuItems = [
   { label: "Historique", icon: "Clock3", href: "/dashboard#history" },
   { label: "Paramètres", icon: "Settings", href: "/dashboard#settings" },
   { label: "Aide & support", icon: "CircleHelp", href: "/dashboard#help" },
-  { label: "cheque-verification", icon: "CircleHelp", href: "/cheque-verification" },
-  { label: "Ai Agent", icon: "CircleHelp", href: "/ai-agent" },
+  { label: "cheque-verification", icon: "FileSearch", href: "/cheque-verification" },
+  { label: "Ai Agent", icon: "Bot", href: "/ai-agent" },
 ];
 
 export const summaryCards = [

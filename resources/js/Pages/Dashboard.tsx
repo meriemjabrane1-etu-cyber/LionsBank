@@ -87,32 +87,37 @@ export default function Dashboard({ auth }: DashboardProps) {
             {/* // <AppLayout breadcrumbs={[{ title: 'Tableau de bord', href: '/dashboard' }]}> */}
             <Head title="Tableau de bord - LionsBank" />
 
-            <div className="relative m-0 ml-5 min-h-screen w-full max-w-none py-10 pr-10 pl-0 text-slate-900 transition-colors duration-500 dark:text-white">
-                <div className="m-0 w-full max-w-none space-y-12 p-0">
+            <div className="relative m-0 lg:ml-5 min-h-screen w-full max-w-none px-6 py-6 lg:py-10 lg:pr-10 lg:pl-0 text-slate-900 transition-colors duration-500 dark:text-white">
+                <div className="m-0 w-full max-w-none space-y-8 lg:space-y-12 p-0">
                     {/* Top Bar with Profile (Internal) */}
-                    <header className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
+                    <header className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                            <h1 className="flex items-center gap-3 text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+                            <h1 className="flex items-center gap-3 text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
                                 Bonjour, {userName}{' '}
                                 <span className="animate-bounce">
                                     <MdWavingHand className='text-lime-200' />
                                 </span>
                             </h1>
-                            <p className="mt-1 font-medium text-slate-500 dark:text-white/40">
+                            <p className="mt-1 text-sm lg:text-base font-medium text-slate-500 dark:text-white/40">
                                 Voici un aperçu de vos finances
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-4">
-                            <div className="group relative hidden lg:block">
+                        {/* Search Bar & Desktop Profile */}
+                        <div className="flex w-full lg:w-auto items-center gap-4">
+                            <div className="group relative w-full lg:w-auto">
                                 <Search className="absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-slate-300 transition-colors group-focus-within:text-[rgb(28,212,132)]/50 dark:text-white/20" />
                                 <input
                                     placeholder="Rechercher..."
-                                    className="h-12 w-64 rounded-2xl border border-slate-200 bg-white pr-4 pl-11 text-sm shadow-sm transition-all outline-none focus:border-[rgb(28,212,132)]/50 dark:border-white/5 dark:bg-[#062B29]/50 dark:shadow-none"
+                                    className="h-12 w-full lg:w-64 rounded-2xl border border-slate-200 bg-white pr-4 pl-11 text-sm shadow-sm transition-all outline-none focus:border-[rgb(28,212,132)]/50 dark:border-white/5 dark:bg-[#062B29]/50 dark:shadow-none"
                                 />
                             </div>
-                            <NotificationCenter />
-                            <div className="flex items-center gap-3 pl-2">
+                            
+                            {/* Hide these on mobile, handled by MobileHeader */}
+                            <div className="hidden lg:block">
+                                <NotificationCenter />
+                            </div>
+                            <div className="hidden lg:flex items-center gap-3 pl-2">
                                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-[rgb(28,212,132)] to-emerald-600 font-black text-[#041F1E] shadow-lg">
                                     {userName.charAt(0)}
                                 </div>

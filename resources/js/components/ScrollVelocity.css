@@ -1,0 +1,39 @@
+.scroll-velocity {
+    width: 100%;
+}
+
+.scroll-velocity__parallax {
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-velocity__scroller {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    text-align: center;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1rem;
+    letter-spacing: 0;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.08));
+    will-change: transform;
+}
+
+.scroll-velocity__scroller > * {
+    flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+    .scroll-velocity__scroller {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-velocity__scroller {
+        transform: translate3d(0, 0, 0) !important;
+    }
+}

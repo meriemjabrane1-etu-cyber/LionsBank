@@ -13,17 +13,11 @@ export default function ContactSection() {
     }, []);
 
     return (
-        <div
-            className="relative min-h-screen w-full flex items-center justify-center bg-cover bg-center pt-50 pb-14"
-            style={{
-                backgroundImage: `url(${ImgContact})`,
-            }}
-        >
-            {/* Overlay + Blur */}
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <section className="relative min-h-screen w-full flex items-center justify-center pt-50 pb-14 bg-[#030a06] overflow-hidden">
+            <div className="absolute inset-0 bg-black/50"></div>
 
             {/* Content */}
-            <div className="relative z-10 w-full max-w-3xl text-white px-6 " data-aos='fade-up' >
+            <div className="relative z-20 w-full max-w-3xl text-white px-6 " data-aos='fade-up' >
 
                 {/* Titles */}
                 <p className=" mb-3 text-center">Get in touch</p>
@@ -94,6 +88,6 @@ export default function ContactSection() {
 
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

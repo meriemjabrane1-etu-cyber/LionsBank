@@ -15,7 +15,8 @@ import {
     Search,
     Eye,
     Package,
-    Trash2
+    Trash2,
+    Pencil
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -34,7 +35,9 @@ import { Label } from '@/components/ui/label';
 interface Product {
     id: number;
     name: string;
-    description: string;
+    description?: string;
+    image_url?: string;
+    current_bid?: number;
 }
 
 interface Bid {
@@ -74,6 +77,8 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
     const [selectedAuctionForProduct, setSelectedAuctionForProduct] = useState<Auction | null>(null);
     const [selectedAuctionForItems, setSelectedAuctionForItems] = useState<Auction | null>(null);
     const [selectedAuctionBids, setSelectedAuctionBids] = useState<Auction | null>(null);
+    const [isEditProductModalOpen, setIsEditProductModalOpen] = useState(false);
+    const [selectedProductForEdit, setSelectedProductForEdit] = useState<Product | null>(null);
 
     const filteredAuctions = useMemo(() => {
         return auctions.filter((auction) => {
@@ -91,7 +96,13 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
 
     const productForm = useForm({
         name: '',
-        image_url: '',
+        image_url: null as File | null,
+        starting_bid: '',
+    });
+
+    const editProductForm = useForm({
+        name: '',
+        image_url: null as File | null,
         starting_bid: '',
     });
 
@@ -115,6 +126,29 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                 toast.success('Product added successfully');
                 setIsProductModalOpen(false);
                 productForm.reset();
+            }
+        });
+    };
+
+    const openEditProductModal = (product: Product) => {
+        setSelectedProductForEdit(product);
+        editProductForm.setData({
+            name: product.name,
+            image_url: null,
+            starting_bid: product.current_bid?.toString() || '',
+        });
+        setIsEditProductModalOpen(true);
+    };
+
+    const handleEditProductSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedProductForEdit) return;
+        
+        editProductForm.post(`/employee/products/${selectedProductForEdit.id}/update`, {
+            onSuccess: () => {
+                toast.success('Product updated successfully');
+                setIsEditProductModalOpen(false);
+                editProductForm.reset();
             }
         });
     };
@@ -499,14 +533,24 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                                         Current: {Number(product.current_bid).toLocaleString()} MAD
                                     </p>
                                 </div>
-                                <Button 
-                                    variant="ghost" 
-                                    size="icon"
-                                    onClick={() => deleteProduct(product.id)}
-                                    className="h-10 w-10 text-rose-500 hover:text-white hover:bg-rose-500 rounded-xl transition-all flex-shrink-0 ml-auto"
-                                >
-                                    <Trash2 className="h-5 w-5" />
-                                </Button>
+                                <div className="ml-auto flex items-center gap-2 flex-shrink-0">
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon"
+                                        onClick={() => openEditProductModal(product)}
+                                        className="h-10 w-10 text-slate-500 hover:text-white hover:bg-slate-500 rounded-xl transition-all"
+                                    >
+                                        <Pencil className="h-5 w-5" />
+                                    </Button>
+                                    <Button 
+                                        variant="ghost" 
+                                        size="icon"
+                                        onClick={() => deleteProduct(product.id)}
+                                        className="h-10 w-10 text-rose-500 hover:text-white hover:bg-rose-500 rounded-xl transition-all"
+                                    >
+                                        <Trash2 className="h-5 w-5" />
+                                    </Button>
+                                </div>
                             </div>
                         ))}
                         {!selectedAuctionForItems?.products?.length && (
@@ -516,6 +560,52 @@ export default function EmployeeAuctionsPage({ auctions, stats }: Props) {
                             </div>
                         )}
                     </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Edit Product Modal */}
+            <Dialog open={isEditProductModalOpen} onOpenChange={(open) => !open && setIsEditProductModalOpen(false)}>
+                <DialogContent className="bg-white dark:bg-[#062B29] border-slate-200 dark:border-white/10 text-slate-900 dark:text-white max-w-md rounded-3xl shadow-2xl">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold text-[rgb(28,212,132)]">Edit Item</DialogTitle>
+                        <p className="text-sm text-slate-500 dark:text-white/40 font-medium">Update item details</p>
+                    </DialogHeader>
+                    <form onSubmit={handleEditProductSubmit} className="space-y-6 pt-4">
+                        <div className="space-y-2">
+                            <Label className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Item Name</Label>
+                            <Input 
+                                value={editProductForm.data.name}
+                                onChange={e => editProductForm.setData('name', e.target.value)}
+                                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                placeholder="e.g. Diamond Rolex Oyster"
+                            />
+                            {editProductForm.errors.name && <p className="text-rose-500 text-xs font-medium">{editProductForm.errors.name}</p>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Update Image (Optional)</Label>
+                            <Input 
+                                type="file"
+                                accept="image/*"
+                                onChange={e => editProductForm.setData('image_url', e.target.files ? e.target.files[0] : null)}
+                                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)] file:bg-[rgb(28,212,132)]/10 file:text-[rgb(28,212,132)] file:border-0 file:rounded-lg file:px-3 file:py-1 file:mr-3 file:font-bold file:cursor-pointer"
+                            />
+                            {editProductForm.errors.image_url && <p className="text-rose-500 text-xs font-medium">{editProductForm.errors.image_url}</p>}
+                        </div>
+                        <div className="space-y-2">
+                            <Label className="text-slate-500 dark:text-white/60 font-bold uppercase text-[10px] tracking-widest">Current/Starting Bid (USD)</Label>
+                            <Input 
+                                type="number"
+                                value={editProductForm.data.starting_bid}
+                                onChange={e => editProductForm.setData('starting_bid', e.target.value)}
+                                className="bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 text-slate-900 dark:text-white h-12 rounded-xl focus:ring-[rgb(28,212,132)]"
+                                placeholder="0.00"
+                            />
+                            {editProductForm.errors.starting_bid && <p className="text-rose-500 text-xs font-medium">{editProductForm.errors.starting_bid}</p>}
+                        </div>
+                        <Button type="submit" disabled={editProductForm.processing} className="w-full bg-[rgb(28,212,132)] text-[#041F1E] font-bold h-12 rounded-xl">
+                            Save Changes
+                        </Button>
+                    </form>
                 </DialogContent>
             </Dialog>
 

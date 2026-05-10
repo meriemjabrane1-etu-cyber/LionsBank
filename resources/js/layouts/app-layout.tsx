@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import Sidebar from '@/components/Sidebar';
+import MobileHeader from '@/components/MobileHeader';
+import MobileBottomNav from '@/components/MobileBottomNav';
 import type { BreadcrumbItem } from '@/types';
 
 export default function AppLayout({
@@ -8,8 +11,10 @@ export default function AppLayout({
     breadcrumbs?: BreadcrumbItem[];
     children: React.ReactNode;
 }) {
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#041F1E] flex text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500">
+        <div className="h-screen bg-[#F8FAFC] dark:bg-[#041F1E] flex flex-col lg:flex-row text-slate-900 dark:text-white relative overflow-hidden transition-colors duration-500">
             {/* Mesh Gradient Background */}
             <div className="absolute inset-0 pointer-events-none transition-opacity duration-500">
                 {/* Dark Mode Glows */}
@@ -22,12 +27,23 @@ export default function AppLayout({
             </div>
 
             {/* Sidebar */}
-            <Sidebar />
+            <Sidebar 
+                isMobileOpen={isMobileSidebarOpen} 
+                onClose={() => setIsMobileSidebarOpen(false)} 
+            />
+
+            {/* Mobile Header */}
+            <div className="relative z-20 w-full lg:hidden shrink-0">
+                <MobileHeader onMenuClick={() => setIsMobileSidebarOpen(true)} />
+            </div>
 
             {/* Main */}
-            <main className="ml-72 flex-1 min-h-screen relative z-10 p-0 m-0 w-full max-w-none">
+            <main className="lg:pl-72 flex-1 relative z-10 p-0 m-0 w-full max-w-none pb-24 lg:pb-0 overflow-y-auto overflow-x-hidden">
                 {children}
             </main>
+
+            {/* Mobile Bottom Navigation */}
+            <MobileBottomNav />
         </div>
     );
 }
