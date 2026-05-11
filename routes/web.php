@@ -11,6 +11,7 @@ use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\AtmController;
 use App\Http\Controllers\ChequeGuaranteePageController;
+use App\Http\Controllers\CreditRequestController;
 
 Route::get('/', function () {
     return Inertia::render('welcome', [
@@ -42,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cartes', function () {
         return Inertia::render('Cards');
     })->name('cards');
+
+    Route::get('/credit-request', [CreditRequestController::class, 'index'])->name('credit-request.index');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -85,11 +88,9 @@ Route::get('/ai-agent', function () {
 })->name('ai-agent');
 
 Route::get('/cheque-verification', ChequeGuaranteePageController::class)
-    ->middleware('auth')
     ->name('ChequeVerification');
 
 
 
 
 require __DIR__.'/settings.php';
-

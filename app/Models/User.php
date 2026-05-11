@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChequeGuarantee::class, 'issuer_id');
     }
+
+    public function creditRequests()
+    {
+        return $this->hasMany(CreditRequest::class);
+    }
 }

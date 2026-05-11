@@ -71,10 +71,10 @@ const ReservedFundsCard = ({ amount, totalSeconds, elapsedSeconds }) => {
 // ─────────────────────────────────────────────
 
 const ExpirationCard = ({
-    totalSeconds = 72 * 3600,
-    initialRemaining = 71 * 3600 + 42 * 60 + 18,
-    amount = 'MAD 15,000',
-    expiresLabel = 'May 11, 2026',
+    totalSeconds = 0,
+    initialRemaining = 0,
+    amount = 'MAD 0.00',
+    expiresLabel = '—',
 }) => {
     const [secondsLeft, setSecondsLeft] = useState(initialRemaining);
 

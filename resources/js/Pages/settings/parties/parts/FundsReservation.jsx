@@ -96,6 +96,16 @@ const RESERVATION_DURATIONS = [
     { value: '720', label: '30 days' },
 ];
 
+const errorMessage = (e) => {
+    const data = e?.response?.data;
+
+    if (data?.errors) {
+        return Object.values(data.errors).flat().join(' ');
+    }
+
+    return data?.message || 'Unable to generate verification code.';
+};
+
 // ─────────────────────────────────────────────
 // GeneratedCode
 // Displays the secure code after generation
@@ -136,13 +146,13 @@ const GeneratedCode = ({ code, onRegenerate }) => (
 // FundsReservation — Main Export
 // ─────────────────────────────────────────────
 
-const FundsReservation = ({ availableBalance = 84200, onChange, onGenerate }) => {
+const FundsReservation = ({ availableBalance = 0, onChange, onGenerate }) => {
     const [form, setForm] = useState({
-        chequeAmount: '25000',
+        chequeAmount: '',
         payableTo: '',
         chequeDate: new Date().toISOString().split('T')[0],
         verificationEnabled: true,
-        verifiableAmount: '15000',
+        verifiableAmount: '',
         reservationEnabled: true,
         reservationDuration: '72',
     });
@@ -174,21 +184,22 @@ const FundsReservation = ({ availableBalance = 84200, onChange, onGenerate }) =>
             const result = await onGenerate?.(form);
             setGeneratedCode(result?.verificationCode ?? null);
         } catch (e) {
-            setError(e?.response?.data?.message || 'Unable to generate verification code.');
+            setError(errorMessage(e));
         } finally {
             setIsGenerating(false);
         }
     };
 
-    const reservedAmt = Number(form.reservationEnabled ? form.verifiableAmount : 0);
+    const reservedAmt = Number(form.reservationEnabled ? form.verifiableAmount : 0) || 0;
+    const netFree = Math.max(0, Number(availableBalance || 0) - reservedAmt);
 
     return (
         <div className="space-y-6">
             {/* Balance Overview */}
             <div className="grid grid-cols-3 gap-4">
-                <BalanceStat label="Available" value={`MAD ${availableBalance.toLocaleString()}`} />
+                <BalanceStat label="Available" value={`MAD ${Number(availableBalance || 0).toLocaleString()}`} />
                 <BalanceStat label="Reserved" value={`MAD ${reservedAmt.toLocaleString()}`} valueColor="text-amber-500" />
-                <BalanceStat label="Net Free" value={`MAD ${(availableBalance - reservedAmt).toLocaleString()}`} />
+                <BalanceStat label="Net Free" value={`MAD ${netFree.toLocaleString()}`} />
             </div>
 
             {/* Main Form Card */}

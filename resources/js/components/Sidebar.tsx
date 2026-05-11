@@ -114,6 +114,7 @@ export default function Sidebar({
             <button 
               onClick={onClose}
               className="p-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all lg:hidden"
+              title="Close sidebar"
             >
               <X className="h-5 w-5 text-white" />
             </button>
@@ -145,11 +146,11 @@ export default function Sidebar({
         </nav>
 
         {/* Security / Identity Section */}
-        <div className="mt-auto mb-6 rounded-[2rem] p-6 relative overflow-hidden group shadow-2xl transition-all duration-500">
+        <div className="mt-auto mb-6 rounded-4xl p-6 relative overflow-hidden group shadow-2xl transition-all duration-500">
           {/* Background Image */}
           <div className="absolute inset-0 z-0">
               <img src="/images/security-bg.png" alt="" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#041F1E]/90 to-transparent opacity-80"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-[#041F1E]/90 to-transparent opacity-80"></div>
           </div>
           
           <div className="relative z-10">
