@@ -5,15 +5,15 @@ export const menuItems = [
   { label: "Mes comptes", icon: "Wallet", href: "/comptes" },
   { label: "Virements", icon: "ArrowLeftRight", href: "/virements" },
   { label: "Cartes", icon: "CreditCard", href: "/cartes" },
-  { label: "Demande de crédit", icon: "Banknote", href: "/credit-request" },
   { label: "Rendez-vous", icon: "Calendar", href: "/appointments" },
   { label: "Agences", icon: "Building2", href: "/agencies" },
   { label: "Enchères", icon: "Gavel", href: "/auctions" },
+  { label: "Demande de crédit", icon: "Banknote", href: "/credit-request" },
+  { label: "cheque-verification", icon: "FileSearch", href: "/cheque-verification" },
+  { label: "Ai Agent", icon: "Bot", href: "/ai-agent" },
   { label: "Historique", icon: "Clock3", href: "/dashboard#history" },
   { label: "Paramètres", icon: "Settings", href: "/dashboard#settings" },
   { label: "Aide & support", icon: "CircleHelp", href: "/dashboard#help" },
-  { label: "cheque-verification", icon: "FileSearch", href: "/cheque-verification" },
-  { label: "Ai Agent", icon: "Bot", href: "/ai-agent" },
 ];
 
 export const summaryCards = [
