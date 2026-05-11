@@ -21,7 +21,7 @@ class StoreCreditRequestRequest extends FormRequest
         return [
             'credit_type' => ['required', 'string', Rule::in(['personal', 'auto', 'housing', 'business'])],
             'amount' => ['required', 'numeric', 'min:5000', 'max:5000000'],
-            'duration_months' => ['required', 'integer', 'min:6', 'max:300'],
+            'duration_months' => ['required', 'integer', 'min:6'],
             'purpose' => ['required', 'string', 'max:255'],
             'employment_status' => ['required', 'string', Rule::in(['salaried', 'self_employed', 'company_owner'])],
             'monthly_income' => ['nullable', 'numeric', 'min:0', 'max:10000000'],
