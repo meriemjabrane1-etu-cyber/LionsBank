@@ -1,5 +1,5 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Home, Wallet, ArrowLeftRight, CreditCard, LayoutGrid } from 'lucide-react';
+import { Home, Wallet, ArrowLeftRight, CreditCard, Banknote } from 'lucide-react';
 
 export default function MobileBottomNav() {
     const { url } = usePage();
@@ -9,7 +9,7 @@ export default function MobileBottomNav() {
         { label: 'Comptes', icon: Wallet, href: '/comptes' },
         { label: 'Virements', icon: ArrowLeftRight, href: '/virements', isAction: true },
         { label: 'Cartes', icon: CreditCard, href: '/cartes' },
-        { label: 'Plus', icon: LayoutGrid, href: '#plus' },
+        { label: 'Crédit', icon: Banknote, href: '/credit-request' },
     ];
 
     return (

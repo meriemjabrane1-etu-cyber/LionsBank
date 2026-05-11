@@ -5,6 +5,7 @@ export const menuItems = [
   { label: "Mes comptes", icon: "Wallet", href: "/comptes" },
   { label: "Virements", icon: "ArrowLeftRight", href: "/virements" },
   { label: "Cartes", icon: "CreditCard", href: "/cartes" },
+  { label: "Demande de crédit", icon: "Banknote", href: "/credit-request" },
   { label: "Rendez-vous", icon: "Calendar", href: "/appointments" },
   { label: "Agences", icon: "Building2", href: "/agencies" },
   { label: "Enchères", icon: "Gavel", href: "/auctions" },

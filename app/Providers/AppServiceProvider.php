@@ -67,5 +67,19 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('cheque-guarantee-management', function (Request $request) {
             return Limit::perMinute(60)->by((string) ($request->user()?->id ?: $request->ip()));
         });
+
+        RateLimiter::for('credit-request-management', function (Request $request) {
+            return Limit::perMinute(40)->by((string) ($request->user()?->id ?: $request->ip()));
+        });
+
+        RateLimiter::for('credit-request-tracking', function (Request $request) {
+            $code = strtoupper(trim((string) $request->input('tracking_code')));
+            $fingerprint = hash_hmac('sha256', 'credit-track:'.$code, (string) config('app.key'));
+
+            return [
+                Limit::perMinute(10)->by($request->ip()),
+                Limit::perHour(30)->by($request->ip().'|'.$fingerprint),
+            ];
+        });
     }
 }

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'document_ai' => [
+        'enabled' => env('DOCUMENT_AI_ENABLED', false),
+        'key' => env('DOCUMENT_AI_API_KEY', env('OPENROUTER_API_KEY')),
+        'endpoint' => env('DOCUMENT_AI_ENDPOINT', 'https://openrouter.ai/api/v1/chat/completions'),
+        'model' => env('DOCUMENT_AI_MODEL', 'openai/gpt-4o-mini'),
+    ],
+
 ];
