@@ -6,23 +6,23 @@ export default function SuccessReceipt({ trackingCode, onTrack }) {
     };
 
     return (
-        <div className="rounded-3xl border border-emerald-100 bg-white p-8 text-center shadow-xl">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-100 text-emerald-700">
+        <div className="rounded-3xl border border-emerald-100 bg-white p-8 text-center shadow-xl dark:border-white/10 dark:bg-slate-900">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-emerald-100 text-emerald-700 dark:bg-emerald-400/10 dark:text-emerald-400">
                 <CheckCircle2 className="h-8 w-8" />
             </div>
-            <h2 className="mt-5 text-2xl font-black text-slate-950">Credit request submitted</h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-500">
+            <h2 className="mt-5 text-2xl font-black text-slate-950 dark:text-slate-100">Credit request submitted</h2>
+            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-500 dark:text-slate-400">
                 LionsBank received your request and secured your private documents. Your file is now pending advisor review after automated AI checks.
             </p>
-            <div className="mx-auto mt-6 max-w-md rounded-2xl bg-slate-950 p-5 text-white">
-                <p className="text-xs font-black uppercase tracking-widest text-white/40">Tracking Code</p>
-                <p className="mt-2 font-mono text-2xl font-black">{trackingCode}</p>
+            <div className="mx-auto mt-6 max-w-md rounded-2xl bg-slate-950 p-5 text-white dark:bg-slate-800">
+                <p className="text-xs font-black uppercase tracking-widest text-white/40 dark:text-slate-500">Tracking Code</p>
+                <p className="mt-2 font-mono text-2xl font-black dark:text-emerald-400">{trackingCode}</p>
             </div>
             <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
                 <button
                     type="button"
                     onClick={copyCode}
-                    className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-slate-200 px-5 text-sm font-black text-slate-800 hover:bg-slate-50"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-slate-200 px-5 text-sm font-black text-slate-800 hover:bg-slate-50 dark:border-white/10 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                 >
                     <Copy className="h-4 w-4" />
                     Copy code
@@ -30,7 +30,7 @@ export default function SuccessReceipt({ trackingCode, onTrack }) {
                 <button
                     type="button"
                     onClick={onTrack}
-                    className="inline-flex h-12 items-center justify-center rounded-2xl bg-emerald-500 px-5 text-sm font-black text-white hover:bg-emerald-600"
+                    className="inline-flex h-12 items-center justify-center rounded-2xl bg-emerald-500 px-5 text-sm font-black text-white hover:bg-emerald-600 dark:hover:bg-emerald-400"
                 >
                     Track status
                 </button>
