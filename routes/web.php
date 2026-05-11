@@ -85,7 +85,6 @@ Route::get('/ai-agent', function () {
 })->name('ai-agent');
 
 Route::get('/cheque-verification', ChequeGuaranteePageController::class)
-    ->middleware('auth')
     ->name('ChequeVerification');
 
 

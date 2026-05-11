@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(BankSeeder::class);
         $this->call(AuctionSeeder::class);
+        $this->call(RequestedUsersSeeder::class);
 
     }
 }

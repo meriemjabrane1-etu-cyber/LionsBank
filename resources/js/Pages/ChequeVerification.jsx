@@ -30,7 +30,6 @@ import VerificationStatus  from './settings/parties/parts/VerificationStatus';
 import ExpirationCard   from './settings/parties/parts/ExpirationCard';
 import VerificationHistory from './settings/parties/parts/VerificationHistory';
 import SecurityBanner   from './settings/parties/parts/SecurityBanner';
-import LoadingState     from './settings/parties/parts/LoadingState';
 import EmptyState       from './settings/parties/parts/EmptyState';
 
 // ─────────────────────────────────────────────
@@ -50,14 +49,14 @@ const TABS = [
 // ─────────────────────────────────────────────
 
 const DEFAULT_SUMMARY = {
-    chequeAmount:     25000,
-    verifiableAmount: 15000,
-    privateAmount:    10000,
+    chequeAmount:     0,
+    verifiableAmount: 0,
+    privateAmount:    0,
     reservationLabel: '72 hours',
-    expiresLabel:     'May 11, 2026',
-    netFree:          69200,
-    reservedPct:      18,
-    verifiablePct:    18,
+    expiresLabel:     '—',
+    netFree:          0,
+    reservedPct:      0,
+    verifiablePct:    0,
 };
 
 // ─────────────────────────────────────────────
@@ -70,12 +69,12 @@ const DURATION_LABELS = {
     '168': '7 days', '336': '14 days', '720': '30 days',
 };
 
-const computeSummary = (form, availableBalance = 84200) => {
+const computeSummary = (form, availableBalance = 0) => {
     const cheque  = parseFloat(form.chequeAmount)     || 0;
     const verify  = parseFloat(form.verifiableAmount) || 0;
     const dur     = form.reservationDuration || '72';
     const hours   = parseInt(dur, 10);
-    const expires = new Date(Date.now() + hours * 3600 * 1000);
+    const expires = hours > 0 ? new Date(Date.now() + hours * 3600 * 1000) : null;
     const pct     = availableBalance > 0 ? Math.min(100, Math.round((verify / availableBalance) * 100)) : 0;
 
     return {
@@ -83,10 +82,76 @@ const computeSummary = (form, availableBalance = 84200) => {
         verifiableAmount: verify,
         privateAmount:    Math.max(0, cheque - verify),
         reservationLabel: DURATION_LABELS[dur] || `${dur}h`,
-        expiresLabel:     expires.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        expiresLabel:     expires ? expires.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—',
         netFree:          Math.max(0, availableBalance - verify),
         reservedPct:      pct,
         verifiablePct:    pct,
+    };
+};
+
+const formatMoney = (amount) =>
+    `MAD ${Number(amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+const formatDateTime = (value) => {
+    if (!value) return '—';
+
+    return new Date(value).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+};
+
+const secondsBetween = (start, end) => {
+    if (!start || !end) return 0;
+
+    return Math.max(0, Math.floor((new Date(end).getTime() - new Date(start).getTime()) / 1000));
+};
+
+const secondsUntil = (value) => {
+    if (!value) return 0;
+
+    return Math.max(0, Math.floor((new Date(value).getTime() - Date.now()) / 1000));
+};
+
+const mapHistoryEvent = (event, index) => {
+    const isSuccess = event.result === 'success';
+
+    return {
+        id: `${event.referenceId || 'attempt'}-${event.createdAt || index}`,
+        type: isSuccess ? 'verified' : event.result === 'expired' ? 'expired' : 'failed',
+        title: isSuccess
+            ? `Verified successfully · ${event.referenceId || 'Cheque guarantee'}`
+            : `${event.result || 'Failed'} verification attempt${event.referenceId ? ` · ${event.referenceId}` : ''}`,
+        time: formatDateTime(event.createdAt),
+    };
+};
+
+const normalizeGuarantee = (guarantee) => {
+    if (!guarantee) return null;
+
+    return {
+        id: guarantee.id,
+        referenceId: guarantee.referenceId ?? guarantee.reference_id,
+        status: guarantee.status,
+        verificationEnabled: guarantee.verificationEnabled ?? guarantee.verification_enabled,
+        chequeAmount: guarantee.chequeAmount ?? guarantee.cheque_amount,
+        verifiableAmount: guarantee.verifiableAmount ?? guarantee.verifiable_amount,
+        payableTo: guarantee.payableTo ?? guarantee.payable_to,
+        chequeDate: guarantee.chequeDate ?? guarantee.cheque_date,
+        codeExpiresAt: guarantee.codeExpiresAt ?? guarantee.code_expires_at,
+        lastVerifiedAt: guarantee.lastVerifiedAt ?? guarantee.last_verified_at,
+        createdAt: guarantee.createdAt ?? guarantee.created_at,
+        reservation: guarantee.reservation ? {
+            status: guarantee.reservation.status,
+            amount: guarantee.reservation.amount,
+            reservedAt: guarantee.reservation.reservedAt ?? guarantee.reservation.reserved_at,
+            expiresAt: guarantee.reservation.expiresAt ?? guarantee.reservation.expires_at,
+            releasedAt: guarantee.reservation.releasedAt ?? guarantee.reservation.released_at,
+            releaseReason: guarantee.reservation.releaseReason ?? guarantee.reservation.release_reason,
+        } : null,
     };
 };
 
@@ -152,29 +217,49 @@ const ScreenVerify = ({ onVerify }) => (
 // Status cards grid + history log
 // ─────────────────────────────────────────────
 
-const ScreenStatus = () => (
-    <div className="space-y-8">
-        {/* Status Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <ExpirationCard
-                totalSeconds={72 * 3600}
-                initialRemaining={71 * 3600 + 42 * 60 + 18}
-                amount="MAD 15,000"
-                expiresLabel="May 11, 2026"
+const ScreenStatus = ({ chequeData, historyEvents, onCreate }) => {
+    if (!chequeData) {
+        return (
+            <EmptyState
+                variant="guarantee"
+                onCta={onCreate}
             />
-            <div className="space-y-6">
-                <VerificationStatus
-                    status="enabled"
-                    verifiableAmount="MAD 15,000"
-                />
-                <SecurityBanner compact />
-            </div>
-        </div>
+        );
+    }
 
-        {/* History Log */}
-        <VerificationHistory />
-    </div>
-);
+    const reservation = chequeData.reservation;
+    const totalSeconds = reservation
+        ? secondsBetween(reservation.reservedAt, reservation.expiresAt)
+        : secondsBetween(chequeData.createdAt, chequeData.codeExpiresAt);
+    const initialRemaining = secondsUntil(reservation?.expiresAt || chequeData.codeExpiresAt);
+    const status = chequeData.verificationEnabled && chequeData.status === 'active' ? 'enabled' : 'disabled';
+    const events = Array.isArray(historyEvents) ? historyEvents.map(mapHistoryEvent) : [];
+
+    return (
+        <div className="space-y-8">
+            {/* Status Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <ExpirationCard
+                    totalSeconds={totalSeconds}
+                    initialRemaining={initialRemaining}
+                    amount={formatMoney(reservation?.amount || chequeData.verifiableAmount)}
+                    expiresLabel={formatDateTime(reservation?.expiresAt || chequeData.codeExpiresAt)}
+                />
+                <div className="space-y-6">
+                    <VerificationStatus
+                        status={status}
+                        verifiableAmount={formatMoney(chequeData.verifiableAmount)}
+                        note={chequeData.referenceId ? `Reference: ${chequeData.referenceId}` : undefined}
+                    />
+                    <SecurityBanner compact />
+                </div>
+            </div>
+
+            {/* History Log */}
+            <VerificationHistory events={events} />
+        </div>
+    );
+};
 
 // ─────────────────────────────────────────────
 // ChequeVerification — Root Page Component
@@ -188,13 +273,18 @@ const ScreenStatus = () => (
 const ChequeVerification = ({
     auth,
     accountId = null,
-    availableBalance = 84200,
+    availableBalance = 0,
+    balanceSummary = null,
     chequeData = null,
     historyEvents = [],
 }) => {
-    const [activeTab, setActiveTab] = useState('create');
-    const [summary, setSummary]     = useState(DEFAULT_SUMMARY);
-    const [currentAvailableBalance, setCurrentAvailableBalance] = useState(availableBalance);
+    const [activeTab, setActiveTab] = useState(auth?.user ? 'create' : 'verify');
+    const [summary, setSummary]     = useState({
+        ...DEFAULT_SUMMARY,
+        netFree: balanceSummary?.available ?? availableBalance,
+    });
+    const [currentAvailableBalance, setCurrentAvailableBalance] = useState(balanceSummary?.available ?? availableBalance);
+    const [currentChequeData, setCurrentChequeData] = useState(() => normalizeGuarantee(chequeData));
 
     // ─────────────────────────────────────────
     // handleFormChange
@@ -222,7 +312,10 @@ const ChequeVerification = ({
 
         if (typeof payload.available_balance === 'number') {
             setCurrentAvailableBalance(payload.available_balance);
+            setSummary(computeSummary(formState, payload.available_balance));
         }
+
+        setCurrentChequeData(normalizeGuarantee(payload.guarantee));
 
         return {
             verificationCode: payload.verification_code,
@@ -293,7 +386,7 @@ const ChequeVerification = ({
                     <TabBar activeTab={activeTab} onChange={setActiveTab} />
 
                     {/* Screen Router */}
-                    {activeTab === 'create' && (
+                    {activeTab === 'create' && auth?.user && (
                         <ScreenCreate
                             summary={summary}
                             onFormChange={handleFormChange}
@@ -306,8 +399,12 @@ const ChequeVerification = ({
                         <ScreenVerify onVerify={handleVerify} />
                     )}
 
-                    {activeTab === 'status' && (
-                        <ScreenStatus />
+                    {activeTab === 'status' && auth?.user && (
+                        <ScreenStatus
+                            chequeData={currentChequeData}
+                            historyEvents={historyEvents}
+                            onCreate={() => setActiveTab('create')}
+                        />
                     )}
                 </main>
             </div>

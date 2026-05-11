@@ -111,11 +111,7 @@ const VerificationHistory = ({ events = [], maxVisible = 10 }) => {
     const visible = expanded ? events : events.slice(0, maxVisible);
     const hasMore = events.length > maxVisible;
 
-    // ─────────────────────────────────────────
-    // Default demo events when none are provided
-    // ─────────────────────────────────────────
-
-    const displayEvents = events.length > 0 ? visible : DEFAULT_EVENTS;
+    const displayEvents = visible;
 
     return (
         <div className="rounded-[2.5rem] border border-slate-200 dark:border-white/[0.07] bg-white dark:bg-white/[0.03] p-8 shadow-sm dark:shadow-none transition-all duration-500">
@@ -125,19 +121,25 @@ const VerificationHistory = ({ events = [], maxVisible = 10 }) => {
                     Verification History
                 </p>
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border text-blue-600 dark:text-blue-400 border-blue-500/20 bg-blue-500/10 shadow-sm">
-                    {events.length || DEFAULT_EVENTS.length} entries
+                    {events.length} entries
                 </span>
             </div>
 
             {/* Event List */}
             <div className="mt-4">
-                {displayEvents.map((event, idx) => (
-                    <HistoryRow
-                        key={event.id}
-                        event={event}
-                        isLast={idx === displayEvents.length - 1}
-                    />
-                ))}
+                {displayEvents.length > 0 ? (
+                    displayEvents.map((event, idx) => (
+                        <HistoryRow
+                            key={event.id}
+                            event={event}
+                            isLast={idx === displayEvents.length - 1}
+                        />
+                    ))
+                ) : (
+                    <p className="py-10 text-center text-[10px] font-bold text-slate-400 dark:text-white/20 uppercase tracking-widest">
+                        No verification attempts yet.
+                    </p>
+                )}
             </div>
 
             {/* Show More / Less Toggle */}
@@ -152,40 +154,5 @@ const VerificationHistory = ({ events = [], maxVisible = 10 }) => {
         </div>
     );
 };
-
-// ─────────────────────────────────────────────
-// DEFAULT_EVENTS
-// Fallback demo data for development / Storybook
-// ─────────────────────────────────────────────
-
-const DEFAULT_EVENTS = [
-    {
-        id: 1,
-        type: 'verified',
-        title: 'Verified successfully · Code LB-4F9K-2M7X',
-        time: 'May 8, 2026 · 11:02 AM',
-        ip: 'IP 41.140.xxx.xxx',
-        amount: 'MAD 15,000',
-    },
-    {
-        id: 2,
-        type: 'issued',
-        title: 'Verification code generated',
-        time: 'May 8, 2026 · 10:35 AM',
-    },
-    {
-        id: 3,
-        type: 'failed',
-        title: 'Failed attempt · Invalid code entered',
-        time: 'May 8, 2026 · 10:18 AM',
-        ip: 'IP 41.140.xxx.xxx',
-    },
-    {
-        id: 4,
-        type: 'system',
-        title: 'Reservation created · 72h duration',
-        time: 'May 8, 2026 · 10:15 AM',
-    },
-];
 
 export default VerificationHistory;
